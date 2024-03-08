@@ -1,3 +1,5 @@
+package edu.gcc.subjecttochange;
+
 public class Location {
     private String building;
     private int roomNumber;

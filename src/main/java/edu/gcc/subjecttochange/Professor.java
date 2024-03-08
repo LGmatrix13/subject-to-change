@@ -1,3 +1,5 @@
+package edu.gcc.subjecttochange;
+
 public class Professor extends Person {
     private String department;
     private String bio;
