@@ -1,8 +1,3 @@
-import javax.print.PrintException;
-import javax.print.StreamPrintService;
-import javax.swing.*;
-import java.sql.SQLOutput;
-
 public class Location {
     private String building;
     private int roomNumber;
