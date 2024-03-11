@@ -4,7 +4,7 @@ public class Schedule {
     private String semester;
     private ArrayList<Course> courses;
 
-    //this is the schedule class
+    //this is the schedule class yay
     public Schedule(String semester, ArrayList<Course> courses) {
         this.semester = semester;
         this.courses = courses;
