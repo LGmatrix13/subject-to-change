@@ -17,10 +17,10 @@ public class Schedule {
     }
 
     public boolean addCourse(Course course) {
-        boolean conflictFree = false;
+        boolean conflictFree = true;
         for (Course item : courses) {
             if (item.weekDay.equals(course.weekDay) && item.time.equals(course.weekDay)) {
-                conflictFree = true;
+                conflictFree = false;
                 break;
             }
         }
