@@ -3,7 +3,9 @@ package edu.gcc.subjecttochange.models;
 import java.util.ArrayList;
 import java.util.Objects;
 
-
+/**
+ * course class
+ */
 public class Course {
     public enum Semester {
         FALL,
