@@ -18,6 +18,7 @@ public class Main {
         // seed datastore with courses
         Datastore.courses.add(new Course("COMP-350"));
         Datastore.courses.add(new Course("COMP-442"));
+        Datastore.courses.add(new Course("COMP-325"));
 
         Javalin.create(/*config*/)
                 .get("/schedule/fall", ScheduleController::getFallSchedule)
