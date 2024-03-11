@@ -11,6 +11,7 @@ public class Schedule {
     public Semester semester;
     private final HashSet<Course> courses;
 
+    // idk something i guess
     public Schedule(Semester semester) {
         this.semester = semester;
         this.courses = new HashSet<>();
