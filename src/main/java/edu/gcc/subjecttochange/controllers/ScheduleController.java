@@ -1,10 +1,12 @@
 package edu.gcc.subjecttochange.controllers;
 
+import edu.gcc.subjecttochange.models.Course;
 import edu.gcc.subjecttochange.models.Schedule;
 import edu.gcc.subjecttochange.models.Student;
 import edu.gcc.subjecttochange.utilties.Datastore;
 import io.javalin.http.Context;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class ScheduleController {
@@ -25,7 +27,7 @@ public class ScheduleController {
         String studentId = Student.getStudentId(context);
         Optional<Student> student = Datastore.getStudent(studentId);
         if (student.isPresent()) {
-            Schedule springSchedule = student.get().springSchedule;
+            ArrayList<Course> springSchedule = student.get().springSchedule;
             context.json(springSchedule);
             context.status(200);
             return;

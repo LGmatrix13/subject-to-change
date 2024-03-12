@@ -8,4 +8,5 @@ public class Person {
 
     @JsonProperty("lastName")
     public String lastName;
+
 }

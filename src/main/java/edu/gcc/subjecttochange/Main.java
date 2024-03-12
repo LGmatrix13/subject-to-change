@@ -1,14 +1,13 @@
 package edu.gcc.subjecttochange;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.gcc.subjecttochange.controllers.CoursesController;
-import edu.gcc.subjecttochange.controllers.ProfessorsController;
-import edu.gcc.subjecttochange.controllers.ScheduleController;
-import edu.gcc.subjecttochange.controllers.SearchController;
+import edu.gcc.subjecttochange.controllers.*;
 import edu.gcc.subjecttochange.models.Course;
 import edu.gcc.subjecttochange.models.Student;
 import edu.gcc.subjecttochange.utilties.Datastore;
 import io.javalin.Javalin;
+import io.javalin.http.staticfiles.Location;
+import io.javalin.plugin.bundled.CorsPluginConfig;
 
 import java.io.File;
 
@@ -16,20 +15,26 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        var app = Javalin.create(/*config*/)
-                .get("/", context -> context.result("subject to change"))
-                .get("/schedule/fall", ScheduleController::getFallSchedule)
-                .get("/schedule/spring", ScheduleController::getSpringSchedule)
-                .post("/courses", CoursesController::postCourses)
-                .delete("/courses", CoursesController::deleteCourses)
-                .get("/search", SearchController::getSearch)
-                .get("/professor", ProfessorsController::getProfessors);
+        var app = Javalin.create(config -> {
+            config.bundledPlugins.enableCors(cors -> {
+                cors.addRule(CorsPluginConfig.CorsRule::anyHost);
+            });
+            config.staticFiles.add("src/main/app/dist", Location.EXTERNAL);
+        })
+        .post("/api/courses", CoursesController::postCourses)
+        .delete("/api/courses", CoursesController::deleteCourses)
+        .get("/api/search", SearchController::getSearch)
+        .post("/api/welcome", WelcomeController::postWelcome)
+        .get("/api/student", StudentController::getStudent)
+        .get("/api/professor", ProfessorsController::getProfessors);
+
         app.events(event -> {
             event.serverStarted(Main::seedDatastore);
             event.serverStopped(Main::backupDatastore);
         });
         app.exception(Exception.class, (e, context) -> {
             System.err.println(e.getMessage());
+            context.result("Something wrong happened");
             context.status(400);
         });
         app.start(7070);

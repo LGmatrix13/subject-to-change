@@ -32,17 +32,17 @@ public class Search {
         }
 
         Stream<Course> filteredCourses = Datastore.courses.stream();
-        if (this.department != null) {
+        if (this.department != null && !this.department.isEmpty()) {
             filteredCourses = filteredCourses.filter(item -> item.department.equals(department));
         }
-        if (this.name != null) {
+        if (this.name != null && !this.name.isEmpty()) {
             filteredCourses = filteredCourses.filter(item -> item.name.toLowerCase().contains(this.name.toLowerCase()));
         }
         // TODO: use the previous filteredCourses to do the rest of the filters
-        if (this.time != null) {
+        if (this.time != null && !this.time.isEmpty()) {
 
         }
-        if (this.day != null) {
+        if (this.day != null && !this.day.isEmpty()) {
 
         }
 
