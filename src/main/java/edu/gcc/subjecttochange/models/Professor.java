@@ -1,29 +1,11 @@
 package edu.gcc.subjecttochange.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Professor extends Person {
+    @JsonProperty("department")
     public String department;
-    public String bio;
-    public Location location;
-
-    public Professor(
-        int id,
-        String firstName,
-        String lastName,
-        String email,
-        String department,
-        String bio,
-        Location location
-    ) {
-        super(id, firstName, lastName, email);
-        this.department = department;
-        this.bio = bio;
-        this.location = location;
-    }
-
-    public Professor() {
-        super(1, "Jane", "Doe", "jj@gcc.edu");
-        this.department = "COMP";
-        this.bio = "";
-        this.location = new Location();
-    }
 }

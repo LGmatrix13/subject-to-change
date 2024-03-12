@@ -1,64 +1,45 @@
 package edu.gcc.subjecttochange.models;
 
-import java.util.ArrayList;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * course class
- */
+import java.util.List;
+
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Course {
     public enum Semester {
         FALL,
         SPRING
     }
-    public String code;
+    @JsonProperty("department")
+    public String department;
+    @JsonProperty("number")
+    public int number;
+    @JsonProperty("semester")
     public Semester semester;
-    public Integer year;
+
+    @JsonProperty("year")
+    public int year;
+    @JsonProperty("name")
     public String name;
-    public String time;
-    public String weekDay;
-    public Integer seats;
-    public Integer seatsLeft;
-    public Location location;
+    @JsonProperty("startTime")
+    public String startTime;
+    @JsonProperty("endTime")
+    public String endTime;
+
+    @JsonProperty("hours")
+    public int hours;
+    @JsonProperty("weekday")
+    public String weekday;
+    @JsonProperty("section")
+    public String section;
+    @JsonProperty("seats")
+    public int seats;
+    @JsonProperty("enrolled")
+    public int enrolled;
+    @JsonProperty("professor")
     public Professor professor;
-    public ArrayList<Student> waitlist;
-
-    public Course(
-        String code,
-        String semester,
-        int year,
-        String name,
-        String time,
-        String weekDay,
-        int seats,
-        int seatsLeft,
-        Location location,
-        Professor professor
-    ) {
-        this.code = code;
-        this.semester = Semester.FALL;
-        this.year = year;
-        this.name = name;
-        this.time = time;
-        this.weekDay = weekDay;
-        this.seats = seats;
-        this.seatsLeft = seatsLeft;
-        this.location = location;
-        this.professor = professor;
-        this.waitlist = new ArrayList<>();
-    }
-
-    public Course(String code) {
-        this.code = code;
-        this.semester = Semester.FALL;
-        this.year = 2023;
-        this.name = "Software";
-        this.time = "9:00 AM";
-        this.weekDay = "MWF";
-        this.seats = 10;
-        this.seatsLeft = 2;
-        this.location = new Location();
-        this.professor = new Professor();
-        this.waitlist = new ArrayList<>();
-    }
+    @JsonProperty("waitlist")
+    public List<Student> waitlist;
 }

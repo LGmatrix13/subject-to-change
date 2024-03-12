@@ -1,18 +1,11 @@
 package edu.gcc.subjecttochange.models;
 
-import io.javalin.http.Context;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Person {
-    public int id;
+    @JsonProperty("firstName")
     public String firstName;
+
+    @JsonProperty("lastName")
     public String lastName;
-
-    public String email;
-
-    public Person(int id, String firstName, String lastName, String email) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-    }
 }

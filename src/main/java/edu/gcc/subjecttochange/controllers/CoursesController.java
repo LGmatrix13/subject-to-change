@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class CoursesController {
     public static void postCourses(Context context) {
-        int studentId = Student.getStudentId(context);
+        String studentId = Student.getStudentId(context);
         Optional<Student> student = Datastore.getStudent(studentId);
 
         if (student.isPresent()) {
@@ -29,7 +29,7 @@ public class CoursesController {
     }
 
     public static void deleteCourses(Context context) {
-        int studentId = Student.getStudentId(context);
+        String studentId = Student.getStudentId(context);
         Optional<Student> student = Datastore.getStudent(studentId);
 
         if (student.isPresent()) {

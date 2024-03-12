@@ -1,41 +1,29 @@
 package edu.gcc.subjecttochange.models;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.javalin.http.Context;
 
 
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Student extends Person {
+
+    @JsonProperty("id")
+    public String id;
+    @JsonProperty("major")
     public String major;
+    @JsonProperty("year")
     public int year;
 
+    @JsonProperty("fallSchedule")
     public Schedule fallSchedule;
+    @JsonProperty("springSchedule")
     public Schedule springSchedule;
 
-    public Student(
-        int id,
-        String firstName,
-        String lastName,
-        String email,
-        String major,
-        int year
-    ) {
-        super(id, firstName, lastName, email);
-        this.major = major;
-        this.year = year;
-        this.fallSchedule = new Schedule(Schedule.Semester.FALL);
-        this.springSchedule = new Schedule(Schedule.Semester.SPRING);
-    }
 
-    public Student(int id) {
-        super(id, "Liam", "Grossman", "grossmanlj21@gcc.edu");
-        this.major = "Computer Science";
-        this.year = 2025;
-        this.fallSchedule = new Schedule(Schedule.Semester.FALL);
-        this.springSchedule = new Schedule(Schedule.Semester.SPRING);
-    }
-
-    public static int getStudentId(Context context) {
-        String studentId = context.header("studentId");
-        return Integer.parseInt(studentId);
+    public static String getStudentId(Context context) {
+        return context.header("studentId");
     }
 }

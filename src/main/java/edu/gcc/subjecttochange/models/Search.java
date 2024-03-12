@@ -7,19 +7,20 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 public class Search {
-    public String code;
+
+    public String department;
     public String name;
     public String time;
     public String day;
 
 
     public Search(
-        String code,
+        String department,
         String name,
         String time,
         String day
     ) {
-        this.code = code;
+        this.department = department;
         this.name = name;
         this.time = time;
         this.day = day;
@@ -31,11 +32,11 @@ public class Search {
         }
 
         Stream<Course> filteredCourses = Datastore.courses.stream();
-        if (this.code != null) {
-            filteredCourses = filteredCourses.filter(item -> item.code.equals(this.code));
+        if (this.department != null) {
+            filteredCourses = filteredCourses.filter(item -> item.department.equals(department));
         }
         if (this.name != null) {
-            filteredCourses = filteredCourses.filter(item -> item.name.contains(this.name));
+            filteredCourses = filteredCourses.filter(item -> item.name.toLowerCase().contains(this.name.toLowerCase()));
         }
         // TODO: use the previous filteredCourses to do the rest of the filters
         if (this.time != null) {
@@ -52,7 +53,7 @@ public class Search {
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, name, time, day);
+        return Objects.hash(department, name, time, day);
     }
 
     @Override
@@ -61,7 +62,7 @@ public class Search {
             return false;
         }
         Search other = (Search) obj;
-        return Objects.equals(code, other.code) &&
+        return Objects.equals(department, other.department) &&
                 Objects.equals(name, other.name) &&
                 Objects.equals(time, other.time) &&
                 Objects.equals(day, other.day);

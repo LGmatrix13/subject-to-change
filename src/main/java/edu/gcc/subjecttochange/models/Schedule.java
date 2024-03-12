@@ -1,26 +1,32 @@
 package edu.gcc.subjecttochange.models;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Schedule {
     public enum Semester {
         FALL,
         SPRING
     }
+    @JsonProperty("semester")
     public Semester semester;
-    private final HashSet<Course> courses;
+
+    @JsonProperty("courses")
+    private final ArrayList<Course> courses;
 
     // idk something i guess
     public Schedule(Semester semester) {
         this.semester = semester;
-        this.courses = new HashSet<>();
+        this.courses = new ArrayList<>();
     }
 
     public boolean addCourse(Course course) {
         boolean conflictFree = true;
         for (Course item : courses) {
-            if (item.weekDay.equals(course.weekDay) && item.time.equals(course.weekDay)) {
+            if (item.weekday.equals(course.weekday)) {
                 conflictFree = false;
                 break;
             }
