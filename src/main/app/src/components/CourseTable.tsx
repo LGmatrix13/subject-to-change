@@ -20,14 +20,11 @@ export default function CourseTable(props: CourseTableProps) {
       body: JSON.stringify(course),
     });
 
-
-
     if (response.ok) {
-      alert("Added course to your schedule");
+      const text = await response.text();
+      alert(text);
     }
   }
-
- 
 
   return (
     <table className="text-auto w-full">

@@ -45,10 +45,9 @@ public class Course {
     @JsonProperty("waitlist")
     public List<Student> waitlist;
 
-
     @Override
     public boolean equals(Object o) {
         Course course = (Course) o;
-        return course.number == this.number && course.department.equals(this.department) && course.section.equals(this.department);
+        return course.number == this.number && course.department.equals(this.department) && course.section.equals(this.section);
     }
 }
