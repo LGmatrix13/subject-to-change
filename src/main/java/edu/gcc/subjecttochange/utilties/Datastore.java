@@ -13,7 +13,7 @@ public class Datastore {
     public static final ArrayList<Course> courses = new ArrayList<>();
     public static final HashMap<Search, List<Course>> searchHistory = new HashMap<>();
 
-    public static Optional<Student> getStudent(int studentId) {
-        return students.stream().filter(item -> item.id == studentId).findFirst();
+    public static Optional<Student> getStudent(String studentId) {
+        return students.stream().filter(item -> item.id.equals(studentId)).findFirst();
     }
 }

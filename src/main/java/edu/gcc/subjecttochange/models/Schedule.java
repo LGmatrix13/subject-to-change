@@ -1,39 +1,19 @@
 package edu.gcc.subjecttochange.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.ArrayList;
-import java.util.HashSet;
 
-public class Schedule {
-    public enum Semester {
-        FALL,
-        SPRING
-    }
-    public Semester semester;
-    private final HashSet<Course> courses;
-
-    // idk something i guess
-    public Schedule(Semester semester) {
-        this.semester = semester;
-        this.courses = new HashSet<>();
-    }
-
-    public boolean addCourse(Course course) {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Schedule extends ArrayList<Course> {
+    @Override
+    public boolean add(Course course) {
         boolean conflictFree = true;
-        for (Course item : courses) {
-            if (item.weekDay.equals(course.weekDay) && item.time.equals(course.weekDay)) {
-                conflictFree = false;
-                break;
-            }
-        }
 
         if (conflictFree) {
-            courses.add(course);
+            super.add(course);
         }
 
         return conflictFree;
-    }
-
-    public void removeCourse(Course course) {
-        courses.remove(course);
     }
 }

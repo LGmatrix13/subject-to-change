@@ -10,13 +10,13 @@ import java.util.Optional;
 
 public class CoursesController {
     public static void postCourses(Context context) {
-        int studentId = Student.getStudentId(context);
+        String studentId = Student.getStudentId(context);
         Optional<Student> student = Datastore.getStudent(studentId);
 
         if (student.isPresent()) {
             Course course = context.bodyAsClass(Course.class);
             Schedule schedule = course.semester == Course.Semester.FALL ? student.get().fallSchedule : student.get().springSchedule;
-            boolean success = schedule.addCourse(course);
+            boolean success = schedule.add(course);
 
             if (success) {
                 context.result("Added course to student schedule");
@@ -29,13 +29,13 @@ public class CoursesController {
     }
 
     public static void deleteCourses(Context context) {
-        int studentId = Student.getStudentId(context);
+        String studentId = Student.getStudentId(context);
         Optional<Student> student = Datastore.getStudent(studentId);
 
         if (student.isPresent()) {
             Course course = context.bodyAsClass(Course.class);
             Schedule schedule = course.semester == Course.Semester.FALL ? student.get().fallSchedule : student.get().springSchedule;
-            schedule.removeCourse(course);
+            schedule.remove(course);
             context.result("Removed course from student schedule");
             context.status(200);
             return;

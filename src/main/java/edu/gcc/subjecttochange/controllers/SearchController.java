@@ -7,7 +7,7 @@ import io.javalin.http.Context;
 public class SearchController {
     public static void getSearch(Context context) {
         Search search = new Search(
-            context.req().getParameter("code"),
+            context.req().getParameter("department"),
             context.req().getParameter("name"),
             context.req().getParameter("time"),
             context.req().getParameter("day")
