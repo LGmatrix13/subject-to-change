@@ -1,19 +1,18 @@
 import { Course } from "../utils/types";
-import CourseTable from "./CourseTable";
 
 interface ScheduleTableProps {
   semester: "Fall" | "Spring";
-  schedule?: Course[];
+  courses?: Course[];
 }
 
 export default function ScheduleTable(props: ScheduleTableProps) {
-  if (!props.schedule?.length) {
+  if (!props.courses?.length) {
     return (
       <section className="space-y-5 p-7 bg-slate-100 rounded-lg">
         <h2 className="font-bold uppercase text-2xl">
           {props.semester} Schedule
         </h2>
-        <p className="italic">You currently have no scheduld courses</p>
+        <p className="italic">You currently have no scheduled courses</p>
       </section>
     );
   }
@@ -23,7 +22,30 @@ export default function ScheduleTable(props: ScheduleTableProps) {
       <h2 className="font-bold uppercase text-2xl">
         {props.semester} Schedule
       </h2>
-      <CourseTable courses={props.schedule} />
+      <table className="text-auto w-full">
+        <thead className="text-left font-bold border-b border-gray-800">
+          <tr>
+            <th className="py-3">Course Name</th>
+            <th className="py-3">Professor</th>
+            <th className="py-3">Meeting Time</th>
+            <th className="py-3">Semester</th>
+          </tr>
+        </thead>
+        <tbody className="table-fixed">
+          {props.courses.map((course, index: number) => (
+            <tr key={index}>
+              <td className="py-3">{course.name}</td>
+              <td className="py-3">
+                {course.professor.firstName} {course.professor.lastName}
+              </td>
+              <td className="py-3 truncate">
+                {course.weekday} {course.startTime} - {course.endTime}
+              </td>
+              <td className="py-3">{course.semester}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </section>
   );
 }

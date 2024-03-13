@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.javalin.http.Context;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -28,4 +29,5 @@ public class Student extends Person {
     public static String getStudentId(Context context) {
         return context.header("studentId");
     }
+
 }

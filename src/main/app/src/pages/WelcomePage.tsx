@@ -27,7 +27,7 @@ export default function WelcomePage() {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const response = await fetch("http://localhost:7070/api/welcome", {
+    const response = await fetch("http://localhost:7070/api/student", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

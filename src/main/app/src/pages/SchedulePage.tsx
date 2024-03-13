@@ -24,8 +24,8 @@ export default function SchedulePage() {
 
   return (
     <>
-      <ScheduleTable semester="Fall" schedule={data?.fallSchedule} />
-      <ScheduleTable semester="Spring" schedule={data?.springSchedule} />
+      <ScheduleTable semester="Fall" courses={data?.fallSchedule} />
+      <ScheduleTable semester="Spring" courses={data?.springSchedule} />
 
       {/* <WeeklySchedule schedule={data} />  */}
     </>

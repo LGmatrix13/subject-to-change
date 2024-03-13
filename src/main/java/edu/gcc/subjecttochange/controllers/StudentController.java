@@ -19,4 +19,11 @@ public class StudentController {
 
         context.status(400);
     }
+
+    public static void postStudent(Context context) {
+        Student student = context.bodyAsClass(Student.class);
+        Datastore.students.add(student);
+        context.json(student);
+        context.status(200);
+    }
 }
