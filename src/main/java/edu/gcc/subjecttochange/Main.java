@@ -20,6 +20,7 @@ public class Main {
                 cors.addRule(CorsPluginConfig.CorsRule::anyHost);
             });
             config.staticFiles.add("src/main/app/dist", Location.EXTERNAL);
+            config.spaRoot.addFile("/", "src/main/app/dist/index.html", Location.EXTERNAL);
         }).start(7070);
 
         app.post("/api/courses", CoursesController::postCourses);
@@ -27,7 +28,7 @@ public class Main {
         app.get("/api/search", SearchController::getSearch);
         app.post("/api/student", StudentController::postStudent);
         app.get("/api/student", StudentController::getStudent);
-        app.get("/api/professor", ProfessorsController::getProfessors);
+        app.get("/api/professors", ProfessorsController::getProfessors);
 
         app.exception(Exception.class, (e, context) -> {
             System.err.println(e.getMessage());
