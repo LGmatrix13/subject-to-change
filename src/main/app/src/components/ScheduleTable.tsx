@@ -1,9 +1,12 @@
+import useLocalStorage from "../hooks/useLocalStorage";
 import { Course } from "../utils/types";
 
 interface ScheduleTableProps {
   semester: "Fall" | "Spring";
   courses?: Course[];
 }
+
+
 
 export default function ScheduleTable(props: ScheduleTableProps) {
   if (!props.courses?.length) {
@@ -15,6 +18,28 @@ export default function ScheduleTable(props: ScheduleTableProps) {
         <p className="italic">You currently have no scheduled courses</p>
       </section>
     );
+  }
+
+  const [user] = useLocalStorage("user", {
+    id: "",
+  });
+
+
+  async function removeCourse(course: Course) {
+    const response = await fetch("http://localhost:7070/api/courses", {
+      method: "DELETE",
+      headers: {
+        studentId: user.id,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(course),
+    });
+
+
+
+    if (response.ok) {
+      alert("Added course to your schedule");
+    }
   }
 
   return (
@@ -42,6 +67,15 @@ export default function ScheduleTable(props: ScheduleTableProps) {
                 {course.weekday} {course.startTime} - {course.endTime}
               </td>
               <td className="py-3">{course.semester}</td>
+              <td className="py-3">
+              <button
+                className="bg-blue-600 py-1 px-3 rounded-full text-white hover:bg-blue-700 transition ease-in-out duration-300"
+                onClick={() => removeCourse(course)}
+              >
+                Remove
+              </button>
+              
+              </td>
             </tr>
           ))}
         </tbody>

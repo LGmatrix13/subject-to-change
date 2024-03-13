@@ -16,4 +16,7 @@ public class Schedule extends ArrayList<Course> {
 
         return conflictFree;
     }
+
+
+
 }
