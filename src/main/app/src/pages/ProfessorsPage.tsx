@@ -5,7 +5,7 @@ export default function ProfessorsPage() {
     <div className="grid grid-cols-3 gap-5">
       {/* <ProfessorCard
         firstName="Test"
-        lastName="Test"
+        lastName="Test Name"
         department="Computer Science"
       />
       <ProfessorCard
