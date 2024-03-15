@@ -25,6 +25,9 @@ export default function Sidebar(props: SidebarProps) {
           <Link to="/search">
             <p className="uppercase font-bold">Search</p>
           </Link>
+          <Link to="/suggested">
+            <p className="uppercase font-bold">Suggested</p>
+          </Link>
           <Link to="/professors">
             <p className="uppercase font-bold">Professors</p>
           </Link>

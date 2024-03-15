@@ -7,11 +7,14 @@ import RootLayout from "./layouts/RootLayout.tsx";
 import "./index.css";
 import ProfessorsLayout from "./layouts/ProfessorsLayout.tsx";
 import ProfessorsPage from "./pages/ProfessorsPage.tsx";
-import CoursesLayout from "./layouts/CoursesLayout.tsx";
 import SearchPage from "./pages/SearchPage.tsx";
 import WelcomeLayout from "./layouts/WelcomeLayout.tsx";
 import WelcomePage from "./pages/WelcomePage.tsx";
 import "@fontsource/lato";
+import SearchLayout from "./layouts/SearchLayout.tsx";
+import SuggestedLayout from "./layouts/SuggestedLayout.tsx";
+import SuggestedCoures from "./components/SuggestedCoures.tsx";
+import SuggestedPage from "./pages/SuggestedPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -38,9 +41,9 @@ const router = createBrowserRouter([
     path: "/search",
     element: (
       <RootLayout>
-        <CoursesLayout>
+        <SearchLayout>
           <SearchPage />
-        </CoursesLayout>
+        </SearchLayout>
       </RootLayout>
     ),
   },
@@ -50,6 +53,16 @@ const router = createBrowserRouter([
       <WelcomeLayout>
         <WelcomePage />
       </WelcomeLayout>
+    ),
+  },
+  {
+    path: "/suggested",
+    element: (
+      <RootLayout>
+        <SuggestedLayout>
+          <SuggestedPage />
+        </SuggestedLayout>
+      </RootLayout>
     ),
   },
 ]);
