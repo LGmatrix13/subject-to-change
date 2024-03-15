@@ -17,9 +17,10 @@ export default function Select(props: SelectProps) {
       </label>
       <select
         name={props.name}
-        className={props.className}
+        className={props.className || "p-3 bg-slate-200 rounded-lg w-full"}
         {...props.options}
         onChange={props.onChange}
+        required
       >
         {props.children}
       </select>
