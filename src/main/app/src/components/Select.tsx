@@ -1,4 +1,4 @@
-interface SelectInputProps {
+interface SelectProps {
   name: string;
   className?: string;
   label: string;
@@ -9,7 +9,7 @@ interface SelectInputProps {
   children: React.ReactNode;
 }
 
-export default function SelectInput(props: SelectInputProps) {
+export default function Select(props: SelectProps) {
   return (
     <div className="space-y-3 flex flex-col">
       <label htmlFor={props.name} className="font-bold">

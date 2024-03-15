@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Input from "./Input";
 import WideButton from "./WideButton";
-import SelectInput from "./SelectInput";
+import Select from "./Select";
 import { Option } from "./Option";
 
 interface SearchCoursesProps {
@@ -16,8 +16,8 @@ export default function SearchCourses(props: SearchCoursesProps) {
     name: searchParams.get("name") || "",
     startTime: searchParams.get("startTime") || "",
     endTime: searchParams.get("endTime") || "",
-    weekday: searchParams.get("weekday") || "",
-    semester: searchParams.get("semester") || "",
+    weekday: searchParams.get("weekday") || "MWF",
+    semester: searchParams.get("semester") || "FALL",
   });
 
   function handleChange(
@@ -90,24 +90,40 @@ export default function SearchCourses(props: SearchCoursesProps) {
                 value: search.endTime,
               }}
             />
-            <SelectInput
+            <Select
               label="Weekday"
               name="weekday"
               onChange={handleChange}
               className="p-3 rounded-lg w-full"
             >
-              <Option value="MWF" label="MWF" />
-              <Option value="TR" label="TR" />
-            </SelectInput>
-            <SelectInput
+              <Option
+                value="MWF"
+                label="MWF"
+                selected={search.weekday === "MWF"}
+              />
+              <Option
+                value="TR"
+                label="TR"
+                selected={search.weekday === "TR"}
+              />
+            </Select>
+            <Select
               label="Semester"
               name="semester"
               onChange={handleChange}
               className="p-3 rounded-lg w-full"
             >
-              <Option value="FALL" label="Fall" />
-              <Option value="SPRING" label="Spring" />
-            </SelectInput>
+              <Option
+                value="FALL"
+                label="Fall"
+                selected={search.weekday === "FALL"}
+              />
+              <Option
+                value="SPRING"
+                label="Spring"
+                selected={search.weekday === "SPRING"}
+              />
+            </Select>
           </div>
           <WideButton
             options={{
