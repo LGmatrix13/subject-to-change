@@ -1,10 +1,10 @@
 package edu.gcc.subjecttochange.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -43,4 +43,14 @@ public class Course {
     public Professor professor;
     @JsonProperty("waitlist")
     public List<Student> waitlist;
+    @Override
+    public boolean equals(Object o) {
+        Course course = (Course) o;
+        return course.number == this.number && course.department.equals(this.department);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.number, this.department);
+    }
 }

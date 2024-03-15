@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Input from "./Input";
 import WideButton from "./WideButton";
+import SelectInput from "./SelectInput";
+import { Option } from "./Option";
 
 interface SearchCoursesProps {
   children?: React.ReactElement;
@@ -18,7 +20,9 @@ export default function SearchCourses(props: SearchCoursesProps) {
     semester: searchParams.get("semester") || "",
   });
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleChange(
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) {
     const { name, value } = event.target;
     setSearch((prevState) => ({
       ...prevState,
@@ -43,21 +47,20 @@ export default function SearchCourses(props: SearchCoursesProps) {
           <div className="grid grid-cols-3 gap-5">
             <Input
               label="Department"
+              name="department"
               onChange={handleChange}
               className="p-3 rounded-lg w-full"
               options={{
-                name: "department",
-                type: "text",
                 placeholder: "Department",
                 value: search.department,
               }}
             />
             <Input
               label="Name"
+              name="name"
               onChange={handleChange}
               className="p-3 rounded-lg w-full"
               options={{
-                name: "name",
                 type: "text",
                 placeholder: "Name",
                 value: search.name,
@@ -65,48 +68,46 @@ export default function SearchCourses(props: SearchCoursesProps) {
             />{" "}
             <Input
               label="Start Time"
+              name="startTime"
               onChange={handleChange}
               className="p-3 rounded-lg w-full"
               options={{
-                name: "startTime",
-                type: "text",
+                type: "time",
+                step: "1",
                 placeholder: "Start Time",
                 value: search.startTime,
               }}
             />
             <Input
               label="End Time"
+              name="endTime"
               onChange={handleChange}
               className="p-3 rounded-lg w-full"
               options={{
-                name: "endTime",
-                type: "text",
+                type: "time",
+                step: "1",
                 placeholder: "End Time",
                 value: search.endTime,
               }}
             />
-            <Input
+            <SelectInput
               label="Weekday"
+              name="weekday"
               onChange={handleChange}
               className="p-3 rounded-lg w-full"
-              options={{
-                name: "weekday",
-                type: "text",
-                placeholder: "Weekday",
-                value: search.weekday,
-              }}
-            />
-            <Input
+            >
+              <Option value="MWF" label="MWF" />
+              <Option value="TR" label="TR" />
+            </SelectInput>
+            <SelectInput
               label="Semester"
+              name="semester"
               onChange={handleChange}
               className="p-3 rounded-lg w-full"
-              options={{
-                name: "semester",
-                type: "text",
-                placeholder: "Semester",
-                value: search.weekday,
-              }}
-            />
+            >
+              <Option value="FALL" label="Fall" />
+              <Option value="SPRING" label="Spring" />
+            </SelectInput>
           </div>
           <WideButton
             options={{

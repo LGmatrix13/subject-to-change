@@ -1,25 +1,28 @@
-interface InputProps {
+interface SelectInputProps {
   name: string;
   className?: string;
   label: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   options?: {
     [name: string]: string | boolean;
   };
+  children: React.ReactNode;
 }
 
-export default function Input(props: InputProps) {
+export default function SelectInput(props: SelectInputProps) {
   return (
     <div className="space-y-3 flex flex-col">
       <label htmlFor={props.name} className="font-bold">
         {props.label}
       </label>
-      <input
+      <select
         name={props.name}
+        className={props.className}
         {...props.options}
         onChange={props.onChange}
-        className={props.className || "p-3 bg-slate-200 rounded-lg w-full"}
-      />
+      >
+        {props.children}
+      </select>
     </div>
   );
 }
