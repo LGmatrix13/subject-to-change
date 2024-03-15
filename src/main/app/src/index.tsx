@@ -13,7 +13,6 @@ import WelcomePage from "./pages/WelcomePage.tsx";
 import "@fontsource/lato";
 import SearchLayout from "./layouts/SearchLayout.tsx";
 import SuggestedLayout from "./layouts/SuggestedLayout.tsx";
-import SuggestedCoures from "./components/SuggestedCoures.tsx";
 import SuggestedPage from "./pages/SuggestedPage.tsx";
 
 const router = createBrowserRouter([
