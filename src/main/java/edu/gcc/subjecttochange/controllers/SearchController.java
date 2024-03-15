@@ -35,7 +35,7 @@ public class SearchController {
                 null
             );
             List<Course> candidateCourses = search.run().stream().filter(
-                course -> !student.get().fallSchedule.contains(course) || !student.get().springSchedule.contains(course)
+                course -> !student.get().fallSchedule.contains(course) && !student.get().springSchedule.contains(course)
             ).distinct().limit(7).toList();
             context.json(candidateCourses);
             context.status(200);
