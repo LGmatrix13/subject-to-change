@@ -51,6 +51,10 @@ public class Search {
         return result;
     }
 
+    public List<Course> run(int limit) {
+        return this.run().subList(0, limit);
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(department, name, time, day);

@@ -34,11 +34,9 @@ export default function SchedulePage(props: SchedulePageProps) {
 
   return (
     <>
-      <ScheduleTable
-        semester={props.semester}
-        courses={schedules[props.semester]}
-      />
-      <WeeklySchedule courses={schedules[props.semester]} />
+      <ScheduleTable semester="Fall" courses={data?.fallSchedule} />
+      <ScheduleTable semester="Spring" courses={data?.springSchedule} />
+      {/* <WeeklySchedule schedule={data} />  */}
     </>
   );
 }
