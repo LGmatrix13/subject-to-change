@@ -4,8 +4,13 @@ import { fetcher } from "../utils/fetcher";
 import useLocalStorage from "../hooks/useLocalStorage";
 import ScheduleTable from "../components/ScheduleTable";
 import Loading from "../components/Loading";
+import WeeklySchedule from "../components/ScheduleCalendar";
 
-export default function SchedulePage() {
+interface SchedulePageProps {
+  semester: "Fall" | "Spring";
+}
+
+export default function SchedulePage(props: SchedulePageProps) {
   const [user] = useLocalStorage("user", {
     id: "",
   });
@@ -21,6 +26,11 @@ export default function SchedulePage() {
       <Loading height={350} />
     </>;
   }
+
+  const schedules = {
+    Fall: data?.fallSchedule,
+    Spring: data?.springSchedule,
+  };
 
   return (
     <>
