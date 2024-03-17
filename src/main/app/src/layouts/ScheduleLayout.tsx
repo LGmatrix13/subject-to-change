@@ -1,12 +1,39 @@
+import React from "react";
+import { useState } from "react";
+
 interface ScheduleLayoutProps {
-  children: React.ReactNode;
+  children: React.ReactElement;
 }
 
 export default function ScheduleLayout(props: ScheduleLayoutProps) {
+  const [semester, setSemester] = useState<"Fall" | "Spring">("Fall");
+
+  function toggleSemester() {
+    setSemester(semester === "Fall" ? "Spring" : "Fall");
+  }
+
+  const activeClassName =
+    "bg-blue-600 text-white px-3 py-1 rounded-full font-normal";
   return (
-    <section className="space-y-5 mb-10 animate-fade">
-      <h1 className="uppercase text-3xl font-light">Schedule</h1>
-      {props.children}
+    <section className="space-y-5 mb-10 animate-fade" key={semester}>
+      <div className="flex items-center">
+        <h1 className="uppercase text-3xl font-light">Schedule</h1>
+        <div className="flex space-x-3 ml-auto order-2 font-bold">
+          <button
+            className={semester === "Fall" ? activeClassName : ""}
+            onClick={toggleSemester}
+          >
+            Fall
+          </button>
+          <button
+            className={semester === "Spring" ? activeClassName : ""}
+            onClick={toggleSemester}
+          >
+            Spring
+          </button>
+        </div>
+      </div>
+      {React.cloneElement(props.children, { semester: semester })}
     </section>
   );
 }
