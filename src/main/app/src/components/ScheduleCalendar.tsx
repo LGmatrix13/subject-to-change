@@ -7,6 +7,22 @@ interface ScheduleCalendarProps {
   courses?: Course[];
 }
 
+function generateColor(courseNumber: number) {
+  // Convert hue to a corresponding Tailwind CSS color class
+  let colorClass;
+  if (courseNumber <= 200) {
+    colorClass = "bg-blue-600";
+  } else if (courseNumber <= 300) {
+    colorClass = "bg-green-600";
+  } else if (courseNumber <= 400) {
+    colorClass = "bg-yellow-600";
+  } else {
+    colorClass = "bg-red-600";
+  }
+
+  return colorClass;
+}
+
 function sortedCoures(courses: Course[], abbrevDay: string): Course[] {
   const unsortedCoures = courses.filter((course) =>
     course.weekday.includes(abbrevDay)
@@ -74,7 +90,11 @@ function DailyView(props: { courses: Course[] }) {
       <div className="space-y-3">
         {sortedCoures(props.courses, daysOfWeek[dayOfWeekIndex].abbrev).map(
           (course) => (
-            <div className="truncate bg-blue-600 text-white p-3 rounded-lg">
+            <div
+              className={`truncate ${generateColor(
+                course.number
+              )} text-white p-3 rounded-lg`}
+            >
               <p>
                 {course.department} {course.number}
               </p>
@@ -137,7 +157,11 @@ function WeekView(props: { courses: Course[] }) {
                     ).fill(
                       <div className="truncate bg-transparent p-3 rounded-lg h-[20px] space-y-0" />
                     )}
-                  <div className="truncate bg-blue-600 text-white p-3 rounded-lg mt-5">
+                  <div
+                    className={`truncate text-white p-3 rounded-lg mt-5 ${generateColor(
+                      course.number
+                    )}`}
+                  >
                     <p>
                       {course.department} {course.number}
                     </p>
