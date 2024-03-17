@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Course } from "../utils/types";
 import Toggle from "./Toggle";
+import React from "react";
 
 interface ScheduleCalendarProps {
   courses?: Course[];
@@ -112,22 +113,41 @@ function WeekView(props: { courses: Course[] }) {
     },
   ];
 
+  function calculateGap(courseA: Course, courseB: Course): number {
+    const endTimeA = parseTimeString(courseA.endTime);
+    const startTimeB = parseTimeString(courseB.startTime);
+    const gap = startTimeB.getTime() - endTimeA.getTime(); // in milliseconds
+    console.log(gap);
+    console.log(`${courseA.name} ${Math.floor(gap / (1000 * 60 * 60))}`);
+    return Math.floor(gap / (1000 * 60 * 60)); // convert milliseconds to hours
+  }
+
   return (
     <div className="grid grid-cols-5 gap-3">
       {days.map((day) => (
         <div key={day.abbrev} className="space-y-5">
           <h3 className="font-bold">{day.title}</h3>
-          <div className="space-y-5">
-            {sortedCoures(props.courses, day.abbrev).map((course) => (
-              <div className="truncate bg-blue-600 text-white  p-3 rounded-lg">
-                <p>
-                  {course.department} {course.number}
-                </p>
-                <p className="text-sm">
-                  {course.startTime} - {course.endTime}
-                </p>
-              </div>
-            ))}
+          <div className="mb-5">
+            {sortedCoures(props.courses, day.abbrev).map(
+              (course, index, array) => (
+                <React.Fragment key={index}>
+                  {index > 0 &&
+                    Array(
+                      Math.round(calculateGap(array[index - 1], course))
+                    ).fill(
+                      <div className="truncate bg-transparent p-3 rounded-lg h-[20px] space-y-0" />
+                    )}
+                  <div className="truncate bg-blue-600 text-white p-3 rounded-lg mt-5">
+                    <p>
+                      {course.department} {course.number}
+                    </p>
+                    <p className="text-sm">
+                      {course.startTime} - {course.endTime}
+                    </p>
+                  </div>
+                </React.Fragment>
+              )
+            )}
           </div>
         </div>
       ))}
@@ -160,9 +180,9 @@ export default function ScheduleCalendar(props: ScheduleCalendarProps) {
       </div>
       <div className="animate-fade" key={view}>
         {view === "Week View" ? (
-          <WeekView {...props} />
+          <WeekView courses={props.courses} />
         ) : (
-          <DailyView {...props} />
+          <DailyView courses={props.courses} />
         )}
       </div>
     </section>
