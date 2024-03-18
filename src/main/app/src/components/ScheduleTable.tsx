@@ -46,12 +46,13 @@ export default function ScheduleTable(props: ScheduleTableProps) {
       <h2 className="font-bold uppercase text-2xl">
         {props.semester} Schedule
       </h2>
-      <table className="table-fixed w-full">
+      <table className="table-auto  w-full">
         <thead className="text-left font-bold border-b border-gray-800">
           <tr>
             <th className="py-3">Course Name</th>
             <th className="py-3">Professor</th>
             <th className="py-3">Meeting Time</th>
+            <th className="py-3">Action</th>
           </tr>
         </thead>
         <tbody className="table-fixed">
@@ -64,10 +65,9 @@ export default function ScheduleTable(props: ScheduleTableProps) {
               <td className="py-3 truncate">
                 {course.weekday} {course.startTime} - {course.endTime}
               </td>
-              <td className="py-3">{course.semester}</td>
               <td className="py-3">
                 <button
-                  className="bg-blue-600 py-1 px-3 rounded-full text-white hover:bg-blue-700 transition ease-in-out duration-300"
+                  className="bg-red-600 py-1 px-3 rounded-full text-white hover:bg-red-700 transition ease-in-out duration-300"
                   onClick={() => removeCourse(course)}
                 >
                   Remove

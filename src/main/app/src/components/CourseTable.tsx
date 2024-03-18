@@ -37,7 +37,7 @@ export default function CourseTable(props: CourseTableProps) {
           <th className="py-3">Meeting Time</th>
           <th className="py-3">Semester</th>
           <th className="py-3">Seats</th>
-          <th className="py-3" />
+          <th className="py-3">Action</th>
         </tr>
       </thead>
       <tbody className="">
