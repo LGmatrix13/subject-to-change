@@ -16,6 +16,14 @@ export default function ProfessorsPage() {
 //       department={course.professor.department}
 //     />
 //   ));
+    const [user] = useLocalStorage("user", {
+        id: "",
+      });
+
+      const { data, isLoading } = useSWR<Professor[]>(
+        "http://localhost:7070/api/professors",
+        (url: string) => fetcher(url, user.id)
+      );
 
   return (
 //     <div className="grid grid-cols-3 gap-5">
