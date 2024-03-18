@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import Input from "../components/Input";
 import WideButton from "../components/WideButton";
 import { Student } from "../utils/types";
+import Select from "../components/Select";
+import { Option } from "../components/Option";
 
 export default function WelcomePage() {
   const navigate = useNavigate();
@@ -17,7 +19,9 @@ export default function WelcomePage() {
     lastName: "",
   });
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleChange(
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) {
     const { name, value } = event.target;
     setFormData((prevState) => ({
       ...prevState,
@@ -43,8 +47,8 @@ export default function WelcomePage() {
     <form className="space-y-5" onSubmit={handleSubmit}>
       <Input
         label="First Name"
+        name="firstName"
         options={{
-          name: "firstName",
           type: "text",
           placeholder: "First Name",
           required: true,
@@ -53,8 +57,8 @@ export default function WelcomePage() {
       />
       <Input
         label="Last Name"
+        name="lastName"
         options={{
-          name: "lastName",
           type: "text",
           placeholder: "Last Name",
           required: true,
@@ -63,24 +67,20 @@ export default function WelcomePage() {
       />
       <Input
         label="Major"
+        name="major"
         options={{
-          name: "major",
           type: "text",
           placeholder: "Major",
           required: true,
         }}
         onChange={handleChange}
       />
-      <Input
-        label="Year"
-        options={{
-          name: "year",
-          type: "number",
-          placeholder: "Year",
-          required: true,
-        }}
-        onChange={handleChange}
-      />
+      <Select name="year" label="Year" onChange={handleChange}>
+        <Option label="Freshman" value="2027" />
+        <Option label="Sophomore" value="2028" />
+        <Option label="Junior" value="2025" />
+        <Option label="Senior" value="2024" />
+      </Select>
       <WideButton
         options={{
           type: "submit",

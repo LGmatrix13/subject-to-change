@@ -1,34 +1,30 @@
 import CourseTable from "../components/CourseTable";
-import SearchCourses from "../components/SearchCourses";
 import useSWR from "swr";
 import { fetcher } from "../utils/fetcher";
-import { useSearchParams } from "react-router-dom";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { Course } from "../utils/types";
+import SuggestedCoures from "../components/SuggestedCoures";
 
-export default function SearchPage() {
-  const [searchParams] = useSearchParams();
+export default function SuggestedPage() {
   const [user] = useLocalStorage("user", {
     id: "",
   });
 
   const { data } = useSWR<Course[]>(
-    searchParams.toString().length
-      ? `http://localhost:7070/api/search?${searchParams.toString()}`
-      : null,
+    `http://localhost:7070/api/search/generate`,
     (url: string) => fetcher(url, user.id)
   );
 
   if (!data) {
-    return <SearchCourses />;
+    return <SuggestedCoures />;
   }
 
   return (
-    <SearchCourses>
+    <SuggestedCoures>
       <div className="space-y-3">
         <h3 className="text-xl font-bold">Results</h3>
         <CourseTable courses={data} />
       </div>
-    </SearchCourses>
+    </SuggestedCoures>
   );
 }
