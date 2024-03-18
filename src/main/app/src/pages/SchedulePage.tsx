@@ -4,8 +4,13 @@ import { fetcher } from "../utils/fetcher";
 import useLocalStorage from "../hooks/useLocalStorage";
 import ScheduleTable from "../components/ScheduleTable";
 import Loading from "../components/Loading";
+import WeeklySchedule from "../components/ScheduleCalendar";
 
-export default function SchedulePage() {
+interface SchedulePageProps {
+  semester: "Fall" | "Spring";
+}
+
+export default function SchedulePage(props: SchedulePageProps) {
   const [user] = useLocalStorage("user", {
     id: "",
   });
@@ -22,12 +27,18 @@ export default function SchedulePage() {
     </>;
   }
 
+  const schedules = {
+    Fall: data?.fallSchedule,
+    Spring: data?.springSchedule,
+  };
+
   return (
     <>
-      <ScheduleTable semester="Fall" courses={data?.fallSchedule} />
-      <ScheduleTable semester="Spring" courses={data?.springSchedule} />
-
-      {/* <WeeklySchedule schedule={data} />  */}
+      <ScheduleTable
+        semester={props.semester}
+        courses={schedules[props.semester]}
+      />
+      <WeeklySchedule courses={schedules[props.semester]} />
     </>
   );
 }

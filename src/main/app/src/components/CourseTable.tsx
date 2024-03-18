@@ -1,5 +1,6 @@
 import { Course } from "../utils/types";
 import useLocalStorage from "../hooks/useLocalStorage";
+import { mutate } from "swr";
 
 interface CourseTableProps {
   courses: Course[];
@@ -21,13 +22,14 @@ export default function CourseTable(props: CourseTableProps) {
     });
 
     if (response.ok) {
-      const text = await response.text();
-      alert(text);
+      alert("Added course to your schedule");
+      mutate("http://localhost:7070/api/student");
+      mutate("http://localhost:7070/api/search/suggested");
     }
   }
 
   return (
-    <table className="text-auto w-full">
+    <table className="table-auto w-full">
       <thead className="text-left font-bold border-b border-gray-800">
         <tr>
           <th className="py-3">Course Name</th>
@@ -35,7 +37,7 @@ export default function CourseTable(props: CourseTableProps) {
           <th className="py-3">Meeting Time</th>
           <th className="py-3">Semester</th>
           <th className="py-3">Seats</th>
-          <th className="py-3" />
+          <th className="py-3">Action</th>
         </tr>
       </thead>
       <tbody className="">
