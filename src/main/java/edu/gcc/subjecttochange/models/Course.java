@@ -43,6 +43,7 @@ public class Course {
     public Professor professor;
     @JsonProperty("waitlist")
     public List<Student> waitlist;
+    
     @Override
     public boolean equals(Object o) {
         Course course = (Course) o;
