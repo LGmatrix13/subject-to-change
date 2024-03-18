@@ -44,7 +44,7 @@ export default function ProfessorsPage() {
           <ProfessorCard
             firstName="Test"
             lastName="Test"
-            department="Computer Science"
+            department="Computer Science "
           />
           <ProfessorCard
             firstName="Test"
