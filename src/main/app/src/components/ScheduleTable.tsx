@@ -46,13 +46,12 @@ export default function ScheduleTable(props: ScheduleTableProps) {
       <h2 className="font-bold uppercase text-2xl">
         {props.semester} Schedule
       </h2>
-      <table className="text-auto w-full">
+      <table className="table-fixed w-full">
         <thead className="text-left font-bold border-b border-gray-800">
           <tr>
             <th className="py-3">Course Name</th>
             <th className="py-3">Professor</th>
             <th className="py-3">Meeting Time</th>
-            <th className="py-3">Semester</th>
           </tr>
         </thead>
         <tbody className="table-fixed">
