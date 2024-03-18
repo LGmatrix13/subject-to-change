@@ -155,10 +155,10 @@ function WeekView(props: { courses: Course[] }) {
                     Array(
                       Math.round(calculateGap(array[index - 1], course))
                     ).fill(
-                      <div className="truncate bg-transparent p-3 rounded-lg h-[20px] space-y-0" />
+                      <div className="truncate bg-transparent p-3 rounded-lg h-[72px] space-y-0" />
                     )}
                   <div
-                    className={`truncate text-white p-3 rounded-lg mt-5 ${generateColor(
+                    className={`truncate text-white p-3 rounded-lg mt-3 ${generateColor(
                       course.number
                     )}`}
                   >

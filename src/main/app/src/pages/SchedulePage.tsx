@@ -6,11 +6,8 @@ import ScheduleTable from "../components/ScheduleTable";
 import Loading from "../components/Loading";
 import WeeklySchedule from "../components/ScheduleCalendar";
 
-interface SchedulePageProps {
-  semester: "Fall" | "Spring";
-}
-
-export default function SchedulePage(props: SchedulePageProps) {
+export default function SchedulePage() {
+  const [semester] = useLocalStorage<"Fall" | "Spring">("semester", "Fall");
   const [user] = useLocalStorage("user", {
     id: "",
   });
@@ -34,9 +31,8 @@ export default function SchedulePage(props: SchedulePageProps) {
 
   return (
     <>
-      <ScheduleTable semester="Fall" courses={data?.fallSchedule} />
-      <ScheduleTable semester="Spring" courses={data?.springSchedule} />
-      {/* <WeeklySchedule schedule={data} />  */}
+      <ScheduleTable semester={semester} courses={schedules[semester]} />
+      <WeeklySchedule courses={schedules[semester]} />
     </>
   );
 }

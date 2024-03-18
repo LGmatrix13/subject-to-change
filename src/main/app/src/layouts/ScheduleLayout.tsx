@@ -1,12 +1,15 @@
 import React from "react";
-import { useState } from "react";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 interface ScheduleLayoutProps {
   children: React.ReactElement;
 }
 
 export default function ScheduleLayout(props: ScheduleLayoutProps) {
-  const [semester, setSemester] = useState<"Fall" | "Spring">("Fall");
+  const [semester, setSemester] = useLocalStorage<"Fall" | "Spring">(
+    "semester",
+    "Fall"
+  );
 
   function toggleSemester() {
     setSemester(semester === "Fall" ? "Spring" : "Fall");
@@ -18,7 +21,10 @@ export default function ScheduleLayout(props: ScheduleLayoutProps) {
     <section className="space-y-5 mb-10 animate-fade" key={semester}>
       <div className="flex items-center">
         <h1 className="uppercase text-3xl font-light">Schedule</h1>
-        <div className="flex space-x-3 ml-auto order-2 font-bold">
+        <div
+          className="flex space-x-3 ml-auto order-2 font-bold"
+          key={semester}
+        >
           <button
             className={semester === "Fall" ? activeClassName : ""}
             onClick={toggleSemester}
@@ -33,7 +39,7 @@ export default function ScheduleLayout(props: ScheduleLayoutProps) {
           </button>
         </div>
       </div>
-      {React.cloneElement(props.children, { semester: semester })}
+      {props.children}
     </section>
   );
 }

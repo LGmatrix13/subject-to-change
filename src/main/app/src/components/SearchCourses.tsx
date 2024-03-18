@@ -4,12 +4,14 @@ import Input from "./Input";
 import WideButton from "./WideButton";
 import Select from "./Select";
 import { Option } from "./Option";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 interface SearchCoursesProps {
   children?: React.ReactElement;
 }
 
 export default function SearchCourses(props: SearchCoursesProps) {
+  const [semester] = useLocalStorage<"Fall" | "Spring">("semester", "Fall");
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState({
     department: searchParams.get("department") || "",
@@ -17,7 +19,7 @@ export default function SearchCourses(props: SearchCoursesProps) {
     startTime: searchParams.get("startTime") || "",
     endTime: searchParams.get("endTime") || "",
     weekday: searchParams.get("weekday") || "MWF",
-    semester: searchParams.get("semester") || "FALL",
+    semester: semester,
   });
 
   function handleChange(
@@ -105,23 +107,6 @@ export default function SearchCourses(props: SearchCoursesProps) {
                 value="TR"
                 label="TR"
                 selected={search.weekday === "TR"}
-              />
-            </Select>
-            <Select
-              label="Semester"
-              name="semester"
-              onChange={handleChange}
-              className="p-3 rounded-lg w-full"
-            >
-              <Option
-                value="FALL"
-                label="Fall"
-                selected={search.weekday === "FALL"}
-              />
-              <Option
-                value="SPRING"
-                label="Spring"
-                selected={search.weekday === "SPRING"}
               />
             </Select>
           </div>
