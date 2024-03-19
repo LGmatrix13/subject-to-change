@@ -12,7 +12,7 @@ public class Search {
     public String name;
     public String time;
     public String day;
-    public Integer number;
+    public int number;
 
 
     public Search(
@@ -20,7 +20,7 @@ public class Search {
         String name,
         String time,
         String day,
-        Integer number
+        int number
     ) {
         this.department = department;
         this.name = name;
@@ -48,17 +48,15 @@ public class Search {
         if (this.name != null && !this.name.isEmpty()) {
             filteredCourses = filteredCourses.filter(item -> item.name.toLowerCase().contains(this.name.toLowerCase()));
         }
+        
         // TODO: use the previous filteredCourses to do the rest of the filters
         if (this.time != null && !this.time.isEmpty()) {
             filteredCourses = filteredCourses.filter(item -> item.startTime.equals(time));
         }
+        
         if (this.day != null && !this.day.isEmpty()) {
             filteredCourses = filteredCourses.filter(item -> item.weekday.equals(day));
         }
-
-
-
-
 
         List<Course> result = filteredCourses.toList();
         Datastore.searchHistory.put(this, result);
@@ -83,6 +81,7 @@ public class Search {
         return Objects.equals(department, other.department) &&
                 Objects.equals(name, other.name) &&
                 Objects.equals(time, other.time) &&
-                Objects.equals(day, other.day);
+                Objects.equals(day, other.day) &&
+                number == other.number;
     }
 }
