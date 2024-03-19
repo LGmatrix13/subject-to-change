@@ -12,18 +12,21 @@ public class Search {
     public String name;
     public String time;
     public String day;
+    public Integer number;
 
 
     public Search(
         String department,
         String name,
         String time,
-        String day
+        String day,
+        Integer number
     ) {
         this.department = department;
         this.name = name;
         this.time = time;
         this.day = day;
+        this.number = number;
     }
 
     public List<Course> run() {
@@ -32,19 +35,30 @@ public class Search {
         }
 
         Stream<Course> filteredCourses = Datastore.courses.stream();
+
         if (this.department != null && !this.department.isEmpty()) {
             filteredCourses = filteredCourses.filter(item -> item.department.equals(department));
         }
+
+        // filter by course number
+        if (this.number != null){
+            filteredCourses = filteredCourses.filter(item -> item.number == number);
+        }
+
         if (this.name != null && !this.name.isEmpty()) {
             filteredCourses = filteredCourses.filter(item -> item.name.toLowerCase().contains(this.name.toLowerCase()));
         }
         // TODO: use the previous filteredCourses to do the rest of the filters
         if (this.time != null && !this.time.isEmpty()) {
-
+            filteredCourses = filteredCourses.filter(item -> item.startTime.equals(time));
         }
         if (this.day != null && !this.day.isEmpty()) {
-
+            filteredCourses = filteredCourses.filter(item -> item.weekday.equals(day));
         }
+
+
+
+
 
         List<Course> result = filteredCourses.toList();
         Datastore.searchHistory.put(this, result);

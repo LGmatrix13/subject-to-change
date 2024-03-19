@@ -16,7 +16,8 @@ public class SearchController {
             context.req().getParameter("department"),
             context.req().getParameter("name"),
             context.req().getParameter("time"),
-            context.req().getParameter("day")
+            context.req().getParameter("day"),
+            context.req().getIntHeader("number")
         );
         context.json(search.run());
         context.status(200);
@@ -30,6 +31,7 @@ public class SearchController {
             String major = student.get().major;
             Search search = new Search(
                 major,
+                null,
                 null,
                 null,
                 null
