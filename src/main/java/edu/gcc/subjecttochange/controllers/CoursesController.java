@@ -16,9 +16,8 @@ public class CoursesController {
         if (student.isPresent()) {
             Course course = context.bodyAsClass(Course.class);
             Schedule schedule = course.semester == Course.Semester.FALL ? student.get().fallSchedule : student.get().springSchedule;
-            boolean success = schedule.add(course);
 
-            if (success) {
+            if (schedule.add(course)) {
                 context.result("Added course to student schedule");
                 context.status(200);
                 return;
@@ -35,12 +34,15 @@ public class CoursesController {
         if (student.isPresent()) {
             Course course = context.bodyAsClass(Course.class);
             Schedule schedule = course.semester == Course.Semester.FALL ? student.get().fallSchedule : student.get().springSchedule;
-            schedule.remove(course);
-            context.result("Removed course from student schedule");
-            context.status(200);
-            return;
+
+            if (schedule.remove(course)) {
+                context.result("Removed course from student schedule");
+                context.status(200);
+                return;
+            }
         }
 
+        context.result("Could not remove course");
         context.status(400);
     }
 }

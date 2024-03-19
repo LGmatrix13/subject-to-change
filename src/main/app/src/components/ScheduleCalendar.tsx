@@ -186,10 +186,14 @@ export default function ScheduleCalendar(props: ScheduleCalendarProps) {
     setView(view === "Week View" ? "Daily View" : "Week View");
   }
 
-  if (!props.courses) {
-    return <p className="italic">There are no coures in your schedule</p>;
+  if (!props.courses?.length) {
+    return (
+      <section className="space-y-5 p-7 bg-slate-100 rounded-lg">
+        <h2 className="font-bold uppercase text-2xl">Weekly Schedule</h2>
+        <p className="italic">You currently have no scheduled courses</p>
+      </section>
+    );
   }
-
   return (
     <section className="space-y-5 p-7 bg-slate-100 rounded-lg">
       <div className="flex items-center">
