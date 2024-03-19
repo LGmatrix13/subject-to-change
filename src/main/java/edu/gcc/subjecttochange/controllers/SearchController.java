@@ -17,7 +17,7 @@ public class SearchController {
             context.req().getParameter("name"),
             context.req().getParameter("time"),
             context.req().getParameter("day"),
-            context.req().getIntHeader("number")
+            context.req().getParameter("number")
         );
         context.json(search.run());
         context.status(200);
