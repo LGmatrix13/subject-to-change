@@ -10,7 +10,8 @@ public class Search {
 
     public String department;
     public String name;
-    public String time;
+    public String startTime;
+    public String endTime;
     public String day;
     public int number;
 
@@ -18,13 +19,15 @@ public class Search {
     public Search(
         String department,
         String name,
-        String time,
+        String startTime,
+        String endTime,
         String day,
         int number
     ) {
         this.department = department;
         this.name = name;
-        this.time = time;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.day = day;
         this.number = number;
     }
@@ -40,7 +43,6 @@ public class Search {
             filteredCourses = filteredCourses.filter(item -> item.department.equals(department));
         }
 
-        // filter by course number
         if (this.number != null){
             filteredCourses = filteredCourses.filter(item -> item.number == number);
         }
@@ -49,9 +51,12 @@ public class Search {
             filteredCourses = filteredCourses.filter(item -> item.name.toLowerCase().contains(this.name.toLowerCase()));
         }
         
-        // TODO: use the previous filteredCourses to do the rest of the filters
-        if (this.time != null && !this.time.isEmpty()) {
-            filteredCourses = filteredCourses.filter(item -> item.startTime.equals(time));
+        if (this.startTime != null && !this.startTime.isEmpty()) {
+            filteredCourses = filteredCourses.filter(item -> item.startTime.equals(startTime));
+        }
+
+        if (this.endTime != null && !this.endTime.isEmpty()) {
+            filteredCourses = filteredCourses.filter(item -> item.endTime.equals(endTime));
         }
         
         if (this.day != null && !this.day.isEmpty()) {
