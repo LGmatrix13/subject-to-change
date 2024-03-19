@@ -18,7 +18,9 @@ export default function Input(props: InputProps) {
         name={props.name}
         {...props.options}
         onChange={props.onChange}
-        className={props.className || "p-3 bg-slate-200 rounded-lg w-full"}
+        className={
+          props.className || "p-3 bg-slate-200 rounded-lg w-full h-[52px]"
+        }
       />
     </div>
   );

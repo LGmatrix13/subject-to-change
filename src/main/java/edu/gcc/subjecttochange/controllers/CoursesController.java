@@ -24,6 +24,7 @@ public class CoursesController {
             }
         }
 
+        context.result("Could not add course as it is either full or has conflicts with other courses");
         context.status(400);
     }
 

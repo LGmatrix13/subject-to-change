@@ -9,33 +9,19 @@ public class Schedule extends ArrayList<Course> {
     
     @Override
     public boolean add(Course course) {
-        boolean conflictFree = true;
-    
-        if (course.conflictsWith(existingCourse)) {
-            return false; // Conflict found, cannot add the course
+        if (course.isFull()) {
+            System.out.println("full");
+            return false;
         }
 
-        if (conflictFree) {
-            super.add(course);
-            // Check for conflicts with courses in student's fall and spring schedules
-            for (Course fallCourse : student.fallSchedule) {
-                if (course.conflictsWith(fallCourse)) {
-                    return false; // Conflict found, cannot add the course
-                }
-            }
-
-            for (Course springCourse : student.springSchedule) {
-                if (course.conflictsWith(springCourse)) {
-                    return false; // Conflict found, cannot add the course
-                }
-            }
-
-            if (!course.isFull()) {
-               return super.add(course);
-            } else {
-                return false; // No available seats
+        for (Course otherCourse : this) {
+            if (course.conflictsWith(otherCourse)) {
+                System.out.printf("Conflicts with other course: %s", otherCourse.name);
+                return false;
             }
         }
-        return conflictFree;
+
+        System.out.println(super.add(course));
+        return true;
     }
 }
