@@ -22,7 +22,6 @@ public class SearchController {
         Optional<Student> student = Datastore.getStudent(studentId);
 
         if (student.isPresent()) {
-            String major = student.get().major;
             Search search = new Search(context.req());
             List<Course> candidateCourses = search.run().stream().filter(
                 course -> !student.get().fallSchedule.contains(course) && !student.get().springSchedule.contains(course)

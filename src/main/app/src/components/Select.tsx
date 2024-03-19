@@ -17,11 +17,14 @@ export default function Select(props: SelectProps) {
       </label>
       <select
         name={props.name}
-        className={props.className || "p-3 bg-slate-200 rounded-lg w-full"}
+        className={
+          props.className ||
+          "p-3 bg-slate-200 rounded-lg w-full box-border h-[52px]"
+        }
         {...props.options}
         onChange={props.onChange}
-        required
       >
+        <option value="" disabled selected />
         {props.children}
       </select>
     </div>

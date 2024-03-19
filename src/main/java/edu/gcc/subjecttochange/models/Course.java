@@ -1,5 +1,6 @@
 package edu.gcc.subjecttochange.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -46,10 +47,12 @@ public class Course {
     @JsonProperty("waitlist")
     public List<Student> waitlist;
 
+    @JsonIgnore
     public boolean isFull() {
         return enrolled >= seats;
     }
 
+    @JsonIgnore
     public boolean conflictsWith(Course otherCourse) {
         // Convert start and end times to minutes for easier comparison
         int thisStartMinutes = timeToMinutes(this.startTime);
@@ -61,6 +64,7 @@ public class Course {
         return !(thisEndMinutes <= otherStartMinutes || thisStartMinutes >= otherEndMinutes);
     }
 
+    @JsonIgnore
     private int timeToMinutes(String timeString) {
         // Convert time string to minutes
         String[] parts = timeString.split(":");

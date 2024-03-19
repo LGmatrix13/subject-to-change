@@ -21,8 +21,10 @@ export default function CourseTable(props: CourseTableProps) {
       body: JSON.stringify(course),
     });
 
+    const responseText = await response.text();
+    alert(responseText);
+
     if (response.ok) {
-      alert("Added course to your schedule");
       mutate("http://localhost:7070/api/student");
       mutate("http://localhost:7070/api/search/suggested");
     }

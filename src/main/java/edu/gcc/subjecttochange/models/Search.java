@@ -10,11 +10,11 @@ import java.util.stream.Stream;
 public class Search {
 
     public String department;
+    public Integer number;
     public String name;
     public String startTime;
     public String endTime;
-    public String day;
-    public Integer number;
+    public String weekday;
 
 
     public Search(HttpServletRequest request) {
@@ -22,8 +22,11 @@ public class Search {
         this.name = request.getParameter("name");
         this.startTime = request.getParameter("startTime");
         this.endTime = request.getParameter("endTime");
-        this.day = request.getParameter("day");
-        this.number = Integer.parseInt(request.getParameter("number"));
+        this.weekday = request.getParameter("weekday");
+        String numberParameter = request.getParameter("number");
+        if (numberParameter != null && !numberParameter.isEmpty()) {
+            this.number = Integer.valueOf(numberParameter);
+        }
     }
 
     public List<Course> run() {
@@ -46,15 +49,15 @@ public class Search {
         }
         
         if (this.startTime != null && !this.startTime.isEmpty()) {
-            filteredCourses = filteredCourses.filter(item -> item.startTime.equals(startTime));
+            filteredCourses = filteredCourses.filter(item -> item.startTime != null && item.startTime.equals(startTime));
         }
 
         if (this.endTime != null && !this.endTime.isEmpty()) {
-            filteredCourses = filteredCourses.filter(item -> item.endTime.equals(endTime));
+            filteredCourses = filteredCourses.filter(item -> item.endTime != null && item.endTime.equals(endTime));
         }
-        
-        if (this.day != null && !this.day.isEmpty()) {
-            filteredCourses = filteredCourses.filter(item -> item.weekday.equals(day));
+        ;
+        if (this.weekday != null && !this.weekday.isEmpty()) {
+            filteredCourses = filteredCourses.filter(item -> item.weekday != null && item.weekday.equals(weekday));
         }
 
         List<Course> result = filteredCourses.toList();
@@ -68,7 +71,7 @@ public class Search {
 
     @Override
     public int hashCode() {
-        return Objects.hash(department, name, startTime, endTime, day, number);
+        return Objects.hash(department, name, startTime, endTime, weekday, number);
     }
 
     @Override
@@ -81,7 +84,7 @@ public class Search {
                 Objects.equals(name, other.name) &&
                 Objects.equals(startTime, other.startTime) &&
                 Objects.equals(endTime, other.endTime) &&
-                Objects.equals(day, other.day) &&
+                Objects.equals(weekday, other.weekday) &&
                 Objects.equals(number, other.number);
     }
 }

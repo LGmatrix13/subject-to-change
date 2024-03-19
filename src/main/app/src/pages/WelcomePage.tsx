@@ -75,7 +75,14 @@ export default function WelcomePage() {
         }}
         onChange={handleChange}
       />
-      <Select name="year" label="Year" onChange={handleChange}>
+      <Select
+        name="year"
+        label="Year"
+        onChange={handleChange}
+        options={{
+          required: true,
+        }}
+      >
         <Option label="Freshman" value="2027" />
         <Option label="Sophomore" value="2028" />
         <Option label="Junior" value="2025" />
