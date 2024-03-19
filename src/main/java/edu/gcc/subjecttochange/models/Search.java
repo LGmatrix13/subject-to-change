@@ -1,6 +1,7 @@
 package edu.gcc.subjecttochange.models;
 
 import edu.gcc.subjecttochange.utilties.Datastore;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
 import java.util.Objects;
@@ -13,23 +14,16 @@ public class Search {
     public String startTime;
     public String endTime;
     public String day;
-    public int number;
+    public Integer number;
 
 
-    public Search(
-        String department,
-        String name,
-        String startTime,
-        String endTime,
-        String day,
-        int number
-    ) {
-        this.department = department;
-        this.name = name;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.day = day;
-        this.number = number;
+    public Search(HttpServletRequest request) {
+        this.department = request.getParameter("department");
+        this.name = request.getParameter("name");
+        this.startTime = request.getParameter("startTime");
+        this.endTime = request.getParameter("endTime");
+        this.day = request.getParameter("day");
+        this.number = Integer.parseInt(request.getParameter("number"));
     }
 
     public List<Course> run() {
@@ -43,7 +37,7 @@ public class Search {
             filteredCourses = filteredCourses.filter(item -> item.department.equals(department));
         }
 
-        if (this.number != null){
+        if (this.number != null) {
             filteredCourses = filteredCourses.filter(item -> item.number == number);
         }
 
@@ -74,7 +68,7 @@ public class Search {
 
     @Override
     public int hashCode() {
-        return Objects.hash(department, name, time, day);
+        return Objects.hash(department, name, startTime, endTime, day, number);
     }
 
     @Override
@@ -85,8 +79,9 @@ public class Search {
         Search other = (Search) obj;
         return Objects.equals(department, other.department) &&
                 Objects.equals(name, other.name) &&
-                Objects.equals(time, other.time) &&
+                Objects.equals(startTime, other.startTime) &&
+                Objects.equals(endTime, other.endTime) &&
                 Objects.equals(day, other.day) &&
-                number == other.number;
+                Objects.equals(number, other.number);
     }
 }

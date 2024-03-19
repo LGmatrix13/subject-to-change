@@ -12,13 +12,7 @@ import java.util.Optional;
 
 public class SearchController {
     public static void getSearch(Context context) {
-        Search search = new Search(
-            context.req().getParameter("department"),
-            context.req().getParameter("name"),
-            context.req().getParameter("time"),
-            context.req().getParameter("day"),
-            context.req().getParameter("number")
-        );
+        Search search = new Search(context.req());
         context.json(search.run());
         context.status(200);
     }
@@ -29,13 +23,7 @@ public class SearchController {
 
         if (student.isPresent()) {
             String major = student.get().major;
-            Search search = new Search(
-                major,
-                null,
-                null,
-                null,
-                null
-            );
+            Search search = new Search(context.req());
             List<Course> candidateCourses = search.run().stream().filter(
                 course -> !student.get().fallSchedule.contains(course) && !student.get().springSchedule.contains(course)
             ).distinct().limit(7).toList();
