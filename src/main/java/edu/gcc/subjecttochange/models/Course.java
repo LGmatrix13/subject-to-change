@@ -72,6 +72,7 @@ public class Course {
         }
         return hours * 60 + minutes;
     }
+
     @Override
     public boolean equals(Object o) {
         Course course = (Course) o;

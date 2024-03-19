@@ -50,6 +50,7 @@ export default function SchedulePage(props: SchedulePageProps) {
             Create {props.semester} Schedule
           </Button>
         )}
+
     </>
   );
 }
