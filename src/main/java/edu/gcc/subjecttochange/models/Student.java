@@ -22,10 +22,13 @@ public class Student extends Person {
     public int year;
 
     @JsonProperty(value = "fallSchedule")
-    public Schedule fallSchedule = new Schedule();
+    public static Schedule fallSchedule;
     @JsonProperty("springSchedule")
-    public Schedule springSchedule = new Schedule();
-
+    public static Schedule springSchedule;
+    public Student() {
+        fallSchedule = new Schedule();
+        springSchedule = new Schedule();
+    }
     public static String getStudentId(Context context) {
         return context.header("studentId");
     }
