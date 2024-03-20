@@ -64,10 +64,10 @@ public class Search {
         }
         //for filtering by popularity
         if(this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("Acs")){
-            filteredCourses = filteredCourses.sorted(Comparator.comparingInt((Course c) -> c.seats - c.enrolled));
+            filteredCourses = filteredCourses.sorted(Comparator.comparingInt((Course c) -> Math.min(c.seats - c.enrolled,0)));
         }
         if(this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("Des")){
-            filteredCourses = filteredCourses.sorted(Comparator.comparingInt((Course c) -> c.enrolled - c.seats));
+            filteredCourses = filteredCourses.sorted(Comparator.comparingInt((Course c) -> Math.min(c.enrolled - c.seats,0)));
         }
 
         List<Course> result = filteredCourses.toList();
