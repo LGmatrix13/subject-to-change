@@ -64,10 +64,10 @@ public class Search {
         }
         //for filtering by popularity
         if(this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("Acs")){
-            filteredCourses = filteredCourses.sorted(Comparator.comparingInt((Course c) -> Math.min(c.seats - c.enrolled,0)));
+            filteredCourses = filteredCourses.sorted(Comparator.comparingInt((Course c) -> c.seats - c.enrolled));
         }
         if(this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("Des")){
-            filteredCourses = filteredCourses.sorted(Comparator.comparingInt((Course c) -> Math.min(c.enrolled - c.seats,0)));
+            filteredCourses = filteredCourses.sorted(Comparator.comparingInt((Course c) -> c.enrolled - c.seats));
         }
 
         List<Course> result = filteredCourses.toList();
@@ -81,7 +81,7 @@ public class Search {
 
     @Override
     public int hashCode() {
-        return Objects.hash(department, name, startTime, endTime, weekday, number);
+        return Objects.hash(department, name, startTime, endTime, weekday, number,orderBy);
     }
 
     @Override
@@ -95,6 +95,7 @@ public class Search {
                 Objects.equals(startTime, other.startTime) &&
                 Objects.equals(endTime, other.endTime) &&
                 Objects.equals(weekday, other.weekday) &&
-                Objects.equals(number, other.number);
+                Objects.equals(number, other.number) &&
+                Objects.equals(orderBy,other.orderBy);
     }
 }
