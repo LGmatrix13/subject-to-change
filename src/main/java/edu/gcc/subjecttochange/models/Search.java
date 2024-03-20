@@ -3,6 +3,7 @@ package edu.gcc.subjecttochange.models;
 import edu.gcc.subjecttochange.utilties.Datastore;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -15,6 +16,7 @@ public class Search {
     public String startTime;
     public String endTime;
     public String weekday;
+    public String orderBy;
 
 
     public Search(HttpServletRequest request) {
@@ -24,6 +26,7 @@ public class Search {
         this.endTime = request.getParameter("endTime");
         this.weekday = request.getParameter("weekday");
         String numberParameter = request.getParameter("number");
+        this.orderBy = request.getParameter("orderBy");
         if (numberParameter != null && !numberParameter.isEmpty()) {
             this.number = Integer.valueOf(numberParameter);
         }
@@ -55,9 +58,16 @@ public class Search {
         if (this.endTime != null && !this.endTime.isEmpty()) {
             filteredCourses = filteredCourses.filter(item -> item.endTime != null && item.endTime.equals(endTime));
         }
-        ;
+        
         if (this.weekday != null && !this.weekday.isEmpty()) {
             filteredCourses = filteredCourses.filter(item -> item.weekday != null && item.weekday.equals(weekday));
+        }
+
+        if(this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("Acs")){
+            filteredCourses = filteredCourses.sorted(Comparator.comparingInt((Course c) -> c.seats - c.enrolled));
+        }
+        if(this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("Des")){
+            filteredCourses = filteredCourses.sorted(Comparator.comparingInt((Course c) -> c.enrolled - c.seats));
         }
 
         List<Course> result = filteredCourses.toList();
