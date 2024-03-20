@@ -5,7 +5,7 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import ScheduleTable from "../components/ScheduleTable";
 import Loading from "../components/Loading";
 import WeeklySchedule from "../components/ScheduleCalendar";
-import Button from "@mui/material/Button"
+
 import { Link } from "react-router-dom"
 
 interface SchedulePageProps {
@@ -46,9 +46,9 @@ export default function SchedulePage(props: SchedulePageProps) {
         {schedule && schedule.length > 0 ? (
           <ScheduleTable semester={props.semester} courses={schedule} />
         ) : (
-          <Button variant="contained" onClick={handleCreateSchedule}>
+          <button variant="contained" onClick={handleCreateSchedule}>
             Create {props.semester} Schedule
-          </Button>
+          </button>
         )}
 
     </>
