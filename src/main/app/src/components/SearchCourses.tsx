@@ -18,6 +18,7 @@ export default function SearchCourses(props: SearchCoursesProps) {
     startTime: searchParams.get("startTime") || "",
     endTime: searchParams.get("endTime") || "",
     weekday: searchParams.get("weekday") || "",
+    orderBy: searchParams.get("orderBy") || "",
   });
 
   function handleChange(
@@ -118,6 +119,23 @@ export default function SearchCourses(props: SearchCoursesProps) {
                 value="TR"
                 label="TR"
                 selected={search.weekday === "TR"}
+              />
+            </Select>
+            <Select
+              label="Order By"
+              name="orderBy"
+              onChange={handleChange}
+              className="p-3 rounded-lg w-full h-[52px]"
+            >
+              <Option
+                value="Acs"
+                label="Most Popular"
+                selected={search.weekday === "Acs"}
+              />
+              <Option
+                value="Des"
+                label="Least Popular"
+                selected={search.weekday === "Des"}
               />
             </Select>
           </div>

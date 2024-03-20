@@ -70,6 +70,7 @@ public class Search {
             filteredCourses = filteredCourses.sorted(Comparator.comparingInt((Course c) -> c.enrolled - c.seats));
         }
 
+
         List<Course> result = filteredCourses.toList();
         Datastore.searchHistory.put(this, result);
         return result;
