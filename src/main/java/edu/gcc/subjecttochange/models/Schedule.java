@@ -35,8 +35,11 @@ public class Schedule extends ArrayList<Course> {
                return super.add(course);
             } else {
                 return false; // No available seats
+
             }
         }
-        return conflictFree;
+
+        System.out.println(super.add(course));
+        return true;
     }
 }

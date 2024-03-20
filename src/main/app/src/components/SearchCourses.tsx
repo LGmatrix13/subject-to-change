@@ -13,11 +13,12 @@ export default function SearchCourses(props: SearchCoursesProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState({
     department: searchParams.get("department") || "",
+    number: searchParams.get("number") || "",
     name: searchParams.get("name") || "",
     startTime: searchParams.get("startTime") || "",
     endTime: searchParams.get("endTime") || "",
-    weekday: searchParams.get("weekday") || "MWF",
-    semester: searchParams.get("semester") || "FALL",
+    weekday: searchParams.get("weekday") || "",
+    orderBy: searchParams.get("orderBy") || "",
   });
 
   function handleChange(
@@ -51,8 +52,23 @@ export default function SearchCourses(props: SearchCoursesProps) {
               onChange={handleChange}
               className="p-3 rounded-lg w-full"
               options={{
+                type: "text",
                 placeholder: "Department",
+                maxLength: "4",
                 value: search.department,
+              }}
+            />
+            <Input
+              label="Number"
+              name="number"
+              onChange={handleChange}
+              className="p-3 rounded-lg w-full"
+              options={{
+                type: "number",
+                placeholder: "Number",
+                min: "0",
+                max: "600",
+                value: search.number,
               }}
             />
             <Input
@@ -65,15 +81,14 @@ export default function SearchCourses(props: SearchCoursesProps) {
                 placeholder: "Name",
                 value: search.name,
               }}
-            />{" "}
+            />
             <Input
               label="Start Time"
               name="startTime"
               onChange={handleChange}
               className="p-3 rounded-lg w-full"
               options={{
-                type: "time",
-                step: "1",
+                type: "text",
                 placeholder: "Start Time",
                 value: search.startTime,
               }}
@@ -84,8 +99,7 @@ export default function SearchCourses(props: SearchCoursesProps) {
               onChange={handleChange}
               className="p-3 rounded-lg w-full"
               options={{
-                type: "time",
-                step: "1",
+                type: "text",
                 placeholder: "End Time",
                 value: search.endTime,
               }}
@@ -94,7 +108,7 @@ export default function SearchCourses(props: SearchCoursesProps) {
               label="Weekday"
               name="weekday"
               onChange={handleChange}
-              className="p-3 rounded-lg w-full"
+              className="p-3 rounded-lg w-full h-[52px]"
             >
               <Option
                 value="MWF"
@@ -108,20 +122,20 @@ export default function SearchCourses(props: SearchCoursesProps) {
               />
             </Select>
             <Select
-              label="Semester"
-              name="semester"
+              label="Order By"
+              name="orderBy"
               onChange={handleChange}
-              className="p-3 rounded-lg w-full"
+              className="p-3 rounded-lg w-full h-[52px]"
             >
               <Option
-                value="FALL"
-                label="Fall"
-                selected={search.weekday === "FALL"}
+                value="Acs"
+                label="Most Popular"
+                selected={search.weekday === "Acs"}
               />
               <Option
-                value="SPRING"
-                label="Spring"
-                selected={search.weekday === "SPRING"}
+                value="Des"
+                label="Least Popular"
+                selected={search.weekday === "Des"}
               />
             </Select>
           </div>
