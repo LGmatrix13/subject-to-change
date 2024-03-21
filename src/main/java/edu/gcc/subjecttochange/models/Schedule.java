@@ -17,10 +17,6 @@ public class Schedule extends ArrayList<Course> {
             // Check for conflicts with courses in student's fall and spring schedules
             for (Course fallCourse : Student.fallSchedule) {
                 if (course.conflictsWith(fallCourse)) {
-                    // Course is full, compose email to notify
-                    String professorEmail = course.professor.firstName;
-                    String studentName = "Your Name"; // Replace with the actual student's name
-                    EmailComposer.composeEmail(professorEmail, studentName);
                     return false; // No available seats
                 }
             }
@@ -34,8 +30,11 @@ public class Schedule extends ArrayList<Course> {
             if (!course.isFull()) {
                return super.add(course);
             } else {
+                // Course is full, compose email to notify
+                String professorEmail = course.professor.firstName;
+                String studentName = "Your Name"; // Replace with the actual student's name
+                EmailComposer.composeEmail(professorEmail, studentName);
                 return false; // No available seats
-
             }
         }
 
