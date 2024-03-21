@@ -32,6 +32,10 @@ public class Search {
         }
     }
 
+    public Search(String department) {
+        this.department = department;
+    }
+
     public List<Course> run() {
         if (Datastore.searchHistory.containsKey(this)) {
             return Datastore.searchHistory.get(this);
@@ -62,7 +66,7 @@ public class Search {
         if (this.weekday != null && !this.weekday.isEmpty()) {
             filteredCourses = filteredCourses.filter(item -> item.weekday != null && item.weekday.equals(weekday));
         }
-        //for filtering by popularity
+
         if(this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("Acs")){
             filteredCourses = filteredCourses.sorted(Comparator.comparingInt((Course c) -> c.seats - c.enrolled));
         }

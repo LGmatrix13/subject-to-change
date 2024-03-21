@@ -11,7 +11,7 @@ export default function SuggestedPage() {
   });
 
   const { data } = useSWR<Course[]>(
-    `http://localhost:7070/api/search/generate`,
+    `http://localhost:7070/api/suggested`,
     (url: string) => fetcher(url, user.id)
   );
 

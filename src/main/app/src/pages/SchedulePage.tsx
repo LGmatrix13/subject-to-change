@@ -5,17 +5,14 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import ScheduleTable from "../components/ScheduleTable";
 import Loading from "../components/Loading";
 import WeeklySchedule from "../components/ScheduleCalendar";
+import { Link } from "react-router-dom";
+import WideButton from "../components/WideButton";
 
-import { Link } from "react-router-dom"
-
-interface SchedulePageProps {
-  semester: "Fall" | "Spring";
-}
-
-export default function SchedulePage(props: SchedulePageProps) {
+export default function SchedulePage() {
   const [user] = useLocalStorage("user", {
     id: "",
   });
+  const [semester] = useLocalStorage<"Fall" | "Spring">("semester", "Fall");
 
   const { data, isLoading } = useSWR<Student>(
     "http://localhost:7070/api/student",
@@ -29,28 +26,25 @@ export default function SchedulePage(props: SchedulePageProps) {
     </>;
   }
 
-  const schedules = {
-    Fall: data?.fallSchedule,
-    Spring: data?.springSchedule,
-  };
+  const schedule =
+    semester === "Fall" ? data?.fallSchedule : data?.springSchedule;
 
-  const handleCreateSchedule = () => {
-      <Link to="/search" />
-    };
-
-    const schedule = props.semester === "Fall" ? data?.fallSchedule : data?.springSchedule;
-
+  if (!schedule?.length) {
+    return (
+      <section className="flex flex-col space-y-5 p-7 bg-slate-100 rounded-lg">
+        <h2 className="font-bold uppercase text-2xl">{semester} Schedule</h2>
+        <p className="italic">You currently have no scheduled courses</p>
+        <Link to="/search">
+          <WideButton>Create {semester} Schedule</WideButton>
+        </Link>
+      </section>
+    );
+  }
 
   return (
     <>
-        {schedule && schedule.length > 0 ? (
-          <ScheduleTable semester={props.semester} courses={schedule} />
-        ) : (
-          <button variant="contained" onClick={handleCreateSchedule}>
-            Create {props.semester} Schedule
-          </button>
-        )}
-
+      <ScheduleTable semester={semester} courses={schedule} />
+      <WeeklySchedule courses={schedule} />
     </>
   );
 }

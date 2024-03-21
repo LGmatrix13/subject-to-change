@@ -1,33 +1,28 @@
-import React from "react";
 import ProfessorCard from "../components/ProfessorCard";
 import useSWR from "swr";
 import { fetcher } from "../utils/fetcher";
+import { Professor } from "../utils/types";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function ProfessorsPage() {
-  const { data: professors, error } = useSWR("/professors.json", fetcher);
+  const [user] = useLocalStorage("user", {
+    id: "",
+  });
+
+  const { data, isLoading, error } = useSWR<Professor[]>(
+    "http://localhost:7070/api/professors",
+    (url: string) => fetcher(url, user.id)
+  );
 
   if (error) return <div>Error loading data</div>;
-  if (!professors) return <div>Loading...</div>;
-
-  const professorCards = professors.map((professor, index) => (
-    <ProfessorCard
-      key={index}
-      firstName={professor.firstName}
-      lastName={professor.lastName}
-      department={professor.department}
-      roomNumber={professor.roomNumber}
-      officeHours={professor.officeHours}
-      bio={professor.bio}
-    />
-  ));
+  if (isLoading) return <div>Loading...</div>;
+  if (!data) return <div>No professors</div>;
 
   return (
-    <div className="grid grid-cols-3 gap-5">
-      {professorCards.length > 0 ? (
-        professorCards
-      ) : (
-        <p>No professors available</p>
-      )}
+    <div className="bg-slate-100 rounded-lg p-7 grid grid-cols-3 gap-7">
+      {data.map((professor) => (
+        <ProfessorCard {...professor} />
+      ))}
     </div>
   );
 }
