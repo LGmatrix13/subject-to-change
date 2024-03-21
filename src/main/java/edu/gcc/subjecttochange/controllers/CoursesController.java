@@ -12,12 +12,15 @@ public class CoursesController {
     public static void postCourses(Context context) {
         String studentId = Student.getStudentId(context);
         Optional<Student> student = Datastore.getStudent(studentId);
-
+        String semester;
         if (student.isPresent()) {
             Course course = context.bodyAsClass(Course.class);
             Schedule schedule = course.semester == Course.Semester.FALL ? student.get().fallSchedule : student.get().springSchedule;
 
-            if (schedule.add(course)) {
+            if(course.semester == Course.Semester.FALL){semester = "fall";}
+            else{semester = "spring";}
+
+            if (schedule.add(course, semester)) {
                 context.result("Added course to student schedule");
                 context.status(200);
                 return;

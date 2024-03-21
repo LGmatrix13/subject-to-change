@@ -10,8 +10,8 @@ public class EmailComposer {
         // Compose the email template
         String subject = "Meeting Request";
         String body = "Dear Professor,\n\n"
-                + "I hope this email finds you well. My name is " + userName + ", and I am a student at GCC. "
-                + "I would like to request a meeting with you to discuss [topic]. Please let me know your availability. "
+                + "I hope this email finds you well. My name is " + userName + ", and "
+                + "I would like to request a meeting with you to discuss joining your class. Please let me know your availability. "
                 + "Thank you for your time.\n\n"
                 + "Sincerely,\n" + userName;
 
