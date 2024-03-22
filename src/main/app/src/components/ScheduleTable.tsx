@@ -36,10 +36,7 @@ export default function ScheduleTable(props: ScheduleTableProps) {
       <h2 className="font-bold uppercase text-2xl">
         {props.semester} Schedule
       </h2>
-      <div
-        className="bg-white p-5 rounded-lg"
-        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}
-      >
+      <div className="bg-white p-5 rounded-lg custom-shadow">
         <table className="w-full">
           <thead className="text-left font-bold border-b border-gray-800">
             <tr>

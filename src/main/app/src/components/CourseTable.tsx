@@ -1,7 +1,6 @@
 import { Course } from "../utils/types";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { mutate } from "swr";
-import { boxShadow } from "../utils/constants";
 import { AddIcon } from "./Icons";
 
 interface CourseTableProps {
@@ -33,10 +32,7 @@ export default function CourseTable(props: CourseTableProps) {
   }
 
   return (
-    <div
-      className="bg-white p-5 rounded-lg"
-      style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}
-    >
+    <div className="bg-white p-5 rounded-lg custom-shadow">
       <table className="w-full">
         <thead className="text-left font-bold border-b border-gray-800">
           <tr>

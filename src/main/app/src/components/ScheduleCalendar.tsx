@@ -137,13 +137,12 @@ function WeekView(props: { courses: Course[] }) {
     const endTimeA = parseTimeString(courseA.endTime);
     const startTimeB = parseTimeString(courseB.startTime);
     const gap = startTimeB.getTime() - endTimeA.getTime(); // in milliseconds
-    console.log(gap);
-    console.log(`${courseA.name} ${Math.floor(gap / (1000 * 60 * 60))}`);
+    console.log(`${courseA.name} ${gap / (1000 * 60 * 60)}`);
     return Math.floor(gap / (1000 * 60 * 60)); // convert milliseconds to hours
   }
 
   return (
-    <div className="grid grid-cols-5 gap-3">
+    <div className="grid grid-cols-5 gap-3 ">
       {days.map((day) => (
         <div key={day.abbrev} className="space-y-5">
           <h3 className="font-bold">{day.title}</h3>
@@ -154,9 +153,7 @@ function WeekView(props: { courses: Course[] }) {
                   {index > 0 &&
                     Array(
                       Math.round(calculateGap(array[index - 1], course))
-                    ).fill(
-                      <div className="truncate bg-transparent p-3 rounded-lg h-[20px] space-y-0" />
-                    )}
+                    ).fill(<div style={{ height: "72px" }} />)}
                   <div
                     className={`truncate text-white p-3 rounded-lg mt-5 ${generateColor(
                       course.number
@@ -198,7 +195,10 @@ export default function ScheduleCalendar(props: ScheduleCalendarProps) {
           />
         </div>
       </div>
-      <div className="animate-fade" key={view}>
+      <div
+        className="animate-fade bg-white p-5 rounded-lg custom-shadow"
+        key={view}
+      >
         {view === "Week View" ? (
           <WeekView courses={props.courses} />
         ) : (

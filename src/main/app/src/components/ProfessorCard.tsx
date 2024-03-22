@@ -2,10 +2,7 @@ import { Professor } from "../utils/types";
 
 export default function ProfessorCard(props: Professor) {
   return (
-    <div
-      className="bg-white rounded-lg p-7 space-y-5"
-      style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}
-    >
+    <div className="bg-white rounded-lg p-7 space-y-5 custom-shadow">
       <div className="space-y-3">
         <h2 className="font-bold">
           {props.firstName} {props.lastName}
