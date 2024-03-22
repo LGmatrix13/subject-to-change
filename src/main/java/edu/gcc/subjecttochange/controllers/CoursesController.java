@@ -12,7 +12,7 @@ public class CoursesController {
     public static void postCourses(Context context) {
         String studentId = Student.getStudentId(context);
         Optional<Student> student = Datastore.getStudent(studentId);
-        String semester;
+
         if (student.isPresent()) {
             Course course = context.bodyAsClass(Course.class);
             Schedule schedule = course.semester == Course.Semester.FALL ? student.get().fallSchedule : student.get().springSchedule;
