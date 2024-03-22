@@ -26,8 +26,8 @@ public class Student extends Person {
     @JsonProperty("springSchedule")
     public Schedule springSchedule;
     public Student() {
-        fallSchedule = new Schedule(this);
-        springSchedule = new Schedule(this);
+        fallSchedule = new Schedule();
+        springSchedule = new Schedule();
     }
     public static String getStudentId(Context context) {
         return context.header("studentId");
