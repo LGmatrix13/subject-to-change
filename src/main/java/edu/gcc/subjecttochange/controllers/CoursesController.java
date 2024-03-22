@@ -17,10 +17,7 @@ public class CoursesController {
             Course course = context.bodyAsClass(Course.class);
             Schedule schedule = course.semester == Course.Semester.FALL ? student.get().fallSchedule : student.get().springSchedule;
 
-            if(course.semester == Course.Semester.FALL){semester = "fall";}
-            else{semester = "spring";}
-
-            if (schedule.add(course, semester)) {
+            if (schedule.add(course)) {
                 context.result("Added course to student schedule");
                 context.status(200);
                 return;
