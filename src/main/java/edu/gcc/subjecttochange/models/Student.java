@@ -22,9 +22,9 @@ public class Student extends Person {
     public int year;
 
     @JsonProperty(value = "fallSchedule")
-    public static Schedule fallSchedule;
+    public Schedule fallSchedule;
     @JsonProperty("springSchedule")
-    public static Schedule springSchedule;
+    public Schedule springSchedule;
     public Student() {
         fallSchedule = new Schedule();
         springSchedule = new Schedule();
