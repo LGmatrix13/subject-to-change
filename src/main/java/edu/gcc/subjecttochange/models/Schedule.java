@@ -6,21 +6,22 @@ import java.util.ArrayList;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Schedule extends ArrayList<Course> {
-    
-    @Override
     public boolean add(Course course) {
-        // Check for conflicts with courses in student's fall and spring schedules
-        for (Course otherCourse : this) {
-            if (course.conflictsWith(otherCourse)) {
-                return false; // No available seats
+        // Check for conflicts with courses in the selected semester schedule
+        for (Course existingCourse : this) {
+            if (course.conflictsWith(existingCourse)) {
+                return false; // Conflict found, cannot add the course
             }
         }
 
-
         if (!course.isFull()) {
-           return super.add(course);
+            return super.add(course);
+        } else {
+            // Course is full, compose email to notify
+            String professorEmail = course.professor.firstName;
+            String studentName = "Your Name"; // Replace with the actual student's name
+            EmailComposer.composeEmail(professorEmail, studentName);
+            return false; // No available seats
         }
-
-        return false;
     }
 }
