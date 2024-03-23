@@ -57,7 +57,11 @@ export default function SearchCourses(props: SearchCoursesProps) {
               onChange={handleChange}
             >
               {departments.map((deparment) => (
-                <Option label={deparment} value={deparment} />
+                <Option
+                  label={deparment}
+                  value={deparment}
+                  selected={search.department === deparment}
+                />
               ))}
             </Select>
             <Input
