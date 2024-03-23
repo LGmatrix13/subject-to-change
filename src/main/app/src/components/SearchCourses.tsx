@@ -4,6 +4,8 @@ import Input from "./Input";
 import WideButton from "./WideButton";
 import Select from "./Select";
 import { Option } from "./Option";
+import useLocalStorage from "../hooks/useLocalStorage";
+import { departments } from "../utils/constants";
 
 interface SearchCoursesProps {
   children?: React.ReactElement;
@@ -11,6 +13,7 @@ interface SearchCoursesProps {
 
 export default function SearchCourses(props: SearchCoursesProps) {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [semester] = useLocalStorage<"Fall" | "Spring">("semester", "Fall");
   const [search, setSearch] = useState({
     department: searchParams.get("department") || "",
     number: searchParams.get("number") || "",
@@ -19,6 +22,7 @@ export default function SearchCourses(props: SearchCoursesProps) {
     endTime: searchParams.get("endTime") || "",
     weekday: searchParams.get("weekday") || "",
     orderBy: searchParams.get("orderBy") || "",
+    semester: semester,
   });
 
   function handleChange(
@@ -36,7 +40,7 @@ export default function SearchCourses(props: SearchCoursesProps) {
   }
 
   return (
-    <section className="p-7 bg-slate-100 rounded-lg space-y-10 mb-10">
+    <section className="p-7 bg-slate-100 rounded-lg space-y-7 mb-10">
       <div className="space-y-5">
         <div className="flex flex-col space-y-3">
           <h2 className="text-2xl font-bold uppercase">
@@ -46,18 +50,20 @@ export default function SearchCourses(props: SearchCoursesProps) {
         </div>
         <form className="space-y-5" onSubmit={handleSubmit}>
           <div className="grid grid-cols-3 gap-5">
-            <Input
-              label="Department"
+            <Select
               name="department"
+              label="Department"
+              className="p-3 rounded-lg w-full h-[52px]"
               onChange={handleChange}
-              className="p-3 rounded-lg w-full"
-              options={{
-                type: "text",
-                placeholder: "Department",
-                maxLength: "4",
-                value: search.department,
-              }}
-            />
+            >
+              {departments.map((deparment) => (
+                <Option
+                  label={deparment}
+                  value={deparment}
+                  selected={search.department === deparment}
+                />
+              ))}
+            </Select>
             <Input
               label="Number"
               name="number"
@@ -128,14 +134,14 @@ export default function SearchCourses(props: SearchCoursesProps) {
               className="p-3 rounded-lg w-full h-[52px]"
             >
               <Option
-                value="Acs"
+                value="asc"
                 label="Most Popular"
-                selected={search.weekday === "Acs"}
+                selected={search.weekday === "acs"}
               />
               <Option
-                value="Des"
+                value="desc"
                 label="Least Popular"
-                selected={search.weekday === "Des"}
+                selected={search.weekday === "desc"}
               />
             </Select>
           </div>

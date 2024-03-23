@@ -57,6 +57,10 @@ function DailyView(props: { courses: Course[] }) {
       abbrev: "M",
     },
     {
+      title: "Monday",
+      abbrev: "M",
+    },
+    {
       title: "Tuesday",
       abbrev: "T",
     },
@@ -71,10 +75,6 @@ function DailyView(props: { courses: Course[] }) {
     {
       title: "Friday",
       abbrev: "F",
-    },
-    {
-      title: "Monday",
-      abbrev: "M",
     },
     {
       title: "Monday",
@@ -133,13 +133,11 @@ function WeekView(props: { courses: Course[] }) {
     },
   ];
 
-  function calculateGap(courseA: Course, courseB: Course): number {
-    const endTimeA = parseTimeString(courseA.endTime);
-    const startTimeB = parseTimeString(courseB.startTime);
-    const gap = startTimeB.getTime() - endTimeA.getTime(); // in milliseconds
-    console.log(gap);
-    console.log(`${courseA.name} ${Math.floor(gap / (1000 * 60 * 60))}`);
-    return Math.floor(gap / (1000 * 60 * 60)); // convert milliseconds to hours
+  function calculateGap(endTimeA: string, startTimeB: string): number {
+    const endTime = parseTimeString(endTimeA).getTime();
+    const startTime = parseTimeString(startTimeB).getTime();
+    const gap = startTime - endTime;
+    return Math.ceil(gap / (1000 * 60 * 60));
   }
 
   return (
@@ -151,12 +149,18 @@ function WeekView(props: { courses: Course[] }) {
             {sortedCoures(props.courses, day.abbrev).map(
               (course, index, array) => (
                 <React.Fragment key={index}>
-                  {index > 0 &&
-                    Array(
-                      Math.round(calculateGap(array[index - 1], course))
-                    ).fill(
-                      <div className="truncate bg-transparent p-3 rounded-lg h-[20px] space-y-0" />
-                    )}
+                  {index > 0
+                    ? Array(
+                        Math.ceil(
+                          calculateGap(
+                            array[index - 1].endTime,
+                            course.startTime
+                          )
+                        )
+                      ).fill(<div style={{ height: "72px" }} />)
+                    : Array(
+                        Math.ceil(calculateGap("8:00 AM", course.startTime))
+                      ).fill(<div style={{ height: "72px" }} />)}
                   <div
                     className={`truncate text-white p-3 rounded-lg mt-5 ${generateColor(
                       course.number
@@ -169,6 +173,10 @@ function WeekView(props: { courses: Course[] }) {
                       {course.startTime} - {course.endTime}
                     </p>
                   </div>
+                  {index == array.length - 1 &&
+                    Array(
+                      Math.ceil(calculateGap(array[index].endTime, "4:00 PM"))
+                    ).fill(<div style={{ height: "72px" }} />)}
                 </React.Fragment>
               )
             )}

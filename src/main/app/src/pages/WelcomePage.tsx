@@ -6,6 +6,7 @@ import WideButton from "../components/WideButton";
 import { Student } from "../utils/types";
 import Select from "../components/Select";
 import { Option } from "../components/Option";
+import { departments } from "../utils/constants";
 
 export default function WelcomePage() {
   const navigate = useNavigate();
@@ -65,16 +66,18 @@ export default function WelcomePage() {
         }}
         onChange={handleChange}
       />
-      <Input
-        label="Major"
+      <Select
         name="major"
+        label="Major"
+        onChange={handleChange}
         options={{
-          type: "text",
-          placeholder: "Major",
           required: true,
         }}
-        onChange={handleChange}
-      />
+      >
+        {departments.map((deparment) => (
+          <Option label={deparment} value={deparment} />
+        ))}
+      </Select>
       <Select
         name="year"
         label="Year"

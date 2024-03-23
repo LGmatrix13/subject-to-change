@@ -16,22 +16,4 @@ public class SearchController {
         context.json(search.run());
         context.status(200);
     }
-
-    public static void getGenerateSchedule(Context context) {
-        String studentId = Student.getStudentId(context);
-        Optional<Student> student = Datastore.getStudent(studentId);
-
-        if (student.isPresent()) {
-            Search search = new Search(context.req());
-            List<Course> candidateCourses = search.run().stream().filter(
-                course -> !student.get().fallSchedule.contains(course) && !student.get().springSchedule.contains(course)
-            ).distinct().limit(7).toList();
-            context.json(candidateCourses);
-            context.status(200);
-            return;
-        }
-
-        context.result("Could not generate student schedule");
-        context.status(400);
-    }
 }

@@ -1,12 +1,15 @@
 import React from "react";
-import { useState } from "react";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 interface ScheduleLayoutProps {
   children: React.ReactElement;
 }
 
 export default function ScheduleLayout(props: ScheduleLayoutProps) {
-  const [semester, setSemester] = useState<"Fall" | "Spring">("Fall");
+  const [semester, setSemester] = useLocalStorage<"Fall" | "Spring">(
+    "semester",
+    "Fall"
+  );
 
   function toggleSemester() {
     setSemester(semester === "Fall" ? "Spring" : "Fall");
@@ -33,7 +36,7 @@ export default function ScheduleLayout(props: ScheduleLayoutProps) {
           </button>
         </div>
       </div>
-      {React.cloneElement(props.children, { semester: semester })}
+      {props.children}
     </section>
   );
 }
