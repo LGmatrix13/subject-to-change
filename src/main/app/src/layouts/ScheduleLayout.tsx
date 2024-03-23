@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
 
 interface ScheduleLayoutProps {

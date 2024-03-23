@@ -4,7 +4,7 @@ import Toggle from "./Toggle";
 import React from "react";
 
 interface ScheduleCalendarProps {
-  courses: Course[];
+  courses?: Course[];
 }
 
 function generateColor(courseNumber: number) {
@@ -57,6 +57,10 @@ function DailyView(props: { courses: Course[] }) {
       abbrev: "M",
     },
     {
+      title: "Monday",
+      abbrev: "M",
+    },
+    {
       title: "Tuesday",
       abbrev: "T",
     },
@@ -71,10 +75,6 @@ function DailyView(props: { courses: Course[] }) {
     {
       title: "Friday",
       abbrev: "F",
-    },
-    {
-      title: "Monday",
-      abbrev: "M",
     },
     {
       title: "Monday",
@@ -133,16 +133,15 @@ function WeekView(props: { courses: Course[] }) {
     },
   ];
 
-  function calculateGap(courseA: Course, courseB: Course): number {
-    const endTimeA = parseTimeString(courseA.endTime);
-    const startTimeB = parseTimeString(courseB.startTime);
-    const gap = startTimeB.getTime() - endTimeA.getTime(); // in milliseconds
-    console.log(`${courseA.name} ${gap / (1000 * 60 * 60)}`);
-    return Math.floor(gap / (1000 * 60 * 60)); // convert milliseconds to hours
+  function calculateGap(endTimeA: string, startTimeB: string): number {
+    const endTime = parseTimeString(endTimeA).getTime();
+    const startTime = parseTimeString(startTimeB).getTime();
+    const gap = startTime - endTime;
+    return Math.ceil(gap / (1000 * 60 * 60));
   }
 
   return (
-    <div className="grid grid-cols-5 gap-3 ">
+    <div className="grid grid-cols-5 gap-3">
       {days.map((day) => (
         <div key={day.abbrev} className="space-y-5">
           <h3 className="font-bold">{day.title}</h3>
@@ -150,10 +149,18 @@ function WeekView(props: { courses: Course[] }) {
             {sortedCoures(props.courses, day.abbrev).map(
               (course, index, array) => (
                 <React.Fragment key={index}>
-                  {index > 0 &&
-                    Array(
-                      Math.round(calculateGap(array[index - 1], course))
-                    ).fill(<div style={{ height: "72px" }} />)}
+                  {index > 0
+                    ? Array(
+                        Math.ceil(
+                          calculateGap(
+                            array[index - 1].endTime,
+                            course.startTime
+                          )
+                        )
+                      ).fill(<div style={{ height: "72px" }} />)
+                    : Array(
+                        Math.ceil(calculateGap("8:00 AM", course.startTime))
+                      ).fill(<div style={{ height: "72px" }} />)}
                   <div
                     className={`truncate text-white p-3 rounded-lg mt-5 ${generateColor(
                       course.number
@@ -166,6 +173,10 @@ function WeekView(props: { courses: Course[] }) {
                       {course.startTime} - {course.endTime}
                     </p>
                   </div>
+                  {index == array.length - 1 &&
+                    Array(
+                      Math.ceil(calculateGap(array[index].endTime, "4:00 PM"))
+                    ).fill(<div style={{ height: "72px" }} />)}
                 </React.Fragment>
               )
             )}
@@ -183,6 +194,14 @@ export default function ScheduleCalendar(props: ScheduleCalendarProps) {
     setView(view === "Week View" ? "Daily View" : "Week View");
   }
 
+  if (!props.courses?.length) {
+    return (
+      <section className="space-y-5 p-7 bg-slate-100 rounded-lg">
+        <h2 className="font-bold uppercase text-2xl">Weekly Schedule</h2>
+        <p className="italic">You currently have no scheduled courses</p>
+      </section>
+    );
+  }
   return (
     <section className="space-y-5 p-7 bg-slate-100 rounded-lg">
       <div className="flex items-center">
@@ -195,10 +214,7 @@ export default function ScheduleCalendar(props: ScheduleCalendarProps) {
           />
         </div>
       </div>
-      <div
-        className="animate-fade bg-white p-5 rounded-lg custom-shadow"
-        key={view}
-      >
+      <div className="animate-fade" key={view}>
         {view === "Week View" ? (
           <WeekView courses={props.courses} />
         ) : (

@@ -1,11 +1,41 @@
-interface CoursesLayoutProps {
-  children: React.ReactNode;
+import React from "react";
+import useLocalStorage from "../hooks/useLocalStorage";
+
+interface ScheduleLayoutProps {
+  children: React.ReactElement;
 }
 
-export default function SearchLayout(props: CoursesLayoutProps) {
+export default function ScheduleLayout(props: ScheduleLayoutProps) {
+  const [semester, setSemester] = useLocalStorage<"Fall" | "Spring">(
+    "semester",
+    "Fall"
+  );
+
+  function toggleSemester() {
+    setSemester(semester === "Fall" ? "Spring" : "Fall");
+  }
+
+  const activeClassName =
+    "bg-blue-600 text-white px-3 py-1 rounded-full font-normal";
   return (
-    <section className="space-y-7 mb-10 animate-fade">
-      <h1 className="uppercase text-3xl font-light">Search</h1>
+    <section className="space-y-5 mb-10 animate-fade" key={semester}>
+      <div className="flex items-center">
+        <h1 className="uppercase text-3xl font-light">Search</h1>
+        <div className="flex space-x-3 ml-auto order-2 font-bold">
+          <button
+            className={semester === "Fall" ? activeClassName : ""}
+            onClick={toggleSemester}
+          >
+            Fall
+          </button>
+          <button
+            className={semester === "Spring" ? activeClassName : ""}
+            onClick={toggleSemester}
+          >
+            Spring
+          </button>
+        </div>
+      </div>
       {props.children}
     </section>
   );

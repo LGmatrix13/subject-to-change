@@ -17,6 +17,7 @@ public class Search {
     public String endTime;
     public String weekday;
     public String orderBy;
+    public Course.Semester semester;
 
 
     public Search(HttpServletRequest request) {
@@ -27,6 +28,7 @@ public class Search {
         this.weekday = request.getParameter("weekday");
         String numberParameter = request.getParameter("number");
         this.orderBy = request.getParameter("orderBy");
+        this.semester = request.getParameter("semester").equals("Fall") ? Course.Semester.FALL : Course.Semester.SPRING;
         if (numberParameter != null && !numberParameter.isEmpty()) {
             this.number = Integer.valueOf(numberParameter);
         }
@@ -42,6 +44,10 @@ public class Search {
         }
 
         Stream<Course> filteredCourses = Datastore.courses.stream();
+
+        if (this.semester != null) {
+            filteredCourses = filteredCourses.filter(item -> item.semester == this.semester);
+        }
 
         if (this.department != null && !this.department.isEmpty()) {
             filteredCourses = filteredCourses.filter(item -> item.department.equals(department));
@@ -67,10 +73,10 @@ public class Search {
             filteredCourses = filteredCourses.filter(item -> item.weekday != null && item.weekday.equals(weekday));
         }
 
-        if(this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("Acs")){
+        if(this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("asc")){
             filteredCourses = filteredCourses.sorted(Comparator.comparingInt((Course c) -> c.seats - c.enrolled));
         }
-        if(this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("Des")){
+        if(this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("desc")){
             filteredCourses = filteredCourses.sorted(Comparator.comparingInt((Course c) -> c.enrolled - c.seats));
         }
 
@@ -86,7 +92,7 @@ public class Search {
 
     @Override
     public int hashCode() {
-        return Objects.hash(department, name, startTime, endTime, weekday, number,orderBy);
+        return Objects.hash(department, name, startTime, endTime, weekday, number, orderBy, semester);
     }
 
     @Override
@@ -101,6 +107,7 @@ public class Search {
                 Objects.equals(endTime, other.endTime) &&
                 Objects.equals(weekday, other.weekday) &&
                 Objects.equals(number, other.number) &&
-                Objects.equals(orderBy,other.orderBy);
+                Objects.equals(orderBy,other.orderBy) &&
+                this.semester == other.semester;
     }
 }

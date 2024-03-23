@@ -1,7 +1,8 @@
-import { Course } from "../utils/types";
+import { Course, Student } from "../utils/types";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { mutate } from "swr";
-import { AddIcon } from "./Icons";
+import { AddIcon, SignInIcon } from "./Icons";
+import composeEmail from "../utils/composeEmail";
 
 interface CourseTableProps {
   courses: Course[];
@@ -57,13 +58,22 @@ export default function CourseTable(props: CourseTableProps) {
                 {course.enrolled}/{course.seats}
               </td>
               <td className="py-3">
-                <button
-                  className="bg-blue-600 py-1 px-3 space-x-1 items-center flex rounded-full text-white hover:bg-blue-700 transition ease-in-out duration-300"
-                  onClick={() => addCourse(course)}
-                >
-                  <AddIcon />
-                  <p className="text-md">Add</p>
-                </button>
+                {course.enrolled >= course.seats ? (
+                  <a href={composeEmail(course)}>
+                    <button className="bg-blue-600 py-1 px-3 space-x-1 items-center flex rounded-full text-white hover:bg-blue-700 transition ease-in-out duration-300">
+                      <SignInIcon />
+                      <p>Sign-in</p>
+                    </button>
+                  </a>
+                ) : (
+                  <button
+                    className="bg-blue-600 py-1 px-3 space-x-1 items-center flex rounded-full text-white hover:bg-blue-700 transition ease-in-out duration-300"
+                    onClick={() => addCourse(course)}
+                  >
+                    <AddIcon />
+                    <p>Add</p>
+                  </button>
+                )}
               </td>
             </tr>
           ))}

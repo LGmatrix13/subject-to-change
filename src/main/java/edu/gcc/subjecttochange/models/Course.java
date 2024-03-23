@@ -54,6 +54,11 @@ public class Course {
 
     @JsonIgnore
     public boolean conflictsWith(Course otherCourse) {
+        // check if course is the same
+        if (otherCourse.equals(this)){
+            return true;
+        }
+
         // Convert start and end times to minutes for easier comparison
         int thisStartMinutes = timeToMinutes(this.startTime);
         int thisEndMinutes = timeToMinutes(this.endTime);
