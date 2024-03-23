@@ -1,4 +1,4 @@
-import { Course, Student } from "../utils/types";
+import type { Course } from "../utils/types";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { mutate } from "swr";
 import { AddIcon, SignInIcon } from "./Icons";
