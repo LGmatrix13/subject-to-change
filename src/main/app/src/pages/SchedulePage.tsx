@@ -33,7 +33,7 @@ export default function SchedulePage() {
     return (
       <section className="flex flex-col space-y-5 p-7 bg-slate-100 rounded-lg">
         <h2 className="font-bold uppercase text-2xl">{semester} Schedule</h2>
-        <p className="italic">You currently have no scheduled courses</p>
+        <p>You currently have no scheduled courses</p>
         <Link to="/search">
           <WideButton>Create {semester} Schedule</WideButton>
         </Link>
