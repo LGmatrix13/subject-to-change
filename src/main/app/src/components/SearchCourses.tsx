@@ -5,7 +5,7 @@ import WideButton from "./WideButton";
 import Select from "./Select";
 import { Option } from "./Option";
 import useLocalStorage from "../hooks/useLocalStorage";
-import { DEPARTMENTS } from "../utils/constants";
+import { DEPARTMENTS, FALL } from "../utils/constants";
 
 interface SearchCoursesProps {
   children?: React.ReactElement;
@@ -13,7 +13,7 @@ interface SearchCoursesProps {
 
 export default function SearchCourses(props: SearchCoursesProps) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [semester] = useLocalStorage<"Fall" | "Spring">("semester", "Fall");
+  const [semester] = useLocalStorage<"FALL" | "SPRING">("semester", FALL);
   const [search, setSearch] = useState({
     department: searchParams.get("department") || "",
     number: searchParams.get("number") || "",
