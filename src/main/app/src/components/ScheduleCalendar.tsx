@@ -126,22 +126,18 @@ function WeekView(props: { courses: Course[] }) {
           {sortedCoures(props.courses, day.abbrev).map(
             (course, index, array) => (
               <div key={index}>
-                <div>
-                  {index == 0
-                    ? Array(
-                        Math.ceil(
-                          calculateGap("8:00 AM", array[index].startTime)
+                {index == 0
+                  ? Array(
+                      Math.ceil(calculateGap("8:00 AM", array[index].startTime))
+                    ).fill(<div style={{ height: "1px" }} />)
+                  : Array(
+                      Math.ceil(
+                        calculateGap(
+                          array[index - 1].endTime,
+                          array[index].startTime
                         )
-                      ).fill(<div style={{ height: "1px" }} />)
-                    : Array(
-                        Math.ceil(
-                          calculateGap(
-                            array[index - 1].endTime,
-                            array[index].startTime
-                          )
-                        )
-                      ).fill(<div style={{ height: "1px" }} />)}
-                </div>
+                      )
+                    ).fill(<div style={{ height: "1px" }} />)}
                 <div
                   className={`flex items-center justify-center truncate text-white rounded-lg ${generateColor(
                     course.number
