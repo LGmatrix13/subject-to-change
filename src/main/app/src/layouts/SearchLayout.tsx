@@ -1,18 +1,19 @@
 import React from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
+import { FALL, SPRING } from "../utils/constants";
 
 interface ScheduleLayoutProps {
   children: React.ReactElement;
 }
 
 export default function ScheduleLayout(props: ScheduleLayoutProps) {
-  const [semester, setSemester] = useLocalStorage<"Fall" | "Spring">(
+  const [semester, setSemester] = useLocalStorage<"FALL" | "SPRING">(
     "semester",
-    "Fall"
+    FALL
   );
 
   function toggleSemester() {
-    setSemester(semester === "Fall" ? "Spring" : "Fall");
+    setSemester(semester === FALL ? SPRING : FALL);
   }
 
   const activeClassName =
@@ -23,13 +24,13 @@ export default function ScheduleLayout(props: ScheduleLayoutProps) {
         <h1 className="uppercase text-3xl font-light">Search</h1>
         <div className="flex space-x-3 ml-auto order-2 font-bold">
           <button
-            className={semester === "Fall" ? activeClassName : ""}
+            className={semester === FALL ? activeClassName : ""}
             onClick={toggleSemester}
           >
             Fall
           </button>
           <button
-            className={semester === "Spring" ? activeClassName : ""}
+            className={semester === SPRING ? activeClassName : ""}
             onClick={toggleSemester}
           >
             Spring

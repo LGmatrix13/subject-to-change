@@ -15,10 +15,19 @@ public class SuggestedController {
         Optional<Student> student = Datastore.getStudent(studentId);
 
         if (student.isPresent()) {
-            Search search = new Search(student.get().major);
-            List<Course> candidateCourses = search.run().stream().filter(
-                course -> !student.get().fallSchedule.contains(course) && !student.get().springSchedule.contains(course)
-            ).distinct().limit(7).toList();
+            Course.Semester semester = Course.Semester.valueOf(context.req().getParameter("semester"));
+            Search search = new Search(student.get().major, semester);
+
+            List<Course> candidateCourses = null;
+            switch (semester) {
+                case FALL -> candidateCourses = search.run().stream().filter(
+                        course -> !student.get().fallSchedule.contains(course)
+                ).distinct().limit(7).toList();
+                case SPRING -> candidateCourses = search.run().stream().filter(
+                        course -> !student.get().springSchedule.contains(course)
+                ).distinct().limit(7).toList();
+            }
+
             context.json(candidateCourses);
             context.status(200);
             return;

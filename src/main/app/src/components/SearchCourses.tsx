@@ -5,7 +5,7 @@ import WideButton from "./WideButton";
 import Select from "./Select";
 import { Option } from "./Option";
 import useLocalStorage from "../hooks/useLocalStorage";
-import { departments } from "../utils/constants";
+import { DEPARTMENTS } from "../utils/constants";
 
 interface SearchCoursesProps {
   children?: React.ReactElement;
@@ -56,7 +56,7 @@ export default function SearchCourses(props: SearchCoursesProps) {
               className="p-3 rounded-lg w-full h-[52px]"
               onChange={handleChange}
             >
-              {departments.map((deparment) => (
+              {DEPARTMENTS.map((deparment) => (
                 <Option
                   label={deparment}
                   value={deparment}

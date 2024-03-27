@@ -28,14 +28,15 @@ public class Search {
         this.weekday = request.getParameter("weekday");
         String numberParameter = request.getParameter("number");
         this.orderBy = request.getParameter("orderBy");
-        this.semester = request.getParameter("semester").equals("Fall") ? Course.Semester.FALL : Course.Semester.SPRING;
+        this.semester = Course.Semester.valueOf(request.getParameter("semester"));
         if (numberParameter != null && !numberParameter.isEmpty()) {
             this.number = Integer.valueOf(numberParameter);
         }
     }
 
-    public Search(String department) {
+    public Search(String department, Course.Semester semester) {
         this.department = department;
+        this.semester = semester;
     }
 
     public List<Course> run() {

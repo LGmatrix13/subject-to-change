@@ -47,8 +47,8 @@ export default function CourseTable(props: CourseTableProps) {
         <tbody>
           {props.courses.map((course, index: number) => (
             <tr key={index}>
-              <td className="py-3 text-wrap">{course.name}</td>
-              <td className="py-3 text-wrap">
+              <td className="py-3 truncate">{course.name}</td>
+              <td className="py-3 truncate">
                 {course.professor.firstName} {course.professor.lastName}
               </td>
               <td className="py-3 truncate">

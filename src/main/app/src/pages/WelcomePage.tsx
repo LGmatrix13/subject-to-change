@@ -6,7 +6,7 @@ import WideButton from "../components/WideButton";
 import { Student } from "../utils/types";
 import Select from "../components/Select";
 import { Option } from "../components/Option";
-import { departments } from "../utils/constants";
+import { DEPARTMENTS } from "../utils/constants";
 
 export default function WelcomePage() {
   const navigate = useNavigate();
@@ -74,7 +74,7 @@ export default function WelcomePage() {
           required: true,
         }}
       >
-        {departments.map((deparment) => (
+        {DEPARTMENTS.map((deparment) => (
           <Option label={deparment} value={deparment} />
         ))}
       </Select>
