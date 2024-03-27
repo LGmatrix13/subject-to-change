@@ -1,11 +1,41 @@
 import { useState } from "react";
 import { Course } from "../utils/types";
 import Toggle from "./Toggle";
-import React from "react";
 
 interface ScheduleCalendarProps {
   courses?: Course[];
 }
+
+const daysOfWeek = [
+  {
+    title: "Monday",
+    abbrev: "M",
+  },
+  {
+    title: "Monday",
+    abbrev: "M",
+  },
+  {
+    title: "Tuesday",
+    abbrev: "T",
+  },
+  {
+    title: "Wednesday",
+    abbrev: "W",
+  },
+  {
+    title: "Thursday",
+    abbrev: "R",
+  },
+  {
+    title: "Friday",
+    abbrev: "F",
+  },
+  {
+    title: "Monday",
+    abbrev: "M",
+  },
+];
 
 function generateColor(courseNumber: number) {
   // Convert hue to a corresponding Tailwind CSS color class
@@ -51,41 +81,11 @@ function parseTimeString(timeString: string): Date {
 }
 
 function DailyView(props: { courses: Course[] }) {
-  const daysOfWeek = [
-    {
-      title: "Monday",
-      abbrev: "M",
-    },
-    {
-      title: "Monday",
-      abbrev: "M",
-    },
-    {
-      title: "Tuesday",
-      abbrev: "T",
-    },
-    {
-      title: "Wednesday",
-      abbrev: "W",
-    },
-    {
-      title: "Thursday",
-      abbrev: "TR",
-    },
-    {
-      title: "Friday",
-      abbrev: "F",
-    },
-    {
-      title: "Monday",
-      abbrev: "M",
-    },
-  ];
   const today = new Date();
   const dayOfWeekIndex = today.getDay();
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 p-7 bg-white custom-shadow rounded-lg">
       <h3 className="font-bold">{daysOfWeek[dayOfWeekIndex].title}</h3>
       <div className="space-y-3">
         {sortedCoures(props.courses, daysOfWeek[dayOfWeekIndex].abbrev).map(
@@ -110,77 +110,61 @@ function DailyView(props: { courses: Course[] }) {
 }
 
 function WeekView(props: { courses: Course[] }) {
-  const days = [
-    {
-      title: "Monday",
-      abbrev: "M",
-    },
-    {
-      title: "Tuesday",
-      abbrev: "T",
-    },
-    {
-      title: "Wednesday",
-      abbrev: "W",
-    },
-    {
-      title: "Thursday",
-      abbrev: "TR",
-    },
-    {
-      title: "Friday",
-      abbrev: "F",
-    },
-  ];
-
+  const days = daysOfWeek.slice(1, daysOfWeek.length - 1);
   function calculateGap(endTimeA: string, startTimeB: string): number {
     const endTime = parseTimeString(endTimeA).getTime();
     const startTime = parseTimeString(startTimeB).getTime();
     const gap = startTime - endTime;
-    return Math.ceil(gap / (1000 * 60 * 60));
+    return gap / (1000 * 60);
   }
 
   return (
-    <div className="grid grid-cols-5 gap-3">
+    <div className="grid grid-cols-5 gap-3 bg-white p-7 custom-shadow rounded-lg">
       {days.map((day) => (
         <div key={day.abbrev} className="space-y-5">
           <h3 className="font-bold">{day.title}</h3>
-          <div className="mb-5">
-            {sortedCoures(props.courses, day.abbrev).map(
-              (course, index, array) => (
-                <React.Fragment key={index}>
-                  {index > 0
+          {sortedCoures(props.courses, day.abbrev).map(
+            (course, index, array) => (
+              <div key={index}>
+                <div>
+                  {index == 0
                     ? Array(
+                        Math.ceil(
+                          calculateGap("8:00 AM", array[index].startTime)
+                        )
+                      ).fill(<div style={{ height: "1px" }} />)
+                    : Array(
                         Math.ceil(
                           calculateGap(
                             array[index - 1].endTime,
-                            course.startTime
+                            array[index].startTime
                           )
                         )
-                      ).fill(<div style={{ height: "72px" }} />)
-                    : Array(
-                        Math.ceil(calculateGap("8:00 AM", course.startTime))
-                      ).fill(<div style={{ height: "72px" }} />)}
-                  <div
-                    className={`truncate text-white p-3 rounded-lg mt-5 ${generateColor(
-                      course.number
-                    )}`}
-                  >
-                    <p>
-                      {course.department} {course.number}
-                    </p>
-                    <p className="text-sm">
-                      {course.startTime} - {course.endTime}
-                    </p>
-                  </div>
+                      ).fill(<div style={{ height: "1px" }} />)}
+                </div>
+                <div
+                  className={`flex items-center justify-center truncate text-white rounded-lg ${generateColor(
+                    course.number
+                  )}`}
+                  style={{
+                    height: Math.ceil(
+                      calculateGap(array[index].startTime, array[index].endTime)
+                    ),
+                  }}
+                >
+                  <p>
+                    {course.department} {course.number}
+                  </p>
+                </div>
+                <div>
                   {index == array.length - 1 &&
                     Array(
-                      Math.ceil(calculateGap(array[index].endTime, "4:00 PM"))
-                    ).fill(<div style={{ height: "72px" }} />)}
-                </React.Fragment>
-              )
-            )}
-          </div>
+                      Math.ceil(calculateGap(array[index].endTime, "5:00 PM"))
+                    ).fill(<div style={{ height: "1px" }} />)}
+                </div>
+              </div>
+            )
+          )}
         </div>
       ))}
     </div>
