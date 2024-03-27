@@ -4,7 +4,7 @@ import { Course } from "../utils/types";
 import { RemoveIcon } from "./Icons";
 
 interface ScheduleTableProps {
-  semester: "Fall" | "Spring";
+  semester: "FALL" | "SPRING";
   courses: Course[];
 }
 

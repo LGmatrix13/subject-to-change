@@ -1,4 +1,4 @@
-export const departments = [
+export const DEPARTMENTS = [
   "ACCT",
   "ART",
   "ASTR",
@@ -46,3 +46,6 @@ export const departments = [
   "THEA",
   "WRIT",
 ];
+
+export const SPRING = "SPRING";
+export const FALL = "FALL";

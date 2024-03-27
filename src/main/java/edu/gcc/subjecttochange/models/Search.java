@@ -3,6 +3,7 @@ package edu.gcc.subjecttochange.models;
 import edu.gcc.subjecttochange.utilties.Datastore;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -28,14 +29,15 @@ public class Search {
         this.weekday = request.getParameter("weekday");
         String numberParameter = request.getParameter("number");
         this.orderBy = request.getParameter("orderBy");
-        this.semester = request.getParameter("semester").equals("Fall") ? Course.Semester.FALL : Course.Semester.SPRING;
+        this.semester = Course.Semester.valueOf(request.getParameter("semester"));
         if (numberParameter != null && !numberParameter.isEmpty()) {
             this.number = Integer.valueOf(numberParameter);
         }
     }
 
-    public Search(String department) {
+    public Search(String department, Course.Semester semester) {
         this.department = department;
+        this.semester = semester;
     }
 
     public List<Course> run() {
@@ -70,7 +72,16 @@ public class Search {
         }
 
         if (this.weekday != null && !this.weekday.isEmpty()) {
-            filteredCourses = filteredCourses.filter(item -> item.weekday != null && item.weekday.equals(weekday));
+            filteredCourses = filteredCourses.filter(item -> {
+                if (item.weekday == null) return false;
+
+                for (int i = 0; i < item.weekday.length(); i++) {
+                    if (this.weekday.indexOf(item.weekday.charAt(i)) != -1) {
+                        return true;
+                    }
+                }
+                return false;
+            });
         }
 
         if(this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("asc")){

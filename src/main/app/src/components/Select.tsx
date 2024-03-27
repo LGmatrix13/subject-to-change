@@ -18,10 +18,13 @@ export default function Select(props: SelectProps) {
       <select
         name={props.name}
         className={
-          props.className ||
-          "p-3 bg-slate-200 rounded-lg w-full box-border h-[52px]"
+          (props.className || "p-3 bg-slate-200 rounded-lg w-full box-border") +
+          "appearance-none"
         }
         {...props.options}
+        style={{
+          height: "52px",
+        }}
         onChange={props.onChange}
       >
         <option value="" disabled selected />

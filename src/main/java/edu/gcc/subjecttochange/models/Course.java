@@ -66,7 +66,7 @@ public class Course {
         int otherEndMinutes = timeToMinutes(otherCourse.endTime);
 
         // Check for overlap
-        return !(thisEndMinutes <= otherStartMinutes || thisStartMinutes >= otherEndMinutes);
+        return otherCourse.weekday.equals(this.weekday) && !(thisEndMinutes <= otherStartMinutes || thisStartMinutes >= otherEndMinutes);
     }
 
     @JsonIgnore

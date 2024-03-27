@@ -5,7 +5,7 @@ import WideButton from "./WideButton";
 import Select from "./Select";
 import { Option } from "./Option";
 import useLocalStorage from "../hooks/useLocalStorage";
-import { departments } from "../utils/constants";
+import { DEPARTMENTS } from "../utils/constants";
 
 interface SearchCoursesProps {
   children?: React.ReactElement;
@@ -61,7 +61,7 @@ export default function SearchCourses(props: SearchCoursesProps) {
                 value=""
                 selected={search.department === ""}
               />
-              {departments.map((deparment) => (
+              {DEPARTMENTS.map((deparment) => (
                 <Option
                   label={deparment}
                   value={deparment}
@@ -142,14 +142,14 @@ export default function SearchCourses(props: SearchCoursesProps) {
               <Option
                 value="asc"
                 label="Most Popular"
-                selected={search.weekday === "acs"}
+                selected={search.orderBy === "acs"}
               />
               <Option
                 value="desc"
                 label="Least Popular"
-                selected={search.weekday === "desc"}
+                selected={search.orderBy === "desc"}
               />
-              <Option value="" label="None" selected={search.weekday === ""} />
+              <Option value="" label="None" selected={search.orderBy === ""} />
             </Select>
           </div>
           <WideButton

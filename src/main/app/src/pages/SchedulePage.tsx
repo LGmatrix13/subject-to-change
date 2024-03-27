@@ -7,12 +7,13 @@ import Loading from "../components/Loading";
 import WeeklySchedule from "../components/ScheduleCalendar";
 import { Link } from "react-router-dom";
 import WideButton from "../components/WideButton";
+import { FALL } from "../utils/constants";
 
 export default function SchedulePage() {
   const [user] = useLocalStorage("user", {
     id: "",
   });
-  const [semester] = useLocalStorage<"Fall" | "Spring">("semester", "Fall");
+  const [semester] = useLocalStorage<"FALL" | "SPRING">("semester", FALL);
 
   const { data, isLoading } = useSWR<Student>(
     "http://localhost:7070/api/student",
@@ -27,7 +28,7 @@ export default function SchedulePage() {
   }
 
   const schedule =
-    semester === "Fall" ? data?.fallSchedule : data?.springSchedule;
+    semester === FALL ? data?.fallSchedule : data?.springSchedule;
 
   if (!schedule?.length) {
     return (
