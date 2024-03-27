@@ -149,7 +149,7 @@ export default function SearchCourses(props: SearchCoursesProps) {
                 label="Least Popular"
                 selected={search.orderBy === "desc"}
               />
-              <Option value="" label="None" selected={search.weekday === ""} />
+              <Option value="" label="None" selected={search.orderBy === ""} />
             </Select>
           </div>
           <WideButton
