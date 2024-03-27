@@ -21,7 +21,7 @@ export default function BaseLayout(props: BaseLayoutProps) {
   const activeClassName =
     "bg-blue-600 text-white px-3 py-1 rounded-full font-normal";
   return (
-    <section className="space-y-5 mb-10" key={semester}>
+    <section className="space-y-5 mb-10">
       <div className="flex items-center">
         <h1 className="uppercase text-3xl font-light">{props.title}</h1>
         <div className="flex space-x-3 ml-auto order-2 font-bold">
@@ -41,6 +41,7 @@ export default function BaseLayout(props: BaseLayoutProps) {
       </div>
       <div
         className="bg-slate-200 rounded-lg animate-fade shadow-inner"
+        key={semester}
         style={{
           backgroundImage: `url(${containerBackground})`,
           backgroundSize: "cover",

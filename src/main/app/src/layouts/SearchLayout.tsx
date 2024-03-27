@@ -3,6 +3,7 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import { FALL, SPRING } from "../utils/constants";
 import containerBackground from "/containerBackground.png";
 import BaseLayout from "./BaseLayout";
+import { useSearchParams } from "react-router-dom";
 
 interface SearchLayoutProps {
   children: React.ReactElement;

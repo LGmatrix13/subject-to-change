@@ -1,25 +1,12 @@
 import CourseTable from "../components/CourseTable";
 import SearchCourses from "../components/SearchCourses";
-import useSWR from "swr";
-import { fetcher } from "../utils/fetcher";
-import { useSearchParams } from "react-router-dom";
-import useLocalStorage from "../hooks/useLocalStorage";
-import { Course } from "../utils/types";
+import useSearch from "../hooks/useSearch";
 
 export default function SearchPage() {
-  const [searchParams] = useSearchParams();
-  const [user] = useLocalStorage("user", {
-    id: "",
-  });
+  const { search, error } = useSearch();
 
-  const { data } = useSWR<Course[]>(
-    searchParams.toString().length
-      ? `http://localhost:7070/api/search?${searchParams.toString()}`
-      : null,
-    (url: string) => fetcher(url, user.id)
-  );
-
-  if (!data) {
+  if (error) return <div>Error loading data</div>;
+  if (!search) {
     return <SearchCourses />;
   }
 
@@ -27,7 +14,7 @@ export default function SearchPage() {
     <SearchCourses>
       <div className="space-y-3">
         <h3 className="text-xl font-bold">Results</h3>
-        <CourseTable courses={data} />
+        <CourseTable courses={search} />
       </div>
     </SearchCourses>
   );
