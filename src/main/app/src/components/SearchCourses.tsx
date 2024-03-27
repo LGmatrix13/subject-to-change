@@ -56,6 +56,11 @@ export default function SearchCourses(props: SearchCoursesProps) {
               className="p-3 rounded-lg w-full h-[52px]"
               onChange={handleChange}
             >
+              <Option
+                label="None"
+                value=""
+                selected={search.department === ""}
+              />
               {departments.map((deparment) => (
                 <Option
                   label={deparment}
@@ -63,11 +68,6 @@ export default function SearchCourses(props: SearchCoursesProps) {
                   selected={search.department === deparment}
                 />
               ))}
-              <Option
-                  label = "None"
-                  value = ""
-                  selected = {search.deparment === ""}
-               />
             </Select>
             <Input
               label="Number"
@@ -131,11 +131,7 @@ export default function SearchCourses(props: SearchCoursesProps) {
                 label="TR"
                 selected={search.weekday === "TR"}
               />
-              <Option
-                value=""
-                label="None"
-                selected={search.weekday === ""}
-              />
+              <Option value="" label="None" selected={search.weekday === ""} />
             </Select>
             <Select
               label="Order By"
@@ -153,11 +149,7 @@ export default function SearchCourses(props: SearchCoursesProps) {
                 label="Least Popular"
                 selected={search.weekday === "desc"}
               />
-              <Option
-                value=""
-                label="None"
-                selected={search.weekday === ""}
-              />
+              <Option value="" label="None" selected={search.weekday === ""} />
             </Select>
           </div>
           <WideButton
