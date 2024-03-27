@@ -32,7 +32,7 @@ export default function SchedulePage() {
 
   if (!schedule?.length) {
     return (
-      <section className="flex flex-col space-y-5 p-7 bg-slate-100 rounded-lg">
+      <section className="flex flex-col space-y-5 p-7 bg-slate-100 rounded-lg custom-shadow">
         <h2 className="font-bold uppercase text-2xl">{semester} Schedule</h2>
         <p>You currently have no scheduled courses</p>
         <Link to="/search">

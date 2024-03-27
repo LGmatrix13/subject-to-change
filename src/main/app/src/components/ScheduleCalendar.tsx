@@ -85,7 +85,7 @@ function DailyView(props: { courses: Course[] }) {
   const dayOfWeekIndex = today.getDay();
 
   return (
-    <div className="space-y-5 p-7 bg-white custom-shadow rounded-lg">
+    <div className="space-y-5">
       <h3 className="font-bold">{daysOfWeek[dayOfWeekIndex].title}</h3>
       <div className="space-y-3">
         {sortedCoures(props.courses, daysOfWeek[dayOfWeekIndex].abbrev).map(
@@ -119,7 +119,7 @@ function WeekView(props: { courses: Course[] }) {
   }
 
   return (
-    <div className="grid grid-cols-5 gap-3 bg-white p-7 custom-shadow rounded-lg">
+    <div className="grid grid-cols-5 gap-3">
       {days.map((day) => (
         <div key={day.abbrev}>
           <h3 className="font-bold">{day.title}</h3>
@@ -194,7 +194,7 @@ export default function ScheduleCalendar(props: ScheduleCalendarProps) {
     );
   }
   return (
-    <section className="space-y-5 p-7 bg-slate-100 rounded-lg">
+    <section className="space-y-5 p-7 bg-slate-100 custom-shadow rounded-lg">
       <div className="flex items-center">
         <h2 className="font-bold uppercase text-2xl">Weekly Schedule</h2>
         <div className="ml-auto order-2 flex space-x-5">

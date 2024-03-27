@@ -33,52 +33,45 @@ export default function CourseTable(props: CourseTableProps) {
   }
 
   return (
-    <div className="bg-white p-5 rounded-lg custom-shadow">
-      <table className="w-full">
-        <thead className="text-left font-bold border-b border-gray-800">
-          <tr>
-            <th className="w-[35%] pb-3">Course Name</th>
-            <th className="w-[20%] pb-3">Professor</th>
-            <th className="w-[25%] pb-3">Meeting Time</th>
-            <th className="w-[10%] pb-3">Seats</th>
-            <th className="w-[10%] pb-3">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {props.courses.map((course, index: number) => (
-            <tr key={index}>
-              <td className="py-3 truncate">{course.name}</td>
-              <td className="py-3 truncate">
-                {course.professor.firstName} {course.professor.lastName}
-              </td>
-              <td className="py-3 truncate">
-                {course.weekday} {course.startTime} - {course.endTime}
-              </td>
-              <td className="py-3 ">
-                {course.enrolled}/{course.seats}
-              </td>
-              <td className="py-3">
-                {course.enrolled >= course.seats ? (
-                  <a href={composeEmail(course)}>
-                    <button className="bg-blue-600 py-1 px-3 space-x-1 items-center flex rounded-full text-white hover:bg-blue-700 transition ease-in-out duration-300">
-                      <SignInIcon />
-                      <p>Sign-in</p>
-                    </button>
-                  </a>
-                ) : (
-                  <button
-                    className="bg-blue-600 py-1 px-3 space-x-1 items-center flex rounded-full text-white hover:bg-blue-700 transition ease-in-out duration-300"
-                    onClick={() => addCourse(course)}
-                  >
-                    <AddIcon />
-                    <p>Add</p>
+    <table className="w-full">
+      <thead className="text-left font-bold border-b border-gray-800">
+        <tr>
+          <th className="w-[40%] pb-3">Course Name</th>
+          <th className="w-[20%] pb-3">Professor</th>
+          <th className="w-[25%] pb-3">Meeting Time</th>
+          <th className="w-[10%] pb-3">Seats</th>
+          <th className="w-[5%] pb-3" />
+        </tr>
+      </thead>
+      <tbody>
+        {props.courses.map((course, index: number) => (
+          <tr key={index}>
+            <td className="py-3 truncate">{course.name}</td>
+            <td className="py-3 truncate">
+              {course.professor.firstName} {course.professor.lastName}
+            </td>
+            <td className="py-3 truncate">
+              {course.weekday} {course.startTime} - {course.endTime}
+            </td>
+            <td className="py-3 ">
+              {course.enrolled}/{course.seats}
+            </td>
+            <td className="py-3">
+              {course.enrolled >= course.seats ? (
+                <a href={composeEmail(course)}>
+                  <button>
+                    <SignInIcon />
                   </button>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+                </a>
+              ) : (
+                <button onClick={() => addCourse(course)}>
+                  <AddIcon />
+                </button>
+              )}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }

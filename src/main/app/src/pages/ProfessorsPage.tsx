@@ -19,10 +19,10 @@ export default function ProfessorsPage() {
   if (!data) return <div>No professors</div>;
 
   return (
-    <div className="bg-slate-100 rounded-lg p-7 grid grid-cols-3 gap-7">
+    <>
       {data.map((professor) => (
         <ProfessorCard {...professor} />
       ))}
-    </div>
+    </>
   );
 }
