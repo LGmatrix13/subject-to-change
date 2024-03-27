@@ -142,12 +142,12 @@ export default function SearchCourses(props: SearchCoursesProps) {
               <Option
                 value="asc"
                 label="Most Popular"
-                selected={search.weekday === "acs"}
+                selected={search.orderBy === "acs"}
               />
               <Option
                 value="desc"
                 label="Least Popular"
-                selected={search.weekday === "desc"}
+                selected={search.orderBy === "desc"}
               />
               <Option value="" label="None" selected={search.weekday === ""} />
             </Select>
