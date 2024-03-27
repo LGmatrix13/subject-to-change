@@ -63,6 +63,11 @@ export default function SearchCourses(props: SearchCoursesProps) {
                   selected={search.department === deparment}
                 />
               ))}
+              <Option
+                  label = "None"
+                  value = ""
+                  selected = {search.deparment === ""}
+               />
             </Select>
             <Input
               label="Number"
@@ -126,6 +131,11 @@ export default function SearchCourses(props: SearchCoursesProps) {
                 label="TR"
                 selected={search.weekday === "TR"}
               />
+              <Option
+                value=""
+                label="None"
+                selected={search.weekday === ""}
+              />
             </Select>
             <Select
               label="Order By"
@@ -142,6 +152,11 @@ export default function SearchCourses(props: SearchCoursesProps) {
                 value="desc"
                 label="Least Popular"
                 selected={search.weekday === "desc"}
+              />
+              <Option
+                value=""
+                label="None"
+                selected={search.weekday === ""}
               />
             </Select>
           </div>
