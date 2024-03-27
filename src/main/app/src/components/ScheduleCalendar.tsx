@@ -121,7 +121,7 @@ function WeekView(props: { courses: Course[] }) {
   return (
     <div className="grid grid-cols-5 gap-3 bg-white p-7 custom-shadow rounded-lg">
       {days.map((day) => (
-        <div key={day.abbrev} className="space-y-5">
+        <div key={day.abbrev}>
           <h3 className="font-bold">{day.title}</h3>
           {sortedCoures(props.courses, day.abbrev).map(
             (course, index, array) => (
