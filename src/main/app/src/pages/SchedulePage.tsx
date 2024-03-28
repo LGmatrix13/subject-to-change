@@ -5,12 +5,14 @@ import WideButton from "../components/WideButton";
 import { FALL } from "../utils/constants";
 import useStudent from "../hooks/useStudent";
 import Alert from "../components/Alert";
+import Loading from "../components/Loading";
 
 export default function SchedulePage() {
   const { student, semester, isLoading, error } = useStudent();
 
   if (error) return <div>Error loading data</div>;
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading title="Loading Schedule" />;
+
   const schedule =
     semester === FALL ? student?.fallSchedule : student?.springSchedule;
 

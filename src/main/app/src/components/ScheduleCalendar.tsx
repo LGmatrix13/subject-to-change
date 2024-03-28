@@ -195,7 +195,7 @@ export default function ScheduleCalendar(props: ScheduleCalendarProps) {
           />
         </div>
       </div>
-      <div className="animate-fade" key={view}>
+      <div key={view}>
         {view === "Week View" ? (
           <WeekView courses={props.courses} />
         ) : (

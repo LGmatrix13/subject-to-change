@@ -3,11 +3,13 @@ import Alert from "../components/Alert";
 import ProfessorCard from "../components/ProfessorCard";
 import WideButton from "../components/WideButton";
 import useProfessors from "../hooks/useProfessors";
+import Loading from "../components/Loading";
 
 export default function ProfessorsPage() {
   const { professors, isLoading, error } = useProfessors();
-  if (error) return <div className="italic">Error loading data</div>;
-  if (isLoading) return <div className="italic">Loading...</div>;
+  if (error) return <div>Error loading data</div>;
+  if (isLoading) return <Loading title="Loading Professors" />;
+
   if (!professors?.length) {
     return (
       <Alert
