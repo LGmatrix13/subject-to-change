@@ -6,7 +6,7 @@ export default function SearchPage() {
   const { search, error } = useSearch();
 
   if (error) return <div>Error loading data</div>;
-  if (!search) {
+  if (!search?.length) {
     return <SearchCourses />;
   }
 
