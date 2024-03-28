@@ -11,7 +11,13 @@ export default function SchedulePage() {
   const { student, semester, isLoading, error } = useStudent();
 
   if (error) return <div>Error loading data</div>;
-  if (isLoading) return <Loading title="Loading Schedule" />;
+  if (isLoading)
+    return (
+      <>
+        <Loading height={200} />
+        <Loading height={500} />
+      </>
+    );
 
   const schedule =
     semester === FALL ? student?.fallSchedule : student?.springSchedule;

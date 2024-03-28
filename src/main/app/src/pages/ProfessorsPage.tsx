@@ -8,8 +8,7 @@ import Loading from "../components/Loading";
 export default function ProfessorsPage() {
   const { professors, isLoading, error } = useProfessors();
   if (error) return <div>Error loading data</div>;
-  if (isLoading) return <Loading title="Loading Professors" />;
-
+  if (isLoading) return <Loading height={500} />;
   if (!professors?.length) {
     return (
       <Alert

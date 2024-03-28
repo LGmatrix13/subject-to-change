@@ -10,8 +10,6 @@ import java.util.stream.Collectors;
 
 public class ProfessorsController {
     public static void getProfessors(Context context) throws InterruptedException {
-        Thread.sleep(1500);
-
         String studentId = Student.getStudentId(context);
         Optional<Student> student = Datastore.getStudent(studentId);
 
