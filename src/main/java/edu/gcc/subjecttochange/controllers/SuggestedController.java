@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class SuggestedController {
-    public static void getSuggested(Context context) {
+    public static void getSuggested(Context context) throws InterruptedException {
+        Thread.sleep(1500);
+
         String studentId = Student.getStudentId(context);
         Optional<Student> student = Datastore.getStudent(studentId);
 
