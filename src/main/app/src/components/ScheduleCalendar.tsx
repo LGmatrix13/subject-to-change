@@ -3,7 +3,7 @@ import { Course } from "../utils/types";
 import Toggle from "./Toggle";
 
 interface ScheduleCalendarProps {
-  courses?: Course[];
+  courses: Course[];
 }
 
 const daysOfWeek = [
@@ -85,26 +85,24 @@ function DailyView(props: { courses: Course[] }) {
   const dayOfWeekIndex = today.getDay();
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-3">
       <h3 className="font-bold">{daysOfWeek[dayOfWeekIndex].title}</h3>
-      <div className="space-y-3">
-        {sortedCoures(props.courses, daysOfWeek[dayOfWeekIndex].abbrev).map(
-          (course) => (
-            <div
-              className={`truncate ${generateColor(
-                course.number
-              )} text-white p-3 rounded-lg`}
-            >
-              <p>
-                {course.department} {course.number}
-              </p>
-              <p className="text-sm">
-                {course.startTime} - {course.endTime}
-              </p>
-            </div>
-          )
-        )}
-      </div>
+      {sortedCoures(props.courses, daysOfWeek[dayOfWeekIndex].abbrev).map(
+        (course) => (
+          <div
+            className={`truncate ${generateColor(
+              course.number
+            )} text-white p-3 rounded-lg`}
+          >
+            <p>
+              {course.department} {course.number}
+            </p>
+            <p className="text-sm">
+              {course.startTime} - {course.endTime}
+            </p>
+          </div>
+        )
+      )}
     </div>
   );
 }
@@ -122,7 +120,7 @@ function WeekView(props: { courses: Course[] }) {
     <div className="grid grid-cols-5 gap-3">
       {days.map((day) => (
         <div key={day.abbrev}>
-          <h3 className="font-bold">{day.title}</h3>
+          <h3 className="font-bold mb-3">{day.title}</h3>
           {sortedCoures(props.courses, day.abbrev).map(
             (course, index, array) => (
               <div key={index}>
@@ -185,14 +183,6 @@ export default function ScheduleCalendar(props: ScheduleCalendarProps) {
     setView(view === "Week View" ? "Daily View" : "Week View");
   }
 
-  if (!props.courses?.length) {
-    return (
-      <section className="space-y-5 p-7 bg-slate-100 rounded-lg">
-        <h2 className="font-bold uppercase text-2xl">Weekly Schedule</h2>
-        <p className="italic">You currently have no scheduled courses</p>
-      </section>
-    );
-  }
   return (
     <section className="space-y-5 p-7 bg-slate-100 custom-shadow rounded-lg">
       <div className="flex items-center">

@@ -1,7 +1,4 @@
 import React from "react";
-import useLocalStorage from "../hooks/useLocalStorage";
-import { FALL, SPRING } from "../utils/constants";
-import containerBackground from "/containerBackground.png";
 import BaseLayout from "./BaseLayout";
 
 interface ScheduleLayoutProps {

@@ -40,7 +40,7 @@ export default function BaseLayout(props: BaseLayoutProps) {
         </div>
       </div>
       <div
-        className="bg-slate-200 rounded-lg animate-fade shadow-inner"
+        className="bg-slate-200 rounded-lg animate-fade shadow-inner p-7 space-y-5"
         key={semester}
         style={{
           backgroundImage: `url(${containerBackground})`,
@@ -49,7 +49,7 @@ export default function BaseLayout(props: BaseLayoutProps) {
           backgroundPosition: "center",
         }}
       >
-        <div className="p-7 space-y-5">{props.children}</div>
+        {props.children}
       </div>
     </section>
   );

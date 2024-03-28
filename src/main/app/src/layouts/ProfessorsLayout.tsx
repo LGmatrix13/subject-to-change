@@ -9,7 +9,7 @@ export default function ProfessorsLayout(props: ProfessorsLayoutProps) {
     <section className="space-y-5 mb-10">
       <h1 className="uppercase text-3xl font-light">Professors</h1>
       <div
-        className="bg-slate-200 rounded-lg animate-fade shadow-inner"
+        className="bg-slate-200 rounded-lg animate-fade shadow-inner p-7"
         style={{
           backgroundImage: `url(${containerBackground})`,
           backgroundSize: "cover",
@@ -17,7 +17,7 @@ export default function ProfessorsLayout(props: ProfessorsLayoutProps) {
           backgroundPosition: "center",
         }}
       >
-        <div className="p-7 grid grid-cols-3 gap-7">{props.children}</div>
+        {props.children}
       </div>
     </section>
   );
