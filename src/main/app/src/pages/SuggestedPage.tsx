@@ -1,5 +1,4 @@
 import CourseTable from "../components/CourseTable";
-import { TimeIcon } from "../components/Icons";
 import Loading from "../components/Loading";
 import SuggestedCoures from "../components/SuggestedCoures";
 import useSuggested from "../hooks/useSuggested";

@@ -2,7 +2,6 @@ import useSWR from "swr";
 import { fetcher } from "../utils/fetcher";
 import useLocalStorage from "./useLocalStorage";
 import type { Professor } from "../utils/types";
-import { useEffect } from "react";
 
 export default function useProfessors() {
   const [user] = useLocalStorage("user", {
