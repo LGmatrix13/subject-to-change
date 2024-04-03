@@ -12,9 +12,10 @@ export default function useProfessors() {
     "http://localhost:7070/api/professors",
     (url: string) => fetcher(url, user.id)
   );
+
   return {
     professors: data,
-    isLoading,
+    isLoading: isLoading,
     error,
   };
 }
