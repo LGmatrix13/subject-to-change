@@ -9,8 +9,13 @@ import io.javalin.http.Context;
 import java.util.List;
 import java.util.Optional;
 
-
+/**
+ * HTTP logic for search results
+ */
 public class SearchController {
+    /**
+     * HTTP logic for geting search results 
+     */
     public static void getSearch(Context context) {
         Search search = new Search(context.req());
         context.json(search.run());
