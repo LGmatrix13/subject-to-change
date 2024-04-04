@@ -7,7 +7,7 @@ import io.javalin.http.Context;
 import java.util.Optional;
 
 public class StudentController {
-    public static void getStudent(Context context) {
+    public static void getStudent(Context context) throws InterruptedException {
         String studentId = Student.getStudentId(context);
         Optional<Student> student = Datastore.students.stream().filter(item -> item.id.equals(studentId)).findFirst();
 

@@ -1,31 +1,21 @@
 import CourseTable from "../components/CourseTable";
-import useSWR from "swr";
-import { fetcher } from "../utils/fetcher";
-import useLocalStorage from "../hooks/useLocalStorage";
-import { Course } from "../utils/types";
+import Loading from "../components/Loading";
 import SuggestedCoures from "../components/SuggestedCoures";
-import { FALL } from "../utils/constants";
+import { useDelay } from "../hooks/useDelay";
+import useSuggested from "../hooks/useSuggested";
 
 export default function SuggestedPage() {
-  const [user] = useLocalStorage("user", {
-    id: "",
-  });
-  const [semester] = useLocalStorage<"FALL" | "SPRING">("semester", FALL);
-
-  const { data } = useSWR<Course[]>(
-    `http://localhost:7070/api/suggested?semester=${semester}`,
-    (url: string) => fetcher(url, user.id)
-  );
-
-  if (!data) {
-    return <SuggestedCoures />;
-  }
+  const delay = useDelay();
+  const { suggested, isLoading, error } = useSuggested();
+  if (error) return <div>Error loading data</div>;
+  if (isLoading || delay) return <Loading height={500} />;
+  if (!suggested) return <div>No suggested courses</div>;
 
   return (
     <SuggestedCoures>
       <div className="space-y-3">
         <h3 className="text-xl font-bold">Results</h3>
-        <CourseTable courses={data} />
+        <CourseTable courses={suggested} />
       </div>
     </SuggestedCoures>
   );
