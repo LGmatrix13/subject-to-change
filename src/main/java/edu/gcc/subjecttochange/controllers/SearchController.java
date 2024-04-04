@@ -11,10 +11,15 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Optional;
 
-
+/**
+ * HTTP logic for search results
+ */
 public class SearchController {
-
-    static Logger logger = LoggerFactory.getLogger(SearchController.class);
+    private static Logger logger = LoggerFactory.getLogger(SearchController.class);
+    
+    /**
+     * HTTP logic for geting search results 
+     */
     public static void getSearch(Context context) {
         Search search = new Search(context.req());
         context.json(search.run());

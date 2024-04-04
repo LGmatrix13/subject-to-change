@@ -11,18 +11,30 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Optional;
 
-public class SuggestedController {
+import static edu.gcc.subjecttochange.models.Course.Semester;
 
-    static Logger logger = LoggerFactory.getLogger(SuggestedController.class);
-    public static void getSuggested(Context context) throws InterruptedException {
+/**
+ * HTTP logic for suggested courses logic
+ */
+public class SuggestedController {
+    private static Logger logger = LoggerFactory.getLogger(SuggestedController.class);
+
+    /**
+     * HTTP logic for getting suggested courses
+     */
+    public static void getSuggested(Context context) {
+        // get student id from request
         String studentId = Student.getStudentId(context);
         Optional<Student> student = Datastore.getStudent(studentId);
 
-
+        // if student exists, proceed 
         if (student.isPresent()) {
+            // get what semester the student wants suggested courses for
             Course.Semester semester = Course.Semester.valueOf(context.req().getParameter("semester"));
+            // get search results for their major and the requested semester
             Search search = new Search(student.get().major, semester);
 
+            // if fall or spring, filter the search results to not contain courses already taken
             List<Course> candidateCourses = null;
             switch (semester) {
                 case FALL -> candidateCourses = search.run().stream().filter(
@@ -33,12 +45,14 @@ public class SuggestedController {
                 ).distinct().limit(7).toList();
             }
 
+            // return results
             context.json(candidateCourses);
             logger.info("suggested schedule loads successfully");
             context.status(200);
             return;
         }
 
+        // otherwise notify the student a schedule could not be generated
         context.result("Could not generate student schedule");
         logger.info("Failed to generate student schedule");
         context.status(400);

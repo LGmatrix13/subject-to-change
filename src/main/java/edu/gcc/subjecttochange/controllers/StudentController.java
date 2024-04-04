@@ -8,10 +8,16 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
+/**
+ * HTTP logic for student logic
+ */
 public class StudentController {
+    private static Logger logger = LoggerFactory.getLogger(StudentController.class);
 
-    static Logger logger = LoggerFactory.getLogger(StudentController.class);
-    public static void getStudent(Context context) throws InterruptedException {
+    /**
+     * HTTP logic for getting student data, namely their schedule
+     */
+    public static void getStudent(Context context) {
         String studentId = Student.getStudentId(context);
         Optional<Student> student = Datastore.students.stream().filter(item -> item.id.equals(studentId)).findFirst();
 

@@ -10,17 +10,27 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
+/**
+ * HTTP logic for adding and removing courses to schedule
+ */
 public class CoursesController {
 
-    static Logger logger = LoggerFactory.getLogger(CoursesController.class);
+    private static Logger logger = LoggerFactory.getLogger(CoursesController.class);
+    /**
+     * HTTP logic for adding a course
+     */
     public static void postCourses(Context context) {
+        // get student id from request
         String studentId = Student.getStudentId(context);
         Optional<Student> student = Datastore.getStudent(studentId);
 
+        // if student exists in the database, proceed
         if (student.isPresent()) {
+            // serialize the course to add
             Course course = context.bodyAsClass(Course.class);
             Schedule schedule = course.semester == Course.Semester.FALL ? student.get().fallSchedule : student.get().springSchedule;
 
+            // add course to the appropiate schedule
             if (schedule.add(course)) {
                 String message = "Added course to student schedule";
                 context.result(message);
@@ -30,19 +40,26 @@ public class CoursesController {
             }
         }
 
+        // otherwise notify study the course could not be added
         context.result("Could not add course as it is either full or has conflicts with other courses");
         logger.info("Tried to add course, but could not add course as it is either full or has conflicts with other courses");
         context.status(400);
     }
 
+    /**
+     * HTTP logic for deleting a course
+     */
     public static void deleteCourses(Context context) {
+        // get student id from request
         String studentId = Student.getStudentId(context);
         Optional<Student> student = Datastore.getStudent(studentId);
 
         if (student.isPresent()) {
+            // serialize the course to remove
             Course course = context.bodyAsClass(Course.class);
             Schedule schedule = course.semester == Course.Semester.FALL ? student.get().fallSchedule : student.get().springSchedule;
 
+            // removoe course from schedule
             if (schedule.remove(course)) {
                 context.result("Removed course from student schedule");
                 logger.info("Removed course from student schedule");
@@ -51,6 +68,7 @@ public class CoursesController {
             }
         }
 
+        // otherwise, notify student the course coudld not be removed
         context.result("Could not remove course");
         logger.info("Could not remove course");
         context.status(400);

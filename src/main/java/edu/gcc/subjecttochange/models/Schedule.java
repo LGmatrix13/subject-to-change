@@ -15,6 +15,8 @@ public class Schedule extends ArrayList<Course> {
             }
         }
 
+
+        // if the course is not full, add
         if (!course.isFull()) {
             return super.add(course);
         }
