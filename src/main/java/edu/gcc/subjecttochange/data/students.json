@@ -1,1 +1,2 @@
-[]
+
+[{"firstName":"Elliot","lastName":"Eyre","id":"abd3bc53-83d3-4a37-b0cc-ff6e125f64ac","major":"COMP","year":2024,"fallSchedule":[{"department":"COMP","number":141,"semester":"FALL","year":0,"name":"COMP PROGRAMMING I","startTime":"12:00 PM","endTime":"12:50 PM","hours":3,"weekday":"MWF","section":"A","seats":32,"enrolled":31,"professor":{"firstName":"Brian","lastName":"Dellinger","department":"COMP"}}],"springSchedule":[]}]
