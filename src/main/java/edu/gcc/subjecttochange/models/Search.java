@@ -20,6 +20,9 @@ public class Search {
     public Course.Semester semester;
 
 
+    /**
+     * take a request's url params to store the necessary filters
+     */
     public Search(HttpServletRequest request) {
         this.department = request.getParameter("department");
         this.name = request.getParameter("name");
@@ -29,51 +32,64 @@ public class Search {
         String numberParameter = request.getParameter("number");
         this.orderBy = request.getParameter("orderBy");
         this.semester = Course.Semester.valueOf(request.getParameter("semester"));
+        // conver the course number filter and covert it to the ints
         if (numberParameter != null && !numberParameter.isEmpty()) {
             this.number = Integer.valueOf(numberParameter);
         }
     }
 
+    /**
+     * alternative constructor for generating suggested courses
+     */
     public Search(String department, Course.Semester semester) {
         this.department = department;
         this.semester = semester;
     }
 
     public List<Course> run() {
+        // see if the search result is cached
         if (Datastore.searchHistory.containsKey(this)) {
             return Datastore.searchHistory.get(this);
         }
 
+        // use functional streaming to run through each filter
         Stream<Course> filteredCourses = Datastore.courses.stream();
 
+        // filter by semester
         if (this.semester != null) {
             filteredCourses = filteredCourses.filter(item -> item.semester == this.semester);
         }
 
+        // filter department
         if (this.department != null && !this.department.isEmpty()) {
             filteredCourses = filteredCourses.filter(item -> item.department.equals(department));
         }
 
+        // filter by course number
         if (this.number != null) {
             filteredCourses = filteredCourses.filter(item -> item.number == number);
         }
 
+        // filter by name
         if (this.name != null && !this.name.isEmpty()) {
             filteredCourses = filteredCourses.filter(item -> item.name.toLowerCase().contains(this.name.toLowerCase()));
         }
         
+        // filter by start time
         if (this.startTime != null && !this.startTime.isEmpty()) {
             filteredCourses = filteredCourses.filter(item -> item.startTime != null && item.startTime.equals(startTime));
         }
 
+        // filter by end time
         if (this.endTime != null && !this.endTime.isEmpty()) {
             filteredCourses = filteredCourses.filter(item -> item.endTime != null && item.endTime.equals(endTime));
         }
 
+        // filter by weekday
         if (this.weekday != null && !this.weekday.isEmpty()) {
             filteredCourses = filteredCourses.filter(item -> {
                 if (item.weekday == null) return false;
-
+                // logic so MTWF classes appear when weekDay is MWF or TR
                 for (int i = 0; i < item.weekday.length(); i++) {
                     if (this.weekday.indexOf(item.weekday.charAt(i)) != -1) {
                         return true;
@@ -83,16 +99,19 @@ public class Search {
             });
         }
 
+        // order asc by popularity/enrollment
         if(this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("asc")){
             filteredCourses = filteredCourses.sorted(Comparator.comparingInt((Course c) -> c.seats - c.enrolled));
         }
+        // order desc by popularity/enrollment
         if(this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("desc")){
             filteredCourses = filteredCourses.sorted(Comparator.comparingInt((Course c) -> c.enrolled - c.seats));
         }
 
 
+        // return search result and cache it for future use
         List<Course> result = filteredCourses.toList();
-        Datastore.searchHistory.put(this, result);
+        Datastore.searchHistory.put(this, result);    
         return result;
     }
 
