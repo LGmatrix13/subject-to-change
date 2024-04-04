@@ -9,6 +9,8 @@ import io.javalin.http.Context;
 import java.util.List;
 import java.util.Optional;
 
+import static edu.gcc.subjecttochange.models.Course.Semester;
+
 /**
  * HTTP logic for suggested courses logic
  */
@@ -16,13 +18,13 @@ public class SuggestedController {
     /**
      * HTTP logic for getting suggested courses
      */
-    public static void getSuggested(Context context) throws InterruptedException {
+    public static void getSuggested(Context context) {
         // get student id from request
         String studentId = Student.getStudentId(context);
         Optional<Student> student = Datastore.getStudent(studentId);
 
         // if student exists, proceed 
-        if (student.isPresent()) 
+        if (student.isPresent()) {
             // get what semester the student wants suggested courses for
             Course.Semester semester = Course.Semester.valueOf(context.req().getParameter("semester"));
             // get search results for their major and the requested semester

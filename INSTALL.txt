@@ -1,0 +1,3 @@
+How to install:
+
+1. Sync the project with gradle to install the needed dependencies
