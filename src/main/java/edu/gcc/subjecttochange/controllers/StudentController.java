@@ -6,10 +6,14 @@ import io.javalin.http.Context;
 
 import java.util.Optional;
 
+/**
+ * HTTP logic for student logic
+ */
 public class StudentController {
-    public static void getStudent(Context context) throws InterruptedException {
-        Thread.sleep(1500);
-
+    /**
+     * HTTP logic for getting student data, namely their schedule
+     */
+    public static void getStudent(Context context) {
         String studentId = Student.getStudentId(context);
         Optional<Student> student = Datastore.students.stream().filter(item -> item.id.equals(studentId)).findFirst();
 

@@ -21,7 +21,7 @@ public class Student extends Person {
     @JsonProperty("year")
     public int year;
 
-    @JsonProperty(value = "fallSchedule")
+    @JsonProperty("fallSchedule")
     public Schedule fallSchedule  = new Schedule();
     @JsonProperty("springSchedule")
     public Schedule springSchedule = new Schedule();

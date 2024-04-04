@@ -4,12 +4,13 @@ import ProfessorCard from "../components/ProfessorCard";
 import WideButton from "../components/WideButton";
 import useProfessors from "../hooks/useProfessors";
 import Loading from "../components/Loading";
+import { useDelay } from "../hooks/useDelay";
 
 export default function ProfessorsPage() {
+  const delay = useDelay();
   const { professors, isLoading, error } = useProfessors();
   if (error) return <div>Error loading data</div>;
-  if (isLoading) return <Loading title="Loading Professors" />;
-
+  if (isLoading || delay) return <Loading height={500} />;
   if (!professors?.length) {
     return (
       <Alert
