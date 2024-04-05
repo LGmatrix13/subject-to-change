@@ -22,7 +22,7 @@ export default function SearchCourses(props: SearchCoursesProps) {
     endTime: searchParams.get("endTime") || "",
     weekday: searchParams.get("weekday") || "",
     orderBy: searchParams.get("orderBy") || "",
-    professor: searchParams.get("prfessor") || "",
+    professor: searchParams.get("professor") || "",
     semester: semester,
   });
 
