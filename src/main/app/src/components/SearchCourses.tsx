@@ -22,6 +22,7 @@ export default function SearchCourses(props: SearchCoursesProps) {
     endTime: searchParams.get("endTime") || "",
     weekday: searchParams.get("weekday") || "",
     orderBy: searchParams.get("orderBy") || "",
+    professor: searchParams.get("prfessor") || "",
     semester: semester,
   });
 
@@ -91,6 +92,17 @@ export default function SearchCourses(props: SearchCoursesProps) {
                 type: "text",
                 placeholder: "Name",
                 value: search.name,
+              }}
+            />
+            <Input
+              label="Professor"
+              name="professor"
+              onChange={handleChange}
+              className="p-3 rounded-lg w-full"
+              options={{
+                type: "text",
+                placeholder: "Professor",
+                value: search.professor,
               }}
             />
             <Input

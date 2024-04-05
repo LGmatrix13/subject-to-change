@@ -18,6 +18,7 @@ public class Search {
     public String weekday;
     public String orderBy;
     public Course.Semester semester;
+    public String professor;
 
 
     /**
@@ -32,6 +33,7 @@ public class Search {
         String numberParameter = request.getParameter("number");
         this.orderBy = request.getParameter("orderBy");
         this.semester = Course.Semester.valueOf(request.getParameter("semester"));
+        this.professor = request.getParameter("professor");
         // conver the course number filter and covert it to the ints
         if (numberParameter != null && !numberParameter.isEmpty()) {
             this.number = Integer.valueOf(numberParameter);
@@ -99,6 +101,10 @@ public class Search {
             });
         }
 
+        if (this.professor != null && !this.professor.isEmpty()) {
+            filteredCourses = filteredCourses.filter(item -> String.format("%s %s", item.professor.firstName, item.professor.lastName).toLowerCase().contains(this.professor.toLowerCase()));
+        }
+
         // order asc by popularity/enrollment
         if(this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("asc")){
             filteredCourses = filteredCourses.sorted(Comparator.comparingInt((Course c) -> c.seats - c.enrolled));
@@ -121,7 +127,7 @@ public class Search {
 
     @Override
     public int hashCode() {
-        return Objects.hash(department, name, startTime, endTime, weekday, number, orderBy, semester);
+        return Objects.hash(department, name, startTime, endTime, weekday, number, orderBy, semester, professor);
     }
 
     @Override
@@ -137,6 +143,7 @@ public class Search {
                 Objects.equals(weekday, other.weekday) &&
                 Objects.equals(number, other.number) &&
                 Objects.equals(orderBy,other.orderBy) &&
+                Objects.equals(professor, other.professor) &&
                 this.semester == other.semester;
     }
 }
