@@ -57,7 +57,6 @@ public class Main {
             Student[] students = objectMapper.readValue(studentsJson, Student[].class);
             Datastore.students.addAll(List.of(students));
         } catch (Exception e) {
-            //System.err.println(e.getMessage());
             logger.warn(e.getMessage());
         }
         System.out.println("Seeded Datastore");
@@ -69,7 +68,6 @@ public class Main {
             File studentsJson = new File("src/main/java/edu/gcc/subjecttochange/data/students.json");
             objectMapper.writeValue(studentsJson, Datastore.students);
         } catch (Exception e) {
-            //System.err.println(e.getMessage());
             logger.warn(e.getMessage());
         }
         System.out.println("Backed up Datastore");
