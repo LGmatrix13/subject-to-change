@@ -5,6 +5,8 @@ import edu.gcc.subjecttochange.models.Schedule;
 import edu.gcc.subjecttochange.models.Student;
 import edu.gcc.subjecttochange.utilties.Datastore;
 import io.javalin.http.Context;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
@@ -12,6 +14,8 @@ import java.util.Optional;
  * HTTP logic for adding and removing courses to schedule
  */
 public class CoursesController {
+
+    private static Logger logger = LoggerFactory.getLogger(CoursesController.class);
     /**
      * HTTP logic for adding a course
      */
@@ -28,7 +32,9 @@ public class CoursesController {
 
             // add course to the appropiate schedule
             if (schedule.add(course)) {
-                context.result("Added course to student schedule");
+                String message = "Added course to student schedule";
+                context.result(message);
+                logger.info(message);
                 context.status(200);
                 return;
             }
@@ -36,6 +42,7 @@ public class CoursesController {
 
         // otherwise notify study the course could not be added
         context.result("Could not add course as it is either full or has conflicts with other courses");
+        logger.info("Tried to add course, but could not add course as it is either full or has conflicts with other courses");
         context.status(400);
     }
 
@@ -55,6 +62,7 @@ public class CoursesController {
             // removoe course from schedule
             if (schedule.remove(course)) {
                 context.result("Removed course from student schedule");
+                logger.info("Removed course from student schedule");
                 context.status(200);
                 return;
             }
@@ -62,6 +70,7 @@ public class CoursesController {
 
         // otherwise, notify student the course coudld not be removed
         context.result("Could not remove course");
+        logger.info("Could not remove course");
         context.status(400);
     }
 }

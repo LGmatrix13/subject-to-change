@@ -5,6 +5,8 @@ import edu.gcc.subjecttochange.models.Search;
 import edu.gcc.subjecttochange.models.Student;
 import edu.gcc.subjecttochange.utilties.Datastore;
 import io.javalin.http.Context;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +17,8 @@ import static edu.gcc.subjecttochange.models.Course.Semester;
  * HTTP logic for suggested courses logic
  */
 public class SuggestedController {
+    private static Logger logger = LoggerFactory.getLogger(SuggestedController.class);
+
     /**
      * HTTP logic for getting suggested courses
      */
@@ -43,12 +47,14 @@ public class SuggestedController {
 
             // return results
             context.json(candidateCourses);
+            logger.info("suggested schedule loads successfully");
             context.status(200);
             return;
         }
 
         // otherwise notify the student a schedule could not be generated
         context.result("Could not generate student schedule");
+        logger.info("Failed to generate student schedule");
         context.status(400);
     }
 }

@@ -4,6 +4,8 @@ import edu.gcc.subjecttochange.models.Professor;
 import edu.gcc.subjecttochange.models.Student;
 import edu.gcc.subjecttochange.utilties.Datastore;
 import io.javalin.http.Context;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,6 +14,8 @@ import java.util.stream.Collectors;
  * HTTP logic for geting professors relative to your schedule
  */
 public class ProfessorsController {
+
+    private static Logger logger = LoggerFactory.getLogger(ProfessorsController.class);
     /**
      * HTTP logic for getting professors
      */
@@ -29,9 +33,11 @@ public class ProfessorsController {
             fallProfessors.addAll(springProfessors);
             // return to UI
             context.json(fallProfessors);
+            logger.info("Professors successfully updated.");
             context.status(200);
         }
 
+        //logger.info("Professors failed to updated.");
         // provide unsucessful request otherwise
         context.status(400);
     }
