@@ -8,11 +8,15 @@ import edu.gcc.subjecttochange.utilties.Datastore;
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
 import io.javalin.plugin.bundled.CorsPluginConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.List;
 
 public class Main {
+
+    private static Logger logger = LoggerFactory.getLogger(Main.class);
     public static void main(String[] args) {
         seedDatastore();
         Javalin app = Javalin.create(config -> {
@@ -32,7 +36,7 @@ public class Main {
         app.get("/api/professors", ProfessorsController::getProfessors);
 
         app.exception(Exception.class, (e, context) -> {
-            System.err.println(e.getMessage());
+            logger.warn(e.getMessage());
             context.result("Something wrong happened");
             context.status(400);
         });
@@ -53,7 +57,8 @@ public class Main {
             Student[] students = objectMapper.readValue(studentsJson, Student[].class);
             Datastore.students.addAll(List.of(students));
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            //System.err.println(e.getMessage());
+            logger.warn(e.getMessage());
         }
         System.out.println("Seeded Datastore");
     }
@@ -64,7 +69,8 @@ public class Main {
             File studentsJson = new File("src/main/java/edu/gcc/subjecttochange/data/students.json");
             objectMapper.writeValue(studentsJson, Datastore.students);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            //System.err.println(e.getMessage());
+            logger.warn(e.getMessage());
         }
         System.out.println("Backed up Datastore");
     }
