@@ -5,8 +5,6 @@ import edu.gcc.subjecttochange.models.Student;
 import edu.gcc.subjecttochange.utilties.Database;
 import edu.gcc.subjecttochange.utilties.Response;
 import io.javalin.http.Context;
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import java.sql.SQLException;
 import java.util.List;

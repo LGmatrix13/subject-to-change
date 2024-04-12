@@ -26,15 +26,12 @@ public class CoursesController {
         Course course = context.bodyAsClass(Course.class);
 
         if (studentId != null) {
-            QueryRunner queryRunner = new QueryRunner();
-            BeanListHandler<ScheduleDto> handler = new BeanListHandler<>(ScheduleDto.class);
-            String sql = """
+            Database.insert("""
                 insert into "schedule"
                 ("courseId", "studentId")
                 values (?, ?)
                 returning *      
-            """;
-            queryRunner.insert(Database.connect(), sql, handler, String.format("%s%d%s%d", course.department, course.number, course.section, course.year), studentId);
+            """, ScheduleDto.class, String.format("%s%d%s%d", course.department, course.number, course.section, course.year), studentId);
             Response.send(200, context, "Added course to student schedule");
             return;
         }
@@ -52,14 +49,11 @@ public class CoursesController {
         Course course = context.bodyAsClass(Course.class);
 
         if (studentId != null) {
-            QueryRunner queryRunner = new QueryRunner();
-            BeanListHandler<ScheduleDto> handler = new BeanListHandler<>(ScheduleDto.class);
-            String sql = """
+            Database.update("""
                 delete from "schedule"
                 where "courseId" = ? and "studentId" = ?
                 returning *       
-            """;
-            queryRunner.update(Database.connect(), sql, handler, String.format("%s%d%s%d", course.department, course.number, course.section, course.year), studentId);
+            """, ScheduleDto.class, String.format("%s%d%s%d", course.department, course.number, course.section, course.year), studentId);
             Response.send(200, context, "Removed course from student schedule");
             return;
         }

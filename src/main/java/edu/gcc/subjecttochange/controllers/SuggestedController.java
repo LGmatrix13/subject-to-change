@@ -29,9 +29,7 @@ public class SuggestedController {
 
         // if student exists, proceed
         if (studentId != null) {
-            BeanListHandler<CourseDto> handler = new BeanListHandler<>(CourseDto.class);
-            QueryRunner queryRunner = new QueryRunner();
-            String sql = """
+            List<CourseDto> courseDtos = Database.query("""
                 select * from "course"
                 where "department" = (
                     select "department" from "student"
@@ -41,8 +39,7 @@ public class SuggestedController {
                     where "studentId" = ?
                 )  
                 limit 10  
-            """;
-            List<CourseDto> courseDtos = queryRunner.query(Database.connect(), sql, handler, studentId, studentId);
+            """, CourseDto.class, studentId, studentId);
             Response.send(200, context, courseDtos);
             return;
         }
