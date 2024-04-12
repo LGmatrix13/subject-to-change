@@ -15,7 +15,7 @@ import java.util.Optional;
  * HTTP logic for search results
  */
 public class SearchController {
-    private static Logger logger = LoggerFactory.getLogger(SearchController.class);
+    private static final Logger logger = LoggerFactory.getLogger(SearchController.class);
     
     /**
      * HTTP logic for geting search results 

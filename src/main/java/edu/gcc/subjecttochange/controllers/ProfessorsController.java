@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  */
 public class ProfessorsController {
 
-    private static Logger logger = LoggerFactory.getLogger(ProfessorsController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProfessorsController.class);
     /**
      * HTTP logic for getting professors
      */

@@ -10,14 +10,13 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
-
-import static edu.gcc.subjecttochange.models.Course.Semester;
+import java.util.stream.Collectors;
 
 /**
  * HTTP logic for suggested courses logic
  */
 public class SuggestedController {
-    private static Logger logger = LoggerFactory.getLogger(SuggestedController.class);
+    private static final Logger logger = LoggerFactory.getLogger(SuggestedController.class);
 
     /**
      * HTTP logic for getting suggested courses
@@ -39,10 +38,10 @@ public class SuggestedController {
             switch (semester) {
                 case FALL -> candidateCourses = search.run().stream().filter(
                         course -> !student.get().fallSchedule.contains(course)
-                ).distinct().limit(7).toList();
+                ).distinct().limit(7).collect(Collectors.toList());
                 case SPRING -> candidateCourses = search.run().stream().filter(
                         course -> !student.get().springSchedule.contains(course)
-                ).distinct().limit(7).toList();
+                ).distinct().limit(7).collect(Collectors.toList());
             }
 
             // return results

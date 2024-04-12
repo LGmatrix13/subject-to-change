@@ -12,7 +12,7 @@ import java.util.Optional;
  * HTTP logic for student logic
  */
 public class StudentController {
-    private static Logger logger = LoggerFactory.getLogger(StudentController.class);
+    private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
 
     /**
      * HTTP logic for getting student data, namely their schedule

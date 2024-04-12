@@ -3,7 +3,10 @@ package edu.gcc.subjecttochange.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import edu.gcc.subjecttochange.utilties.Database;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 import java.time.LocalTime;

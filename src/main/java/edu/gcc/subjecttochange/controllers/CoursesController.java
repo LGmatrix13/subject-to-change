@@ -15,7 +15,7 @@ import java.util.Optional;
  */
 public class CoursesController {
 
-    private static Logger logger = LoggerFactory.getLogger(CoursesController.class);
+    private static final Logger logger = LoggerFactory.getLogger(CoursesController.class);
     /**
      * HTTP logic for adding a course
      */
