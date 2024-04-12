@@ -1,14 +1,17 @@
 package edu.gcc.subjecttochange.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import edu.gcc.subjecttochange.dtos.CourseDto;
 
 import java.util.Objects;
 
 public class Course extends CourseDto {
+    @JsonIgnore
     public boolean isFull() {
         return enrolled >= seats;
     }
-
+    @JsonIgnore
     public boolean conflictsWith(Course otherCourse) {
         // check if course is the same
         if (otherCourse.equals(this)){
@@ -25,6 +28,7 @@ public class Course extends CourseDto {
         return otherCourse.weekday.equals(this.weekday) && !(thisEndMinutes <= otherStartMinutes || thisStartMinutes >= otherEndMinutes);
     }
 
+    @JsonIgnore
     private int timeToMinutes(String timeString) {
         // Convert time string to minutes
         String[] parts = timeString.split(":");
@@ -37,11 +41,13 @@ public class Course extends CourseDto {
         return hours * 60 + minutes;
     }
 
+    @JsonIgnore
     public boolean equals(Object o) {
         Course course = (Course) o;
         return course.number == this.number && course.department.equals(this.department);
     }
 
+    @JsonIgnore
     public int hashCode() {
         return Objects.hash(this.number, this.department);
     }

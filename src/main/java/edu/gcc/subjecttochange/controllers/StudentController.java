@@ -37,15 +37,12 @@ public class StudentController {
 
     public static void postStudent(Context context) throws SQLException {
         StudentDto studentDto = context.bodyAsClass(StudentDto.class);
-        QueryRunner queryRunner = new QueryRunner();
-        BeanListHandler<StudentDto> handler = new BeanListHandler<>(StudentDto.class);
-        String query = """
+        Database.insert("""
             insert into student
             ("name", "email", "major", "year")
             values (?, ?, ?, ?)
             returning *
-        """;
-        queryRunner.insert(Database.connect(), query, handler, studentDto.name, studentDto.email, studentDto.major, studentDto.year);
+        """, StudentDto.class, studentDto.name, studentDto.email, studentDto.major, studentDto.year).getFirst();
         Response.send(200, context, studentDto, "Student has been added to the database");
     }
 }

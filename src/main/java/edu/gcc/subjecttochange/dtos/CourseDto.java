@@ -1,9 +1,11 @@
 package edu.gcc.subjecttochange.dtos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.gcc.subjecttochange.models.Course;
 import edu.gcc.subjecttochange.models.Professor;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CourseDto {
     public enum Semester {
         fall,
