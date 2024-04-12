@@ -18,8 +18,6 @@ import java.util.List;
  * HTTP logic for suggested courses logic
  */
 public class SuggestedController {
-    private static final Logger logger = LoggerFactory.getLogger(SuggestedController.class);
-
     /**
      * HTTP logic for getting suggested courses
      */
