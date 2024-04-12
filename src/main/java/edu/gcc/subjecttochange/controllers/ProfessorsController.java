@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * HTTP logic for geting professors relative to your schedule
+ * HTTP logic for getting professors relative to your schedule
  */
 public class ProfessorsController {
     /**
