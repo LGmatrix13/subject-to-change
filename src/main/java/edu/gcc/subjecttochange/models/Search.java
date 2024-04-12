@@ -1,15 +1,12 @@
 package edu.gcc.subjecttochange.models;
 
-import edu.gcc.subjecttochange.dtos.CourseDto;
 import edu.gcc.subjecttochange.utilties.Cache;
 import edu.gcc.subjecttochange.utilties.Database;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.sql.SQLException;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 public class Search {
     public String department;
@@ -46,6 +43,7 @@ public class Search {
         }
     }
 
+
     /**
      * alternative constructor for generating suggested courses
      */
@@ -60,70 +58,50 @@ public class Search {
             return Cache.searchHistory.get(this);
         }
 
-        List<Course> courses = Database.query("""
-            select * from "course"
-        """, Course.class);
-        // use functional streaming to run through each filter
-        Stream<Course> filteredCourses = courses.stream();
-
+        StringBuilder stringBuilder = new StringBuilder();
         // filter by semester
         if (this.semester != null) {
-            filteredCourses = filteredCourses.filter(item -> item.semester == this.semester);
+            stringBuilder.append(String.format("%s semester = \"%s\" and", stringBuilder.isEmpty() ? "where" : "", this.semester));
         }
-
         // filter department
         if (this.department != null && !this.department.isEmpty()) {
-            filteredCourses = filteredCourses.filter(item -> item.department.equals(department));
+            stringBuilder.append(String.format("%s department = \"%s\" and", stringBuilder.isEmpty() ? "where" : "", this.department));
         }
-
         // filter by course number
         if (this.number != null) {
-            filteredCourses = filteredCourses.filter(item -> item.number == number);
+            stringBuilder.append(String.format("%s number = \"%s\" and", stringBuilder.isEmpty() ? "where" : "", this.number));
         }
-
         // filter by name
         if (this.name != null && !this.name.isEmpty()) {
-            filteredCourses = filteredCourses.filter(item -> item.name.toLowerCase().contains(this.name.toLowerCase()));
+            stringBuilder.append(String.format("%s name = \"%s\" and", stringBuilder.isEmpty() ? "where" : "", this.name.toUpperCase()));
         }
-
         // filter by start time
         if (this.startTime != null && !this.startTime.isEmpty()) {
-            filteredCourses = filteredCourses.filter(item -> item.startTime != null && item.startTime.equals(startTime));
+            stringBuilder.append(String.format("%s \"startTime\" = \"%s\" and", stringBuilder.isEmpty() ? "where" : "", this.startTime));
         }
-
         // filter by end time
         if (this.endTime != null && !this.endTime.isEmpty()) {
-            filteredCourses = filteredCourses.filter(item -> item.endTime != null && item.endTime.equals(endTime));
+            stringBuilder.append(String.format("%s \"endTime\" = \"%s\" and", stringBuilder.isEmpty() ? "where" : "", this.endTime));
         }
-
         // filter by weekday
         if (this.weekday != null && !this.weekday.isEmpty()) {
-            filteredCourses = filteredCourses.filter(item -> {
-                if (item.weekday == null) return false;
-                // logic so MTWF classes appear when weekDay is MWF or TR
-                for (int i = 0; i < item.weekday.length(); i++) {
-                    if (this.weekday.indexOf(item.weekday.charAt(i)) != -1) {
-                        return true;
-                    }
-                }
-                return false;
-            });
+            stringBuilder.append(String.format("%s weekday = \"%s\" and", stringBuilder.isEmpty() ? "where" : "", this.weekday));
         }
 
+        String sort = "";
         // order asc by popularity/enrollment
-        if(this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("asc")){
-            filteredCourses = filteredCourses.sorted(Comparator.comparingInt((Course c) -> c.seats - c.enrolled));
+        if (this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("asc")){
+            sort = "order by enrollment acs";
         }
         // order desc by popularity/enrollment
-        if(this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("desc")){
-            filteredCourses = filteredCourses.sorted(Comparator.comparingInt((Course c) -> c.enrolled - c.seats));
+        if (this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("desc")){
+            sort = "order by enrollment desc";
         }
 
-
-        // return search result and cache it for future use
-        List<Course> result = filteredCourses.toList();
-        Cache.searchHistory.put(this, result);
-        return result;
+        String sql = String.format("select * from course %s %s", stringBuilder.substring(0, stringBuilder.length() - 3), sort);
+        List<Course> courses = Database.query(sql, Course.class);
+        Cache.searchHistory.put(this, courses);
+        return courses;
     }
 
     @Override
