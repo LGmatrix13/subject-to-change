@@ -1,29 +1,24 @@
 package edu.gcc.subjecttochange.controllers;
 
-import edu.gcc.subjecttochange.models.Course;
-import edu.gcc.subjecttochange.models.Search;
-import edu.gcc.subjecttochange.models.Student;
-import edu.gcc.subjecttochange.utilties.Datastore;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.gcc.subjecttochange.dtos.CourseDto;
+import edu.gcc.subjecttochange.dtos.ProfessorDto;
+import edu.gcc.subjecttochange.utilties.Database;
+import edu.gcc.subjecttochange.utilties.Response;
 import io.javalin.http.Context;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.MapListHandler;
 
+import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
-/**
- * HTTP logic for search results
- */
 public class SearchController {
-    private static final Logger logger = LoggerFactory.getLogger(SearchController.class);
-    
-    /**
-     * HTTP logic for geting search results 
-     */
-    public static void getSearch(Context context) {
-        Search search = new Search(context.req());
-        context.json(search.run());
-        logger.info("New Search was Successful.");
-        context.status(200);
+    public static void getSearch(Context context) throws SQLException {
+        List<CourseDto> courseDtos = Database.query("""
+            select * from "course"    
+        """, CourseDto.class);
+        Response.send(200, context, courseDtos);
     }
 }

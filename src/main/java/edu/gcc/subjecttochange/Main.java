@@ -1,7 +1,6 @@
 package edu.gcc.subjecttochange;
 
 import edu.gcc.subjecttochange.controllers.*;
-import edu.gcc.subjecttochange.utilties.Database;
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
 import io.javalin.plugin.bundled.CorsPluginConfig;
@@ -12,8 +11,6 @@ public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
-        Database.createTables();
-
         Javalin app = Javalin.create(config -> {
             config.bundledPlugins.enableCors(cors -> {
                 cors.addRule(CorsPluginConfig.CorsRule::anyHost);
@@ -24,9 +21,9 @@ public class Main {
 
         app.post("/api/courses", CoursesController::postCourses);
         app.delete("/api/courses", CoursesController::deleteCourses);
-        app.get("/api/search", SearchController::getSearch);
         app.get("/api/suggested", SuggestedController::getSuggested);
         app.post("/api/student", StudentController::postStudent);
+        app.get("/api/search", SearchController::getSearch);
         app.get("/api/student", StudentController::getStudent);
         app.get("/api/professors", ProfessorsController::getProfessors);
 

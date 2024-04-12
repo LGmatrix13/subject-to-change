@@ -1,16 +1,18 @@
 package edu.gcc.subjecttochange.controllers;
 
-import edu.gcc.subjecttochange.models.Course;
-import edu.gcc.subjecttochange.models.Search;
+import edu.gcc.subjecttochange.dtos.CourseDto;
+import edu.gcc.subjecttochange.dtos.ProfessorDto;
 import edu.gcc.subjecttochange.models.Student;
-import edu.gcc.subjecttochange.utilties.Datastore;
+import edu.gcc.subjecttochange.utilties.Database;
+import edu.gcc.subjecttochange.utilties.Response;
 import io.javalin.http.Context;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * HTTP logic for suggested courses logic
@@ -21,39 +23,31 @@ public class SuggestedController {
     /**
      * HTTP logic for getting suggested courses
      */
-    public static void getSuggested(Context context) {
+    public static void getSuggested(Context context) throws SQLException {
         // get student id from request
-        String studentId = Student.getStudentId(context);
-        Optional<Student> student = Datastore.getStudent(studentId);
+        Integer studentId = Student.getStudentId(context);
 
-        // if student exists, proceed 
-        if (student.isPresent()) {
-            // get what semester the student wants suggested courses for
-            Course.Semester semester = Course.Semester.valueOf(context.req().getParameter("semester"));
-            // get search results for their major and the requested semester
-            Search search = new Search(student.get().major, semester);
-
-            // if fall or spring, filter the search results to not contain courses already taken
-            List<Course> candidateCourses = null;
-            switch (semester) {
-                case FALL -> candidateCourses = search.run().stream().filter(
-                        course -> !student.get().fallSchedule.contains(course)
-                ).distinct().limit(7).collect(Collectors.toList());
-                case SPRING -> candidateCourses = search.run().stream().filter(
-                        course -> !student.get().springSchedule.contains(course)
-                ).distinct().limit(7).collect(Collectors.toList());
-            }
-
-            // return results
-            context.json(candidateCourses);
-            logger.info("suggested schedule loads successfully");
-            context.status(200);
+        // if student exists, proceed
+        if (studentId != null) {
+            BeanListHandler<CourseDto> handler = new BeanListHandler<>(CourseDto.class);
+            QueryRunner queryRunner = new QueryRunner();
+            String sql = """
+                select * from "course"
+                where "department" = (
+                    select "department" from "student"
+                    where "id" = ?                    
+                ) and "id" not exists (
+                    select "courseId" from "schedule"
+                    where "studentId" = ?
+                )  
+                limit 10  
+            """;
+            List<CourseDto> courseDtos = queryRunner.query(Database.connect(), sql, handler, studentId, studentId);
+            Response.send(200, context, courseDtos);
             return;
         }
 
         // otherwise notify the student a schedule could not be generated
-        context.result("Could not generate student schedule");
-        logger.info("Failed to generate student schedule");
-        context.status(400);
+        Response.send(400, context, "Could not generate student schedule");
     }
 }
