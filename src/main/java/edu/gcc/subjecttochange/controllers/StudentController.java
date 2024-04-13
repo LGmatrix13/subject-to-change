@@ -24,7 +24,8 @@ public class StudentController {
 
         if (studentId != null) {
             List<CourseDto> courseDtos = Database.query( """
-                select * from schedule
+                select course."id", course."name", course."number", course."section", course."startTime", course."endTime", course."weekday"
+                from course
                 join schedule on schedule."courseId" = course."id"
                 where schedule."studentId" = ?
             """, CourseDto.class, studentId);

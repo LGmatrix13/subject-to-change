@@ -11,6 +11,8 @@ public class CourseDto {
         fall,
         spring
     }
+    @JsonProperty("id")
+    public int id;
     @JsonProperty("department")
     public String department;
     @JsonProperty("number")
