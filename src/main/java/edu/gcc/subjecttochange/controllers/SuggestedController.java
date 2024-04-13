@@ -1,8 +1,8 @@
 package edu.gcc.subjecttochange.controllers;
 
 import edu.gcc.subjecttochange.dtos.CourseDto;
-import edu.gcc.subjecttochange.models.Student;
 import edu.gcc.subjecttochange.utilties.Database;
+import edu.gcc.subjecttochange.utilties.JWT;
 import edu.gcc.subjecttochange.utilties.Response;
 import io.javalin.http.Context;
 
@@ -18,7 +18,7 @@ public class SuggestedController {
      */
     public static void getSuggested(Context context) throws SQLException {
         // get student id from request
-        Integer studentId = Student.getStudentId(context);
+        Integer studentId = JWT.decodeStudentId(context);
 
         // if student exists, proceed
         if (studentId != null) {

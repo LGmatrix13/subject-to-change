@@ -7,7 +7,6 @@ import edu.gcc.subjecttochange.utilties.Response;
 import io.javalin.http.Context;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public class SearchController {
     public static void getSearch(Context context) throws SQLException {

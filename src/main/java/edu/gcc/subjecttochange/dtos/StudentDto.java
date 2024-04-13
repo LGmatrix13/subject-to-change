@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class StudentDto {
+public class StudentDto extends PersonDto {
     public enum Year {
         freshman,
         sophomore,
@@ -12,12 +12,15 @@ public class StudentDto {
         senior
     }
 
-    @JsonProperty("name")
-    public String name;
+    @JsonProperty("id")
+    public int id;
     @JsonProperty("major")
     public String major;
     @JsonProperty("email")
     public String email;
     @JsonProperty("year")
     public Year year;
+
+    @JsonProperty("password")
+    public String password;
 }

@@ -1,8 +1,8 @@
 package edu.gcc.subjecttochange.controllers;
 
 import edu.gcc.subjecttochange.dtos.ProfessorDto;
-import edu.gcc.subjecttochange.models.Student;
 import edu.gcc.subjecttochange.utilties.Database;
+import edu.gcc.subjecttochange.utilties.JWT;
 import edu.gcc.subjecttochange.utilties.Response;
 import io.javalin.http.Context;
 
@@ -18,7 +18,7 @@ public class ProfessorsController {
      */
     public static void getProfessors(Context context) throws SQLException {
         // get student id from request
-        Integer studentId = Student.getStudentId(context);
+        Integer studentId = JWT.decodeStudentId(context);
 
         // if  student exists in the database, proceed
         if (studentId != null) {
@@ -33,6 +33,6 @@ public class ProfessorsController {
             Response.send(200, context, professorDtos);
         }
 
-        Response.send(400, context, "Failed to get professors");
+        Response.send(401, context);
     }
 }

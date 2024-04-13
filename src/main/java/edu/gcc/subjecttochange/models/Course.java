@@ -1,7 +1,6 @@
 package edu.gcc.subjecttochange.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import edu.gcc.subjecttochange.dtos.CourseDto;
 
 import java.util.Objects;
