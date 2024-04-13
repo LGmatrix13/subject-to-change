@@ -27,7 +27,7 @@ public class StudentController {
                 select course."id", course."name", course."number", course."section", course."startTime", course."endTime", course."weekday"
                 from course
                 join schedule on schedule."courseId" = course."id"
-                where schedule."studentId" = ?
+                where schedule."studentId" = ?;
             """, CourseDto.class, studentId);
             Response.send(200, context, courseDtos);
             return;
@@ -42,7 +42,7 @@ public class StudentController {
             insert into student
             ("name", "email", "major", "year")
             values (?, ?, ?, ?)
-            returning *
+            returning *;
         """, StudentDto.class, studentDto.name, studentDto.email, studentDto.major, studentDto.year).getFirst();
         Response.send(200, context, studentDto, "Student has been added to the database");
     }

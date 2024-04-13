@@ -28,7 +28,7 @@ public class CoursesController {
                 insert into "schedule"
                 ("courseId", "studentId")
                 values (?, ?)
-                returning *      
+                returning *;
             """, ScheduleDto.class, String.format("%s%d%s%d", course.department, course.number, course.section, course.year), studentId);
             Response.send(200, context, "Added course to student schedule");
             return;
@@ -50,7 +50,7 @@ public class CoursesController {
             Database.update("""
                 delete from "schedule"
                 where "courseId" = ? and "studentId" = ?
-                returning *       
+                returning *;       
             """, ScheduleDto.class, String.format("%s%d%s%d", course.department, course.number, course.section, course.year), studentId);
             Response.send(200, context, "Removed course from student schedule");
             return;
