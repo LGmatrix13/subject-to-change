@@ -11,6 +11,7 @@ import java.util.Objects;
 public class Search {
     public String department;
     public Integer number;
+    public String professor;
     public String name;
     public String startTime;
     public String endTime;
@@ -24,6 +25,7 @@ public class Search {
      */
     public Search(HttpServletRequest request) {
         this.department = request.getParameter("department");
+        this.professor = request.getParameter("professor");
         this.name = request.getParameter("name");
         this.startTime = request.getParameter("startTime");
         this.endTime = request.getParameter("endTime");
@@ -43,14 +45,6 @@ public class Search {
         }
     }
 
-
-    /**
-     * alternative constructor for generating suggested courses
-     */
-    public Search(String department, Course.Semester semester) {
-        this.department = department;
-        this.semester = semester;
-    }
 
     public List<Course> run() throws SQLException {
         // see if the search result is cached
@@ -73,7 +67,10 @@ public class Search {
         }
         // filter by name
         if (this.name != null && !this.name.isEmpty()) {
-            stringBuilder.append(String.format("%s name like \"%%%s%%\" and", stringBuilder.isEmpty() ? "where" : "", this.name.toUpperCase()));
+            stringBuilder.append(String.format("%s lower(name) like lower(\"%%%s%%\") and", stringBuilder.isEmpty() ? "where" : "", this.name));
+        }
+        if (this.professor != null && !this.professor.isEmpty()) {
+            stringBuilder.append(String.format("%s lower(p.\"firstName\") like lower(\"%%%s%%\") or lower(p.\"lastName\") like lower(\"%%%s%%\") and", stringBuilder.isEmpty() ? "where" : "", this.professor, this.professor));
         }
         // filter by start time
         if (this.startTime != null && !this.startTime.isEmpty()) {
@@ -129,6 +126,7 @@ public class Search {
                 Objects.equals(weekday, other.weekday) &&
                 Objects.equals(number, other.number) &&
                 Objects.equals(orderBy,other.orderBy) &&
+                Objects.equals(professor, other.professor) &&
                 this.semester == other.semester;
     }
 }

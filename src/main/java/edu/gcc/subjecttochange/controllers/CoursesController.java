@@ -34,8 +34,8 @@ public class CoursesController {
                 from "course" c
                 join "professor" p on p."id" = c."professorId"
                 join "schedule" s on s."courseId" = c."id"
-                where s."studentId" = ?;
-            """, Course.class, studentId);
+                where s."studentId" = ? and c."semester" = ?;
+            """, Course.class, studentId, course.semester);
             boolean conflictFree = Schedule.conflictFree(courses, course);
             if (conflictFree) {
                 Database.update("""
