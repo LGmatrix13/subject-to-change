@@ -23,12 +23,12 @@ public class ProfessorsController {
         // if  student exists in the database, proceed
         if (studentId != null) {
             List<ProfessorDto> professorDtos = Database.query("""
-                select professor."firstName", professor."lastName", professor."department"
-                from student
-                join schedule on student."id" = schedule."studentId"
-                join course on schedule."courseId" = course."id"
-                join professor on course."professorId" = professor."id"
-                where student.id = ?;
+                select distinct p."firstName", p."lastName", p."department"
+                from student s
+                join schedule sc on s."id" = sc."studentId"
+                join course c on sc."courseId" = c."id"
+                join professor p on c."professorId" = p."id"
+                where s.id = ?;
             """, ProfessorDto.class, studentId);
             Response.send(200, context, professorDtos);
         }

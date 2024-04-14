@@ -85,7 +85,11 @@ public class Search {
         }
         // filter by weekday
         if (this.weekday != null && !this.weekday.isEmpty()) {
-            stringBuilder.append(String.format("%s weekday = \"%s\" and", stringBuilder.isEmpty() ? "where" : "", this.weekday));
+            if (this.weekday.equals("MWF")) {
+                stringBuilder.append(String.format("%s weekday like \"%%M%%\" or weekday like \"%%W%%\" or weekday like \"%%F%%\" and", stringBuilder.isEmpty() ? "where" : ""));
+            } else {
+                stringBuilder.append(String.format("%s weekday like \"%%T%%\" or weekday like \"%%R%%\" and", stringBuilder.isEmpty() ? "where" : ""));
+            }
         }
 
         String sort = "";

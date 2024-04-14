@@ -36,7 +36,6 @@ public class CoursesController {
                 join "schedule" s on s."courseId" = c."id"
                 where s."studentId" = ?;
             """, Course.class, studentId);
-            System.out.println(courses.size());
             boolean conflictFree = Schedule.conflictFree(courses, course);
             if (conflictFree) {
                 Database.update("""
@@ -44,12 +43,7 @@ public class CoursesController {
                     ("courseId", "studentId")
                     values (?, ?);
                 """, course.id, studentId);
-                Database.update("""
-                    update "course"
-                    set "enrolled" = enrolled + 1   
-                    where "id" = ?;
-                """, course.id);
-                Response.send(200, context, String.format("Added %s %d to student schedule", course.name, course.number));
+                Response.send(200, context, String.format("Added %s to student schedule", course.name));
                 return;
             }
 
@@ -73,12 +67,7 @@ public class CoursesController {
                 delete from "schedule"
                 where "courseId" = ? and "studentId" = ?;
             """, course.id, studentId);
-            Database.update("""
-                update "course"
-                set enrolled = enrolled - 1
-                where id = ?
-            """, course.id);
-            Response.send(200, context, "Removed course from student schedule");
+            Response.send(200, context, String.format("Removed %s from student schedule", course.name));
             return;
         }
 

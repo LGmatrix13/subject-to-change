@@ -31,7 +31,6 @@ export default function CourseTable(props: CourseTableProps) {
     if (response.ok) {
       mutate("http://localhost:7070/api/student");
       mutate("http://localhost:7070/api/search/suggested");
-      mutate(`http://localhost:7070/api/search?${searchParams}`);
     }
   }
 

@@ -15,4 +15,7 @@ public class StudentDto extends PersonDto {
 
     @JsonProperty("password")
     public String password;
+
+    @JsonProperty("jwt")
+    public String jwt;
 }

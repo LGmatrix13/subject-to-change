@@ -17,19 +17,27 @@ public class AuthController {
             ("firstName", "lastName", "email", "major", "password")
             values (?, ?, ?, ?, ?);
         """, studentDto.firstName, studentDto.lastName, studentDto.email, studentDto.major, studentDto.password);
-        Response.send(200, context, studentDto, JWT.generate(studentDto.id));
+        StudentDto loggedInStudentDto = Database.query("""
+            select * from student s
+            where s."email" = ? and s."password" = ?
+            limit 1
+        """, StudentDto.class, studentDto.email, studentDto.password).getFirst();
+        loggedInStudentDto.jwt = JWT.generate(loggedInStudentDto.id);
+        Response.send(200, context, loggedInStudentDto);
     }
 
     public static void postLogin(Context context) throws SQLException {
         StudentDto studentDto = context.bodyAsClass(StudentDto.class);
         List<StudentDto> studentDtos = Database.query("""
-            select * from student
-            where "email" = ? and "password" = ? 
+            select * from student s
+            where s."email" = ? and s."password" = ? 
             limit 1;
         """, StudentDto.class, studentDto.email, studentDto.password);
 
         if (!studentDtos.isEmpty()) {
-            Response.send(200, context, JWT.generate(studentDtos.getFirst().id));
+            StudentDto loggedInStudentDto = studentDtos.getFirst();
+            loggedInStudentDto.jwt = JWT.generate(loggedInStudentDto.id);
+            Response.send(200, context, loggedInStudentDto);
         } else {
             Response.send(401, context, "Invalid credentials");
         }

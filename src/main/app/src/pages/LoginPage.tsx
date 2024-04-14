@@ -13,9 +13,9 @@ export default function LoginPage() {
     email: "",
     password: "",
   });
-  const [user, setUser] = useLocalStorage("user", {
-    firstName: "asdf",
-    lastName: "asdf",
+  const [, setUser] = useLocalStorage("user", {
+    firstName: "",
+    lastName: "",
     jwt: "",
   });
 
@@ -39,8 +39,8 @@ export default function LoginPage() {
       body: JSON.stringify(formData),
     });
     if (response.ok) {
-      const jwt = await response.text();
-      setUser({ ...user, jwt });
+      const data = await response.json();
+      setUser(data);
       navigate("/");
     } else {
       const message = await response.text();

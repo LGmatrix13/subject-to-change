@@ -5,6 +5,7 @@ import WideButton from "../components/WideButton";
 import Select from "../components/Select";
 import { Option } from "../components/Option";
 import { DEPARTMENTS } from "../utils/constants";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -14,6 +15,11 @@ export default function RegisterPage() {
     email: "",
     password: "",
     major: "",
+  });
+  const [, setUser] = useLocalStorage("user", {
+    firstName: "",
+    lastName: "",
+    jwt: "",
   });
 
   function handleChange(
@@ -36,7 +42,9 @@ export default function RegisterPage() {
       body: JSON.stringify(formData),
     });
     if (response.ok) {
-      navigate("/auth/login");
+      const data = await response.json();
+      setUser(data);
+      navigate("/");
     } else {
       const message = await response.text();
       alert(message);
