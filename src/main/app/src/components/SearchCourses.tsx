@@ -13,7 +13,7 @@ interface SearchCoursesProps {
 
 export default function SearchCourses(props: SearchCoursesProps) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [semester] = useLocalStorage<"FALL" | "SPRING">("semester", FALL);
+  const [semester] = useLocalStorage<"fall" | "spring">("semester", FALL);
   const [search, setSearch] = useState({
     department: searchParams.get("department") || "",
     number: searchParams.get("number") || "",

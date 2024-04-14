@@ -34,15 +34,6 @@ public class Database {
                 .toList();
     }
 
-    public static <T> List<T> insert(String sql, Class<T> serializeTo, Object... args) throws SQLException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return new QueryRunner()
-                .insert(Database.connect(), sql, new MapListHandler(), args)
-                .stream()
-                .map(response -> objectMapper.convertValue(response, serializeTo))
-                .toList();
-    }
-
     public static int update(String sql, Object... args) throws SQLException {
         return new QueryRunner().update(Database.connect(), sql, args);
     }

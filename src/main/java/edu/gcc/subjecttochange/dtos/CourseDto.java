@@ -37,6 +37,8 @@ public class CourseDto {
     public int seats;
     @JsonProperty("enrolled")
     public int enrolled;
-    @JsonProperty("professorId")
-    public int professorId;
+    @JsonProperty("professorFirstName")
+    public String professorFirstName;
+    @JsonProperty("professorLastName")
+    public String professorLastName;
 }

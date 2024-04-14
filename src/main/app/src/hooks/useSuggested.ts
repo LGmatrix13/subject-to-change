@@ -6,13 +6,13 @@ import { FALL } from "../utils/constants";
 
 export default function useStudent() {
   const [user] = useLocalStorage("user", {
-    id: "",
+    jwt: "",
   });
-  const [semester] = useLocalStorage<"FALL" | "SPRING">("semester", FALL);
+  const [semester] = useLocalStorage<"fall" | "spring">("semester", FALL);
 
   const { data, isLoading, error } = useSWR<Course[]>(
     `http://localhost:7070/api/suggested?semester=${semester}`,
-    (url: string) => fetcher(url, user.id)
+    (url: string) => fetcher(url, user.jwt)
   );
 
   return {

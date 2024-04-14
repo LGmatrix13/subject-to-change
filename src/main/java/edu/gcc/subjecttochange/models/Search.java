@@ -65,7 +65,7 @@ public class Search {
         }
         // filter department
         if (this.department != null && !this.department.isEmpty()) {
-            stringBuilder.append(String.format("%s department = \"%s\" and", stringBuilder.isEmpty() ? "where" : "", this.department));
+            stringBuilder.append(String.format("%s c.department = \"%s\" and", stringBuilder.isEmpty() ? "where" : "", this.department));
         }
         // filter by course number
         if (this.number != null) {
@@ -73,7 +73,7 @@ public class Search {
         }
         // filter by name
         if (this.name != null && !this.name.isEmpty()) {
-            stringBuilder.append(String.format("%s name = \"%s\" and", stringBuilder.isEmpty() ? "where" : "", this.name.toUpperCase()));
+            stringBuilder.append(String.format("%s name like \"%%%s%%\" and", stringBuilder.isEmpty() ? "where" : "", this.name.toUpperCase()));
         }
         // filter by start time
         if (this.startTime != null && !this.startTime.isEmpty()) {
@@ -90,15 +90,18 @@ public class Search {
 
         String sort = "";
         // order asc by popularity/enrollment
-        if (this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("asc")){
-            sort = "order by enrollment acs";
-        }
-        // order desc by popularity/enrollment
-        if (this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("desc")){
-            sort = "order by enrollment desc";
+        if (this.orderBy != null && !this.orderBy.isEmpty()){
+            sort = String.format("order by c.enrolled %s", this.orderBy);
         }
 
-        String sql = String.format("select * from course %s %s", stringBuilder.substring(0, stringBuilder.length() - 3), sort);
+        String sql = String.format("""
+                select c."id", c."department", c."number", c."semester", c."hours", 
+                c."name", c."startTime", c."endTime", c."weekday", c."section", c."seats", 
+                c."enrolled", p."firstName" "professorFirstName", p."lastName" "professorLastName"
+                from course c
+                join professor p on p."id" = c."professorId"
+                %s %s
+        """, stringBuilder.substring(0, stringBuilder.length() - 3), sort);
         List<Course> courses = Database.query(sql, Course.class);
         Cache.searchHistory.put(this, courses);
         return courses;

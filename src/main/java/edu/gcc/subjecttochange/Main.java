@@ -7,6 +7,8 @@ import io.javalin.plugin.bundled.CorsPluginConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.SQLException;
+
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
@@ -22,12 +24,17 @@ public class Main {
         app.post("/api/courses", CoursesController::postCourses);
         app.delete("/api/courses", CoursesController::deleteCourses);
         app.get("/api/suggested", SuggestedController::getSuggested);
-        app.post("/api/student/login", StudentController::postStudentLogin);
-        app.post("/api/student/register", StudentController::postStudentRegister);
+        app.post("/api/auth/login", AuthController::postLogin);
+        app.post("/api/auth/register", AuthController::postRegister);
         app.get("/api/search", SearchController::getSearch);
         app.get("/api/student", StudentController::getStudent);
         app.get("/api/professors", ProfessorsController::getProfessors);
 
+        app.exception(SQLException.class, (e, context) -> {
+            logger.warn(e.getMessage(), e);
+            context.result("Database error occurred");
+            context.status(400);
+        });
         app.exception(Exception.class, (e, context) -> {
             logger.warn(e.getMessage(), e);
             context.result("Something wrong happened");
