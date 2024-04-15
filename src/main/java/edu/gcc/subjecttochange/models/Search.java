@@ -1,6 +1,5 @@
 package edu.gcc.subjecttochange.models;
 
-import edu.gcc.subjecttochange.utilties.Cache;
 import edu.gcc.subjecttochange.utilties.Database;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -47,11 +46,6 @@ public class Search {
 
 
     public List<Course> run() throws SQLException {
-        // see if the search result is cached
-        if (Cache.searchHistory.containsKey(this)) {
-            return Cache.searchHistory.get(this);
-        }
-
         StringBuilder stringBuilder = new StringBuilder();
         // filter by semester
         if (this.semester != null) {
@@ -103,9 +97,7 @@ public class Search {
                 join professor p on p."id" = c."professorId"
                 %s %s
         """, stringBuilder.substring(0, stringBuilder.length() - 3), sort);
-        List<Course> courses = Database.query(sql, Course.class);
-        Cache.searchHistory.put(this, courses);
-        return courses;
+        return Database.query(sql, Course.class);
     }
 
     @Override
