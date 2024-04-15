@@ -30,7 +30,7 @@ public class CoursesController {
             List<Course> courses = Database.query("""
                 select c."id", c."department", c."number", c."semester", c."hours", 
                 c."name", c."startTime", c."endTime", c."weekday", c."section", c."seats", 
-                c."enrolled", p."firstName" "professorFirstName", p."lastName" "professorLastName"
+                (select count(*) from "schedule" where "courseId" = c."id") as "enrolled", p."firstName" "professorFirstName", p."lastName" "professorLastName"
                 from "course" c
                 join "professor" p on p."id" = c."professorId"
                 join "schedule" s on s."courseId" = c."id"
