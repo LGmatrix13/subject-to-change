@@ -5,12 +5,12 @@ import type { Professor } from "../utils/types";
 
 export default function useProfessors() {
   const [user] = useLocalStorage("user", {
-    id: "",
+    jwt: "",
   });
 
   const { data, isLoading, error } = useSWR<Professor[]>(
     "http://localhost:7070/api/professors",
-    (url: string) => fetcher(url, user.id)
+    (url: string) => fetcher(url, user.jwt)
   );
 
   return {

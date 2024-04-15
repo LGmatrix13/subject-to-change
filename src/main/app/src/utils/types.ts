@@ -1,5 +1,5 @@
 export interface Course {
-  semester: "FALL" | "SPRING";
+  semester: "fall" | "spring";
   department: string;
   number: number;
   year: number;
@@ -10,22 +10,12 @@ export interface Course {
   weekday: string;
   seats: number;
   enrolled: number;
-  professor: Professor;
-  waitlist: Student[];
+  professorFirstName: string;
+  professorLastName: string;
 }
 
 export interface Professor {
   department: string;
   firstName: string;
   lastName: string;
-}
-
-export interface Student {
-  id: string;
-  major: string;
-  firstName: string;
-  lastName: string;
-  year: number;
-  fallSchedule: Course[];
-  springSchedule: Course[];
 }

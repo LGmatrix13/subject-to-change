@@ -3,21 +3,23 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import { mutate } from "swr";
 import { AddIcon, SignInIcon } from "./Icons";
 import composeEmail from "../utils/composeEmail";
+import { useSearchParams } from "react-router-dom";
 
 interface CourseTableProps {
   courses: Course[];
 }
 
 export default function CourseTable(props: CourseTableProps) {
+  const [searchParams] = useSearchParams();
   const [user] = useLocalStorage("user", {
-    id: "",
+    jwt: "",
   });
 
   async function addCourse(course: Course) {
     const response = await fetch("http://localhost:7070/api/courses", {
       method: "POST",
       headers: {
-        studentId: user.id,
+        jwt: user.jwt,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(course),
@@ -48,7 +50,7 @@ export default function CourseTable(props: CourseTableProps) {
           <tr key={index}>
             <td className="py-3 truncate">{course.name}</td>
             <td className="py-3 truncate">
-              {course.professor.firstName} {course.professor.lastName}
+              {course.professorFirstName} {course.professorLastName}
             </td>
             <td className="py-3 truncate">
               {course.weekday} {course.startTime} - {course.endTime}
