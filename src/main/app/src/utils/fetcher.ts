@@ -1,8 +1,8 @@
-export const fetcher = (url: string, studentId: string) =>
+export const fetcher = (url: string, jwt: string) =>
   fetch(url, {
     method: "GET",
     headers: {
-      studentId: studentId,
+      jwt: jwt,
     },
   }).then((res) => res.json());
 

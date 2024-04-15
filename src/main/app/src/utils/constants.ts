@@ -47,5 +47,5 @@ export const DEPARTMENTS = [
   "WRIT",
 ];
 
-export const SPRING = "SPRING";
-export const FALL = "FALL";
+export const SPRING = "spring";
+export const FALL = "fall";

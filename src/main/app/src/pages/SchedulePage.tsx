@@ -2,7 +2,6 @@ import ScheduleTable from "../components/ScheduleTable";
 import WeeklySchedule from "../components/ScheduleCalendar";
 import { Link } from "react-router-dom";
 import WideButton from "../components/WideButton";
-import { FALL } from "../utils/constants";
 import useStudent from "../hooks/useStudent";
 import Alert from "../components/Alert";
 import Loading from "../components/Loading";
@@ -20,23 +19,14 @@ export default function SchedulePage() {
       </>
     );
 
-  const schedule =
-    semester === FALL ? student?.fallSchedule : student?.springSchedule;
-
-  if (!schedule?.length) {
-    const semesters = {
-      FALL: "fall",
-      SPRING: "spring",
-    };
+  if (!student?.length) {
     return (
       <Alert
-        title={`You are not enrolled in a ${semesters[semester]} semester course`}
-        message={`You are not enrolled in a ${semesters[semester]} semester course, so you do not have a ${semesters[semester]} semester schedule.`}
+        title={`You are not enrolled in a ${semester} semester course`}
+        message={`You are not enrolled in a ${semester} semester course, so you do not have a ${semester} semester schedule.`}
       >
         <Link to="/search">
-          <WideButton>
-            Enroll in a {semesters[semester]} semester course
-          </WideButton>
+          <WideButton>Enroll in a {semester} semester course</WideButton>
         </Link>
       </Alert>
     );
@@ -44,8 +34,8 @@ export default function SchedulePage() {
 
   return (
     <>
-      <ScheduleTable semester={semester} courses={schedule} />
-      <WeeklySchedule courses={schedule} />
+      <ScheduleTable semester={semester} courses={student} />
+      <WeeklySchedule courses={student} />
     </>
   );
 }

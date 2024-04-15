@@ -1,26 +1,20 @@
 package edu.gcc.subjecttochange.models;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.ArrayList;
+import java.util.List;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class Schedule extends ArrayList<Course> {
-    @Override
-    public boolean add(Course course) {
+public class Schedule  {
+
+    public static boolean conflictFree(List<Course> courses, Course course) {
         // Check for conflicts with courses in the selected semester schedule
-        for (Course existingCourse : this) {
+        for (Course existingCourse : courses) {
             if (course.conflictsWith(existingCourse)) {
                 return false; // Conflict found, cannot add the course
             }
         }
 
-
         // if the course is not full, add
-        if (!course.isFull()) {
-            return super.add(course);
-        }
-
-        return false;
+        return !course.isFull();
     }
 }

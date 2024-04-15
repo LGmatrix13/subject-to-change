@@ -8,12 +8,13 @@ import "./index.css";
 import ProfessorsLayout from "./layouts/ProfessorsLayout.tsx";
 import ProfessorsPage from "./pages/ProfessorsPage.tsx";
 import SearchPage from "./pages/SearchPage.tsx";
-import WelcomeLayout from "./layouts/WelcomeLayout.tsx";
-import WelcomePage from "./pages/WelcomePage.tsx";
+import RegisterPage from "./pages/RegisterPage.tsx";
 import "@fontsource/lato";
 import SearchLayout from "./layouts/SearchLayout.tsx";
 import SuggestedLayout from "./layouts/SuggestedLayout.tsx";
 import SuggestedPage from "./pages/SuggestedPage.tsx";
+import LoginPage from "./pages/LoginPage.tsx";
+import AuthLayout from "./layouts/AuthLayout.tsx";
 
 const router = createBrowserRouter([
   {
@@ -47,11 +48,19 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/welcome",
+    path: "/auth/register",
     element: (
-      <WelcomeLayout>
-        <WelcomePage />
-      </WelcomeLayout>
+      <AuthLayout>
+        <RegisterPage />
+      </AuthLayout>
+    ),
+  },
+  {
+    path: "/auth/login",
+    element: (
+      <AuthLayout>
+        <LoginPage />
+      </AuthLayout>
     ),
   },
   {

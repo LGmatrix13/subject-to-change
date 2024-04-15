@@ -7,14 +7,14 @@ import { Course } from "../utils/types";
 export default function useSearch() {
   const [searchParams] = useSearchParams();
   const [user] = useLocalStorage("user", {
-    id: "",
+    jwt: "",
   });
 
   const { data, isLoading, error } = useSWR<Course[]>(
     searchParams.toString().length
       ? `http://localhost:7070/api/search?${searchParams.toString()}`
       : null,
-    (url: string) => fetcher(url, user.id)
+    (url: string) => fetcher(url, user.jwt)
   );
 
   return {
