@@ -35,13 +35,11 @@ public class SuggestedController {
                     select "name" from "course" c
                     join "schedule" s on s."courseId" = c."id" 
                     where s."studentId" = ?
-                ) and c."semester" = ?;  
-                
+                ) and c."semester" = ?;
             """, CourseDto.class, studentId, studentId, semester);
             Response.send(200, context, courseDtos);
             return;
         }
-
         // otherwise notify the student a schedule could not be generated
         Response.send(400, context, "Could not generate student schedule");
     }

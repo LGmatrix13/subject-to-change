@@ -6,10 +6,6 @@ repositories {
     mavenCentral()
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
@@ -22,11 +18,9 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
 }
 
-
 test {
     useJUnitPlatform()
 }
-
 
 jar {
     manifest {
