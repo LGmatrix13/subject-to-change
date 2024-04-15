@@ -54,6 +54,7 @@ public class CoursesController {
 
             // removoe course from schedule
             if (schedule.remove(course)) {
+                course.enrolled --;
                 context.result("Removed course from student schedule");
                 context.status(200);
                 return;

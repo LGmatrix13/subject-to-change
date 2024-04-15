@@ -14,10 +14,9 @@ public class Schedule extends ArrayList<Course> {
                 return false; // Conflict found, cannot add the course
             }
         }
-
-
         // if the course is not full, add
         if (!course.isFull()) {
+            course.enrolled ++;
             return super.add(course);
         }
 
