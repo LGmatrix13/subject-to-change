@@ -23,9 +23,9 @@ public class SuggestedController {
         // if student exists, proceed
         if (studentId != null) {
             List<CourseDto> courseDtos = Database.query("""
-                select c."department", c."number", c."semester", c."hours", 
+                select c."id", c."department", c."number", c."semester", c."hours", 
                 c."name", c."startTime", c."endTime", c."weekday", c."section", c."seats", 
-                c."enrolled", p."firstName" "professorFirstName", p."lastName" "professorLastName"
+                p."firstName" "professorFirstName", p."lastName" "professorLastName", (select count(*) from "schedule" where "courseId" = c."id") "enrolled"
                 from course c
                 join professor p on c."professorId" = p."id"
                 where c."department" = (
