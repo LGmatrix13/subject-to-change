@@ -92,33 +92,11 @@ public class Search {
         String sql = String.format("""
                 select c."id", c."department", c."number", c."semester", c."hours", 
                 c."name", c."startTime", c."endTime", c."weekday", c."section", c."seats", 
-                c."enrolled", p."firstName" "professorFirstName", p."lastName" "professorLastName"
+                p."firstName" "professorFirstName", p."lastName" "professorLastName", (select count(*) from "schedule" where "courseId" = c."id") "enrolled"
                 from course c
                 join professor p on p."id" = c."professorId"
                 %s %s
         """, stringBuilder.substring(0, stringBuilder.length() - 3), sort);
         return Database.query(sql, Course.class);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(department, name, startTime, endTime, weekday, number, orderBy, semester);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Search other = (Search) obj;
-        return Objects.equals(department, other.department) &&
-                Objects.equals(name, other.name) &&
-                Objects.equals(startTime, other.startTime) &&
-                Objects.equals(endTime, other.endTime) &&
-                Objects.equals(weekday, other.weekday) &&
-                Objects.equals(number, other.number) &&
-                Objects.equals(orderBy,other.orderBy) &&
-                Objects.equals(professor, other.professor) &&
-                this.semester == other.semester;
     }
 }

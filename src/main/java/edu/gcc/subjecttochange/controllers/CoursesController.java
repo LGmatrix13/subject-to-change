@@ -30,7 +30,7 @@ public class CoursesController {
             List<Course> courses = Database.query("""
                 select c."id", c."department", c."number", c."semester", c."hours", 
                 c."name", c."startTime", c."endTime", c."weekday", c."section", c."seats", 
-                (select count(*) from "schedule" where "courseId" = c."id") as "enrolled", p."firstName" "professorFirstName", p."lastName" "professorLastName"
+                p."firstName" "professorFirstName", p."lastName" "professorLastName"
                 from "course" c
                 join "professor" p on p."id" = c."professorId"
                 join "schedule" s on s."courseId" = c."id"
@@ -43,11 +43,6 @@ public class CoursesController {
                     ("courseId", "studentId")
                     values (?, ?);
                 """, course.id, studentId);
-                Database.update("""
-                    update "course"
-                    set "enrolled" = "enrolled" + 1 
-                    where "id" = ?
-                """, course.id);
                 Response.send(200, context, String.format("Added %s to student schedule", course.name));
                 return;
             }
@@ -72,11 +67,6 @@ public class CoursesController {
                 delete from "schedule"
                 where "courseId" = ? and "studentId" = ?;
             """, course.id, studentId);
-            Database.update("""
-                update "course"
-                set "enrolled" = "enrolled" -  1
-                where "id" = ?;   
-            """, course.id);
             Response.send(200, context, String.format("Removed %s from student schedule", course.name));
             return;
         }

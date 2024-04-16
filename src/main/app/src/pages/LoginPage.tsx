@@ -2,9 +2,6 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../components/Input";
 import WideButton from "../components/WideButton";
-import Select from "../components/Select";
-import { Option } from "../components/Option";
-import { DEPARTMENTS } from "../utils/constants";
 import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function LoginPage() {
