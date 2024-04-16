@@ -23,7 +23,7 @@ public class StudentController {
             List<CourseDto> courseDtos = Database.query( """
                 select c."id", c."department", c."number", c."semester", c."hours", 
                 c."name", c."startTime", c."endTime", c."weekday", c."section", c."seats", 
-                c."enrolled", p."firstName" "professorFirstName", p."lastName" "professorLastName"
+                p."firstName" "professorFirstName", p."lastName" "professorLastName"
                 from schedule s
                 join course c on s."courseId" = c."id"
                 join professor p on p."id" = c."professorId"
