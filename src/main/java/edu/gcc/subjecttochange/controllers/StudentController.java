@@ -18,6 +18,7 @@ public class StudentController {
      */
     public static void getStudent(Context context) throws SQLException {
         Integer studentId = JWT.decodeStudentId(context);
+
         List<CourseDto> courseDtos = Database.query( """
             select c."id", c."department", c."number", c."semester", c."hours", 
             c."name", c."startTime", c."endTime", c."weekday", c."section", c."seats", 

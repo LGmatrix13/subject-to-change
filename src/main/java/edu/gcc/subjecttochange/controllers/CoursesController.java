@@ -25,6 +25,7 @@ public class CoursesController {
         Integer studentId = JWT.decodeStudentId(context);
         // serialize the course to remove
         Course course = context.bodyAsClass(Course.class);
+
         List<Course> courses = Database.query("""
             select c."id", c."department", c."number", c."semester", c."hours", 
             c."name", c."startTime", c."endTime", c."weekday", c."section", c."seats", 
@@ -34,7 +35,9 @@ public class CoursesController {
             join "schedule" s on s."courseId" = c."id"
             where s."studentId" = ? and c."semester" = ?;
         """, Course.class, studentId, course.semester);
+                                              
         boolean conflictFree = Schedule.conflictFree(courses, course);
+                                              
         if (conflictFree) {
             Database.update("""
                 insert into "schedule"
@@ -44,6 +47,7 @@ public class CoursesController {
             Response.send(200, context, String.format("Added %s to student schedule", course.name));
             return;
         }
+                            
         Response.send(400, context, "Course conflicts with current schedule");
     }
 

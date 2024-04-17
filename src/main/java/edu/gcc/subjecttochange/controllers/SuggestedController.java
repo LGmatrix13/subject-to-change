@@ -21,6 +21,7 @@ public class SuggestedController {
         Integer studentId = JWT.decodeStudentId(context);
         String semester = context.req().getParameter("semester");
         // if student exists, proceed
+
         List<CourseDto> courseDtos = Database.query("""
             select c."department", c."number", c."semester", c."hours", 
             c."name", c."startTime", c."endTime", c."weekday", c."section", c."seats", 
