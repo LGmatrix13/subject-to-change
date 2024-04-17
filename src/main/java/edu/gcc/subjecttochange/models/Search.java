@@ -1,17 +1,16 @@
 package edu.gcc.subjecttochange.models;
 
-import edu.gcc.subjecttochange.utilties.Datastore;
+import edu.gcc.subjecttochange.utilties.Database;
 import jakarta.servlet.http.HttpServletRequest;
 
-import java.util.Comparator;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 public class Search {
-
     public String department;
     public Integer number;
+    public String professor;
     public String name;
     public String startTime;
     public String endTime;
@@ -25,118 +24,79 @@ public class Search {
      */
     public Search(HttpServletRequest request) {
         this.department = request.getParameter("department");
+        this.professor = request.getParameter("professor");
         this.name = request.getParameter("name");
         this.startTime = request.getParameter("startTime");
         this.endTime = request.getParameter("endTime");
         this.weekday = request.getParameter("weekday");
-        String numberParameter = request.getParameter("number");
         this.orderBy = request.getParameter("orderBy");
-        this.semester = Course.Semester.valueOf(request.getParameter("semester"));
+
+        String numberParameter = request.getParameter("number");
+        String semester = request.getParameter("semester");
+
+        if (semester != null && !semester.isEmpty()) {
+            this.semester = Course.Semester.valueOf(semester);
+        }
+
         // conver the course number filter and covert it to the ints
         if (numberParameter != null && !numberParameter.isEmpty()) {
             this.number = Integer.valueOf(numberParameter);
         }
     }
 
-    /**
-     * alternative constructor for generating suggested courses
-     */
-    public Search(String department, Course.Semester semester) {
-        this.department = department;
-        this.semester = semester;
-    }
 
-    public List<Course> run() {
-        // see if the search result is cached
-        if (Datastore.searchHistory.containsKey(this)) {
-            return Datastore.searchHistory.get(this);
-        }
-
-        // use functional streaming to run through each filter
-        Stream<Course> filteredCourses = Datastore.courses.stream();
-
+    public List<Course> run() throws SQLException {
+        StringBuilder stringBuilder = new StringBuilder();
         // filter by semester
         if (this.semester != null) {
-            filteredCourses = filteredCourses.filter(item -> item.semester == this.semester);
+            stringBuilder.append(String.format("%s semester = \"%s\" and", stringBuilder.isEmpty() ? "where" : "", this.semester));
         }
-
         // filter department
         if (this.department != null && !this.department.isEmpty()) {
-            filteredCourses = filteredCourses.filter(item -> item.department.equals(department));
+            stringBuilder.append(String.format("%s c.department = \"%s\" and", stringBuilder.isEmpty() ? "where" : "", this.department));
         }
-
         // filter by course number
         if (this.number != null) {
-            filteredCourses = filteredCourses.filter(item -> item.number == number);
+            stringBuilder.append(String.format("%s number = \"%s\" and", stringBuilder.isEmpty() ? "where" : "", this.number));
         }
-
         // filter by name
         if (this.name != null && !this.name.isEmpty()) {
-            filteredCourses = filteredCourses.filter(item -> item.name.toLowerCase().contains(this.name.toLowerCase()));
+            stringBuilder.append(String.format("%s lower(name) like lower(\"%%%s%%\") and", stringBuilder.isEmpty() ? "where" : "", this.name));
         }
-        
+        if (this.professor != null && !this.professor.isEmpty()) {
+            stringBuilder.append(String.format("%s lower(p.\"firstName\") like lower(\"%%%s%%\") or lower(p.\"lastName\") like lower(\"%%%s%%\") and", stringBuilder.isEmpty() ? "where" : "", this.professor, this.professor));
+        }
         // filter by start time
         if (this.startTime != null && !this.startTime.isEmpty()) {
-            filteredCourses = filteredCourses.filter(item -> item.startTime != null && item.startTime.equals(startTime));
+            stringBuilder.append(String.format("%s \"startTime\" = \"%s\" and", stringBuilder.isEmpty() ? "where" : "", this.startTime));
         }
-
         // filter by end time
         if (this.endTime != null && !this.endTime.isEmpty()) {
-            filteredCourses = filteredCourses.filter(item -> item.endTime != null && item.endTime.equals(endTime));
+            stringBuilder.append(String.format("%s \"endTime\" = \"%s\" and", stringBuilder.isEmpty() ? "where" : "", this.endTime));
         }
-
         // filter by weekday
         if (this.weekday != null && !this.weekday.isEmpty()) {
-            filteredCourses = filteredCourses.filter(item -> {
-                if (item.weekday == null) return false;
-                // logic so MTWF classes appear when weekDay is MWF or TR
-                for (int i = 0; i < item.weekday.length(); i++) {
-                    if (this.weekday.indexOf(item.weekday.charAt(i)) != -1) {
-                        return true;
-                    }
-                }
-                return false;
-            });
+            if (this.weekday.equals("MWF")) {
+                stringBuilder.append(String.format("%s weekday like \"%%M%%\" or weekday like \"%%W%%\" or weekday like \"%%F%%\" and", stringBuilder.isEmpty() ? "where" : ""));
+            } else {
+                stringBuilder.append(String.format("%s weekday like \"%%T%%\" or weekday like \"%%R%%\" and", stringBuilder.isEmpty() ? "where" : ""));
+            }
         }
 
+        String sort = "";
         // order asc by popularity/enrollment
-        if(this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("asc")){
-            filteredCourses = filteredCourses.sorted(Comparator.comparingInt((Course c) -> c.seats - c.enrolled));
-        }
-        // order desc by popularity/enrollment
-        if(this.orderBy != null && !this.orderBy.isEmpty() && this.orderBy.equals("desc")){
-            filteredCourses = filteredCourses.sorted(Comparator.comparingInt((Course c) -> c.enrolled - c.seats));
+        if (this.orderBy != null && !this.orderBy.isEmpty()){
+            sort = String.format("order by c.enrolled %s", this.orderBy);
         }
 
-
-        // return search result and cache it for future use
-        List<Course> result = filteredCourses.toList();
-        Datastore.searchHistory.put(this, result);    
-        return result;
-    }
-
-    public List<Course> run(int limit) {
-        return this.run().subList(0, limit);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(department, name, startTime, endTime, weekday, number, orderBy, semester);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Search other = (Search) obj;
-        return Objects.equals(department, other.department) &&
-                Objects.equals(name, other.name) &&
-                Objects.equals(startTime, other.startTime) &&
-                Objects.equals(endTime, other.endTime) &&
-                Objects.equals(weekday, other.weekday) &&
-                Objects.equals(number, other.number) &&
-                Objects.equals(orderBy,other.orderBy) &&
-                this.semester == other.semester;
+        String sql = String.format("""
+                select c."id", c."department", c."number", c."semester", c."hours", 
+                c."name", c."startTime", c."endTime", c."weekday", c."section", c."seats", 
+                p."firstName" "professorFirstName", p."lastName" "professorLastName", (select count(*) from "schedule" where "courseId" = c."id") "enrolled"
+                from course c
+                join professor p on p."id" = c."professorId"
+                %s %s
+        """, stringBuilder.substring(0, stringBuilder.length() - 3), sort);
+        return Database.query(sql, Course.class);
     }
 }

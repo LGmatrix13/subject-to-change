@@ -14,7 +14,7 @@ export default function RootLayout(props: RootLayoutProps) {
   } | null>("user", null);
 
   if (!user) {
-    return <Navigate to="/welcome" />;
+    return <Navigate to="/auth/login" />;
   }
 
   return (

@@ -1,76 +1,76 @@
 package edu.gcc.subjecttochange.controllers;
 
+import edu.gcc.subjecttochange.dtos.CourseDto;
+import edu.gcc.subjecttochange.dtos.ScheduleDto;
 import edu.gcc.subjecttochange.models.Course;
 import edu.gcc.subjecttochange.models.Schedule;
-import edu.gcc.subjecttochange.models.Student;
-import edu.gcc.subjecttochange.utilties.Datastore;
+import edu.gcc.subjecttochange.utilties.Database;
+import edu.gcc.subjecttochange.utilties.Response;
+import edu.gcc.subjecttochange.utilties.JWT;
 import io.javalin.http.Context;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.Optional;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * HTTP logic for adding and removing courses to schedule
  */
 public class CoursesController {
 
-    private static Logger logger = LoggerFactory.getLogger(CoursesController.class);
     /**
      * HTTP logic for adding a course
      */
-    public static void postCourses(Context context) {
+    public static void postCourses(Context context) throws SQLException {
         // get student id from request
-        String studentId = Student.getStudentId(context);
-        Optional<Student> student = Datastore.getStudent(studentId);
+        Integer studentId = JWT.decodeStudentId(context);
+        // serialize the course to remove
+        Course course = context.bodyAsClass(Course.class);
 
-        // if student exists in the database, proceed
-        if (student.isPresent()) {
-            // serialize the course to add
-            Course course = context.bodyAsClass(Course.class);
-            Schedule schedule = course.semester == Course.Semester.FALL ? student.get().fallSchedule : student.get().springSchedule;
-
-            // add course to the appropiate schedule
-            if (schedule.add(course)) {
-                String message = "Added course to student schedule";
-                context.result(message);
-                logger.info(message);
-                context.status(200);
+        if (studentId != null) {
+            List<Course> courses = Database.query("""
+                select c."id", c."department", c."number", c."semester", c."hours", 
+                c."name", c."startTime", c."endTime", c."weekday", c."section", c."seats", 
+                p."firstName" "professorFirstName", p."lastName" "professorLastName"
+                from "course" c
+                join "professor" p on p."id" = c."professorId"
+                join "schedule" s on s."courseId" = c."id"
+                where s."studentId" = ? and c."semester" = ?;
+            """, Course.class, studentId, course.semester);
+            boolean conflictFree = Schedule.conflictFree(courses, course);
+            if (conflictFree) {
+                Database.update("""
+                    insert into "schedule"
+                    ("courseId", "studentId")
+                    values (?, ?);
+                """, course.id, studentId);
+                Response.send(200, context, String.format("Added %s to student schedule", course.name));
                 return;
             }
+
+            Response.send(400, context, "Course conflicts with current schedule");
         }
 
-        // otherwise notify study the course could not be added
-        context.result("Could not add course as it is either full or has conflicts with other courses");
-        logger.info("Tried to add course, but could not add course as it is either full or has conflicts with other courses");
-        context.status(400);
+        Response.send(401, context);
     }
 
     /**
      * HTTP logic for deleting a course
      */
-    public static void deleteCourses(Context context) {
+    public static void deleteCourses(Context context) throws SQLException {
         // get student id from request
-        String studentId = Student.getStudentId(context);
-        Optional<Student> student = Datastore.getStudent(studentId);
+        Integer studentId = JWT.decodeStudentId(context);
+        // serialize the course to remove
+        Course course = context.bodyAsClass(Course.class);
 
-        if (student.isPresent()) {
-            // serialize the course to remove
-            Course course = context.bodyAsClass(Course.class);
-            Schedule schedule = course.semester == Course.Semester.FALL ? student.get().fallSchedule : student.get().springSchedule;
-
-            // removoe course from schedule
-            if (schedule.remove(course)) {
-                context.result("Removed course from student schedule");
-                logger.info("Removed course from student schedule");
-                context.status(200);
-                return;
-            }
+        if (studentId != null) {
+            Database.update("""
+                delete from "schedule"
+                where "courseId" = ? and "studentId" = ?;
+            """, course.id, studentId);
+            Response.send(200, context, String.format("Removed %s from student schedule", course.name));
+            return;
         }
 
-        // otherwise, notify student the course coudld not be removed
-        context.result("Could not remove course");
-        logger.info("Could not remove course");
-        context.status(400);
+        Response.send(401, context);
     }
 }

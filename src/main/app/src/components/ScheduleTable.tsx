@@ -4,30 +4,33 @@ import { Course } from "../utils/types";
 import { RemoveIcon } from "./Icons";
 
 interface ScheduleTableProps {
-  semester: "FALL" | "SPRING";
+  semester: "fall" | "spring";
   courses: Course[];
 }
 
 export default function ScheduleTable(props: ScheduleTableProps) {
   const { mutate } = useSWRConfig();
   const [user] = useLocalStorage("user", {
-    id: "",
+    jwt: "",
   });
 
   async function removeCourse(course: Course) {
     const response = await fetch("http://localhost:7070/api/courses", {
       method: "DELETE",
       headers: {
-        studentId: user.id,
+        jwt: user.jwt,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(course),
     });
 
     if (response.ok) {
-      const text = await response.text();
-      alert(text);
+      const message = await response.text();
+      alert(message);
       mutate("http://localhost:7070/api/student");
+    } else {
+      const message = await response.text();
+      alert(message);
     }
   }
 
@@ -50,7 +53,7 @@ export default function ScheduleTable(props: ScheduleTableProps) {
             <tr key={index}>
               <td className="py-3">{course.name}</td>
               <td className="py-3">
-                {course.professor.firstName} {course.professor.lastName}
+                {course.professorFirstName} {course.professorLastName}
               </td>
               <td className="py-3 truncate">
                 {course.weekday} {course.startTime} - {course.endTime}

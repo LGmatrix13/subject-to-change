@@ -13,11 +13,12 @@ interface SearchCoursesProps {
 
 export default function SearchCourses(props: SearchCoursesProps) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [semester] = useLocalStorage<"FALL" | "SPRING">("semester", FALL);
+  const [semester] = useLocalStorage<"fall" | "spring">("semester", FALL);
   const [search, setSearch] = useState({
     department: searchParams.get("department") || "",
     number: searchParams.get("number") || "",
     name: searchParams.get("name") || "",
+    professor: searchParams.get("professor") || "",
     startTime: searchParams.get("startTime") || "",
     endTime: searchParams.get("endTime") || "",
     weekday: searchParams.get("weekday") || "",
@@ -91,6 +92,17 @@ export default function SearchCourses(props: SearchCoursesProps) {
                 type: "text",
                 placeholder: "Name",
                 value: search.name,
+              }}
+            />
+            <Input
+              label="Professor"
+              name="professor"
+              onChange={handleChange}
+              className="p-3 rounded-lg w-full"
+              options={{
+                type: "professor",
+                placeholder: "Professor",
+                value: search.professor,
               }}
             />
             <Input

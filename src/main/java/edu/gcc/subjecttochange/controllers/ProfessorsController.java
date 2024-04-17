@@ -1,44 +1,38 @@
 package edu.gcc.subjecttochange.controllers;
 
-import edu.gcc.subjecttochange.models.Professor;
-import edu.gcc.subjecttochange.models.Student;
-import edu.gcc.subjecttochange.utilties.Datastore;
+import edu.gcc.subjecttochange.dtos.ProfessorDto;
+import edu.gcc.subjecttochange.utilties.Database;
+import edu.gcc.subjecttochange.utilties.JWT;
+import edu.gcc.subjecttochange.utilties.Response;
 import io.javalin.http.Context;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
- * HTTP logic for geting professors relative to your schedule
+ * HTTP logic for getting professors relative to your schedule
  */
 public class ProfessorsController {
-
-    private static Logger logger = LoggerFactory.getLogger(ProfessorsController.class);
     /**
      * HTTP logic for getting professors
      */
-    public static void getProfessors(Context context) {
+    public static void getProfessors(Context context) throws SQLException {
         // get student id from request
-        String studentId = Student.getStudentId(context);
-        Optional<Student> student = Datastore.getStudent(studentId);
+        Integer studentId = JWT.decodeStudentId(context);
 
         // if  student exists in the database, proceed
-        if (student.isPresent()) {
-            // get a distinct list of all of the professors in the fall and spring
-            Set<Professor> fallProfessors = student.get().fallSchedule.stream().map(course -> course.professor).collect(Collectors.toSet());
-            Set<Professor> springProfessors = student.get().springSchedule.stream().map(course -> course.professor).collect(Collectors.toSet());
-            // union them
-            fallProfessors.addAll(springProfessors);
-            // return to UI
-            context.json(fallProfessors);
-            logger.info("Professors successfully updated.");
-            context.status(200);
+        if (studentId != null) {
+            List<ProfessorDto> professorDtos = Database.query("""
+                select distinct p."firstName", p."lastName", p."department"
+                from student s
+                join schedule sc on s."id" = sc."studentId"
+                join course c on sc."courseId" = c."id"
+                join professor p on c."professorId" = p."id"
+                where s.id = ?;
+            """, ProfessorDto.class, studentId);
+            Response.send(200, context, professorDtos);
         }
 
-        //logger.info("Professors failed to updated.");
-        // provide unsucessful request otherwise
-        context.status(400);
+        Response.send(401, context);
     }
 }

@@ -1,41 +1,38 @@
 package edu.gcc.subjecttochange.controllers;
 
-import edu.gcc.subjecttochange.models.Student;
-import edu.gcc.subjecttochange.utilties.Datastore;
+import edu.gcc.subjecttochange.dtos.CourseDto;
+import edu.gcc.subjecttochange.utilties.Database;
+import edu.gcc.subjecttochange.utilties.JWT;
+import edu.gcc.subjecttochange.utilties.Response;
 import io.javalin.http.Context;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.Optional;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * HTTP logic for student logic
  */
 public class StudentController {
-    private static Logger logger = LoggerFactory.getLogger(StudentController.class);
-
     /**
      * HTTP logic for getting student data, namely their schedule
      */
-    public static void getStudent(Context context) {
-        String studentId = Student.getStudentId(context);
-        Optional<Student> student = Datastore.students.stream().filter(item -> item.id.equals(studentId)).findFirst();
+    public static void getStudent(Context context) throws SQLException {
+        Integer studentId = JWT.decodeStudentId(context);
 
-        if (student.isPresent()) {
-            context.json(student.get());
-            logger.info("Student succesfully found");
-            context.status(200);
+        if (studentId != null) {
+            List<CourseDto> courseDtos = Database.query( """
+                select c."id", c."department", c."number", c."semester", c."hours", 
+                c."name", c."startTime", c."endTime", c."weekday", c."section", c."seats", 
+                p."firstName" "professorFirstName", p."lastName" "professorLastName"
+                from schedule s
+                join course c on s."courseId" = c."id"
+                join professor p on p."id" = c."professorId"
+                where s."studentId" = ?;
+            """, CourseDto.class, studentId);
+            Response.send(200, context, courseDtos);
             return;
         }
-        logger.info("Student not found");
-        context.status(400);
-    }
 
-    public static void postStudent(Context context) {
-        Student student = context.bodyAsClass(Student.class);
-        Datastore.students.add(student);
-        logger.info("Student has been added to the data base");
-        context.json(student);
-        context.status(200);
+        Response.send(401, context);
     }
 }
