@@ -19,20 +19,15 @@ public class StudentController {
     public static void getStudent(Context context) throws SQLException {
         Integer studentId = JWT.decodeStudentId(context);
 
-        if (studentId != null) {
-            List<CourseDto> courseDtos = Database.query( """
-                select c."id", c."department", c."number", c."semester", c."hours", 
-                c."name", c."startTime", c."endTime", c."weekday", c."section", c."seats", 
-                p."firstName" "professorFirstName", p."lastName" "professorLastName"
-                from schedule s
-                join course c on s."courseId" = c."id"
-                join professor p on p."id" = c."professorId"
-                where s."studentId" = ?;
-            """, CourseDto.class, studentId);
-            Response.send(200, context, courseDtos);
-            return;
-        }
-
-        Response.send(401, context);
+        List<CourseDto> courseDtos = Database.query( """
+            select c."id", c."department", c."number", c."semester", c."hours", 
+            c."name", c."startTime", c."endTime", c."weekday", c."section", c."seats", 
+            c."enrolled", p."firstName" "professorFirstName", p."lastName" "professorLastName"
+            from schedule s
+            join course c on s."courseId" = c."id"
+            join professor p on p."id" = c."professorId"
+            where s."studentId" = ?;
+        """, CourseDto.class, studentId);
+        Response.send(200, context, courseDtos);
     }
 }

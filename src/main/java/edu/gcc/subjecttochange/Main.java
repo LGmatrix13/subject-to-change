@@ -1,9 +1,11 @@
 package edu.gcc.subjecttochange;
 
 import edu.gcc.subjecttochange.controllers.*;
+import edu.gcc.subjecttochange.utilties.JWT;
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
 import io.javalin.plugin.bundled.CorsPluginConfig;
+import io.jsonwebtoken.JwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +32,11 @@ public class Main {
         app.get("/api/student", StudentController::getStudent);
         app.get("/api/professors", ProfessorsController::getProfessors);
 
+        app.exception(JwtException.class, (e, context) -> {
+            logger.warn("Unauthorized request attempted", e);
+            context.result("Unauthorized");
+            context.status(401);
+        });
         app.exception(SQLException.class, (e, context) -> {
             logger.warn(e.getMessage(), e);
             context.result("Database error occurred");

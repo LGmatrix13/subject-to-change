@@ -3,14 +3,12 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import { mutate } from "swr";
 import { AddIcon, SignInIcon } from "./Icons";
 import composeEmail from "../utils/composeEmail";
-import { useSearchParams } from "react-router-dom";
 
 interface CourseTableProps {
   courses: Course[];
 }
 
 export default function CourseTable(props: CourseTableProps) {
-  const [searchParams] = useSearchParams();
   const [user] = useLocalStorage("user", {
     jwt: "",
   });
