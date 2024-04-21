@@ -12,7 +12,7 @@ export default function ProfessorCard(props: Professor) {
           Room Number: <span className="font-normal">{props.roomNumber}</span>
         </p>
       </div>
-        <div className="space-y-3">
+      <div className="space-y-3">
         <h3 className="font-bold">Office Hours</h3>
         <p className="font-normal">{props.officeHours}</p>
         {/* {props.officeHours.map((hour, index) => (

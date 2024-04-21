@@ -57,8 +57,11 @@ export default function ScheduleTable(props: ScheduleTableProps) {
                 {course.professorFirstName} {course.professorLastName}
               </td>
               <td className="py-3 truncate">
-                {course.weekday} {standardTimeConverter(course.startTime)} -{" "}
-                {standardTimeConverter(course.endTime)}
+                {course.weekday}{" "}
+                {course.startTime && course.endTime
+                  ? `${standardTimeConverter(course.startTime)} - 
+              ${standardTimeConverter(course.endTime)}`
+                  : "Online"}
               </td>
               <td className="py-3">
                 <button onClick={() => removeCourse(course)}>

@@ -17,6 +17,11 @@ public class Course extends CourseDto {
             return true;
         }
 
+        // return false if it is online
+        if (this.startTime == null || this.endTime == null) {
+            return false;
+        }
+
         // Convert start and end times to minutes for easier comparison
         int thisStartMinutes = timeToMinutes(this.startTime);
         int thisEndMinutes = timeToMinutes(this.endTime);
