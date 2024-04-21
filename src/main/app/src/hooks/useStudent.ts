@@ -15,8 +15,6 @@ export default function useStudent() {
     (url: string) => fetcher(url, user.jwt)
   );
 
-  console.log(semester);
-
   return {
     student: data?.filter((course) => course.semester === semester),
     semester: semester,

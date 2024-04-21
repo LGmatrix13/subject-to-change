@@ -26,7 +26,8 @@ public class CourseDto {
     @JsonProperty("name")
     public String name;
     @JsonProperty("startTime")
-    public String startTime;
+    private String startTime;
+    
     @JsonProperty("endTime")
     public String endTime;
     @JsonProperty("weekday")

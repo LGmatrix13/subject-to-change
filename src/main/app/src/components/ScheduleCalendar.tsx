@@ -69,15 +69,8 @@ function sortedCoures(courses: Course[], abbrevDay: string): Course[] {
 
 // Function to parse time string with AM/PM to Date object
 function parseTimeString(timeString: string): Date {
-  const [time, period] = timeString.split(" ");
-  const [hours, minutes] = time.split(":").map(Number);
-
-  let hours24 = hours % 12;
-  if (period === "PM") {
-    hours24 += 12;
-  }
-
-  return new Date(1970, 0, 1, hours24, minutes);
+  const [hours, minutes] = timeString.split(":").map(Number);
+  return new Date(1970, 0, 1, hours, minutes);
 }
 
 function DailyView(props: { courses: Course[] }) {
@@ -128,7 +121,7 @@ function WeekView(props: { courses: Course[] }) {
                   <div
                     style={{
                       height: Math.ceil(
-                        calculateGap("8:00 AM", array[index].startTime)
+                        calculateGap("07:00", array[index].startTime)
                       ),
                     }}
                   />
@@ -162,7 +155,7 @@ function WeekView(props: { courses: Course[] }) {
                   <div
                     style={{
                       height: Math.ceil(
-                        calculateGap(array[index].endTime, "5:00 PM")
+                        calculateGap(array[index].endTime, "18:00")
                       ),
                     }}
                   />

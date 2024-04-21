@@ -32,11 +32,7 @@ public class Course extends CourseDto {
         // Convert time string to minutes
         String[] parts = timeString.split(":");
         int hours = Integer.parseInt(parts[0]);
-        int minutes = Integer.parseInt(parts[1].split(" ")[0]);
-        String amPm = parts[1].split(" ")[1];
-        if (amPm.equals("PM")) {
-            hours += 12;
-        }
+        int minutes = Integer.parseInt(parts[1]);
         return hours * 60 + minutes;
     }
 
