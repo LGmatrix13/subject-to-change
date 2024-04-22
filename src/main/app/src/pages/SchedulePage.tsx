@@ -6,18 +6,20 @@ import useStudent from "../hooks/useStudent";
 import Alert from "../components/Alert";
 import Loading from "../components/Loading";
 import { useDelay } from "../hooks/useDelay";
+import { standardTimeConverter } from "../utils/standardTimeConverter";
 
 export default function SchedulePage() {
   const delay = useDelay();
   const { student, semester, isLoading, error } = useStudent();
   if (error) return <div>Error loading data</div>;
-  if (isLoading || delay)
+  if (isLoading || delay) {
     return (
       <>
         <Loading height={200} />
         <Loading height={500} />
       </>
     );
+  }
 
   if (!student?.length) {
     return (
