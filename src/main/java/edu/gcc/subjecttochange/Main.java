@@ -15,6 +15,7 @@ public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
+        System.out.println("test");
         Javalin app = Javalin.create(config -> {
             config.bundledPlugins.enableCors(cors -> {
                 cors.addRule(CorsPluginConfig.CorsRule::anyHost);
