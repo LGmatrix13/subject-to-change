@@ -9,12 +9,12 @@ export default function ProfessorCard(props: Professor) {
         </h2>
         <p>{props.department}</p>
         <p className="font-bold">
-          Room Number: <span className="font-normal">{props.roomNumber}</span>
+          Room Number: <span className="font-normal">-</span>
         </p>
       </div>
       <div className="space-y-3">
         <h3 className="font-bold">Office Hours</h3>
-        <p className="font-normal">{props.officeHours}</p>
+        <p className="font-normal">-</p>
         {/* {props.officeHours.map((hour, index) => (
           <p key={index} className="font-normal">
             {hour}
@@ -23,7 +23,7 @@ export default function ProfessorCard(props: Professor) {
       </div>
       <div className="space-y-3">
         <h3 className="font-bold">Bio</h3>
-        <p className="font-normal">{props.bio}</p>
+        <p className="font-normal">-</p>
       </div>
     </div>
   );

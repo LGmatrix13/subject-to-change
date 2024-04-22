@@ -9,7 +9,7 @@ interface BaseLayoutProps {
 }
 
 export default function BaseLayout(props: BaseLayoutProps) {
-  const [semester, setSemester] = useLocalStorage<"FALL" | "SPRING">(
+  const [semester, setSemester] = useLocalStorage<"fall" | "spring">(
     "semester",
     FALL
   );
