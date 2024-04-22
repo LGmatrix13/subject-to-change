@@ -5,7 +5,8 @@ import WideButton from "./WideButton";
 import Select from "./Select";
 import { Option } from "./Option";
 import useLocalStorage from "../hooks/useLocalStorage";
-import { DEPARTMENTS, FALL } from "../utils/constants";
+import { DEPARTMENTS, FALL, TIMES } from "../utils/constants";
+import { standardTimeConverter } from "../utils/standardTimeConverter";
 
 interface SearchCoursesProps {
   children?: React.ReactElement;
@@ -105,28 +106,48 @@ export default function SearchCourses(props: SearchCoursesProps) {
                 value: search.professor,
               }}
             />
-            <Input
+            <Select
               label="Start Time"
               name="startTime"
               onChange={handleChange}
-              className="p-3 rounded-lg w-full"
-              options={{
-                type: "text",
-                placeholder: "Start Time",
-                value: search.startTime,
-              }}
-            />
-            <Input
+              className="p-3 rounded-lg w-full h-[52px]"
+            >
+              <>
+                {TIMES.map((time) => (
+                  <Option
+                    value={time}
+                    label={standardTimeConverter(time)}
+                    selected={search.startTime === time}
+                  />
+                ))}
+                <Option
+                  value=""
+                  label="None"
+                  selected={search.startTime === ""}
+                />
+              </>
+            </Select>
+            <Select
               label="End Time"
               name="endTime"
               onChange={handleChange}
-              className="p-3 rounded-lg w-full"
-              options={{
-                type: "text",
-                placeholder: "End Time",
-                value: search.endTime,
-              }}
-            />
+              className="p-3 rounded-lg w-full h-[52px]"
+            >
+              <>
+                {TIMES.map((time) => (
+                  <Option
+                    value={time}
+                    label={standardTimeConverter(time) as string}
+                    selected={search.endTime === time}
+                  />
+                ))}
+                <Option
+                  value=""
+                  label="None"
+                  selected={search.endTime === ""}
+                />
+              </>
+            </Select>
             <Select
               label="Weekday"
               name="weekday"
