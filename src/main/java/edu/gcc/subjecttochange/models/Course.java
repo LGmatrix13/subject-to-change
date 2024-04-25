@@ -12,6 +12,7 @@ public class Course extends CourseDto {
     }
     @JsonIgnore
     public boolean conflictsWith(Course otherCourse) {
+
         // check if course is the same
         if (otherCourse.equals(this)){
             return true;
@@ -41,9 +42,14 @@ public class Course extends CourseDto {
     }
 
     @JsonIgnore
+    @Override
     public boolean equals(Object o) {
-        Course course = (Course) o;
-        return course.number == this.number && course.department.equals(this.department);
+        if(o instanceof Course)
+        {
+            Course course = (Course) o;
+            return course.number == this.number && course.department.equals(this.department);
+        }
+        return false;
     }
 
     @JsonIgnore

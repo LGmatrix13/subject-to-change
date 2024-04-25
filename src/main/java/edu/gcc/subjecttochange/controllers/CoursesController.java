@@ -2,6 +2,7 @@ package edu.gcc.subjecttochange.controllers;
 
 import edu.gcc.subjecttochange.dtos.CourseDto;
 import edu.gcc.subjecttochange.dtos.ScheduleDto;
+import edu.gcc.subjecttochange.models.Activity;
 import edu.gcc.subjecttochange.models.Course;
 import edu.gcc.subjecttochange.models.Schedule;
 import edu.gcc.subjecttochange.utilties.Database;
