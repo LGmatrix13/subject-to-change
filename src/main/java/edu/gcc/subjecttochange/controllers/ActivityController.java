@@ -7,6 +7,8 @@ import edu.gcc.subjecttochange.utilties.Database;
 import edu.gcc.subjecttochange.utilties.Response;
 import io.javalin.http.Context;
 
+import java.util.ArrayList;
+
 public class ActivityController{
 
     public static void addActivity(Context context){
@@ -29,4 +31,8 @@ public class ActivityController{
         Response.send(200, context, activity);
     }
 
+    public static void getActivity(Context context) {
+        Events.getEvents();
+        Response.send(200, context, Events.getEvents());
+    }
 }

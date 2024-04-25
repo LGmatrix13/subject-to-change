@@ -17,6 +17,4 @@ public class ActivityDto {
     public String endTime;
     @JsonProperty("weekday")
     public String weekday;
-
-
 }
