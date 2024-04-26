@@ -31,6 +31,9 @@ public class Main {
         app.get("/api/search", SearchController::getSearch);
         app.get("/api/student", StudentController::getStudent);
         app.get("/api/professors", ProfessorsController::getProfessors);
+        app.get("/api/activity", ActivityController::getActivity);
+        app.post("/api/activity", ActivityController::addActivity);
+        app.delete("/api/activity", ActivityController::removeActivity);
 
         app.exception(JwtException.class, (e, context) -> {
             logger.warn("Unauthorized request attempted", e);

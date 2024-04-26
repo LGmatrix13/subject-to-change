@@ -2,11 +2,12 @@ package edu.gcc.subjecttochange.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import edu.gcc.subjecttochange.models.Activity;
 import edu.gcc.subjecttochange.models.Course;
 import edu.gcc.subjecttochange.models.Professor;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CourseDto {
+public class CourseDto extends Activity {
     public enum Semester {
         fall,
         spring
@@ -23,6 +24,7 @@ public class CourseDto {
     public int hours;
     @JsonProperty("year")
     public int year;
+
     @JsonProperty("name")
     public String name;
     @JsonProperty("startTime")
@@ -32,6 +34,7 @@ public class CourseDto {
     public String endTime;
     @JsonProperty("weekday")
     public String weekday;
+
     @JsonProperty("section")
     public String section;
     @JsonProperty("seats")

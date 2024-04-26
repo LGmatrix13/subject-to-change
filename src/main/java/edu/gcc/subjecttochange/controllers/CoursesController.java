@@ -2,6 +2,7 @@ package edu.gcc.subjecttochange.controllers;
 
 import edu.gcc.subjecttochange.dtos.CourseDto;
 import edu.gcc.subjecttochange.dtos.ScheduleDto;
+import edu.gcc.subjecttochange.models.Activity;
 import edu.gcc.subjecttochange.models.Course;
 import edu.gcc.subjecttochange.models.Schedule;
 import edu.gcc.subjecttochange.utilties.Database;
@@ -26,16 +27,16 @@ public class CoursesController {
         // serialize the course to remove
         Course course = context.bodyAsClass(Course.class);
 
-        List<Course> courses = Database.query("""
+        List<Activity> courses = Database.query("""
             select c."id", c."department", c."number", c."semester", c."hours", 
             c."name", c."startTime", c."endTime", c."weekday", c."section", c."seats", 
-            c."enrolled", p."firstName" "professorFirstName", p."lastName" "professorLastName"
+            (select count(*) from schedule where "courseId" = c."id") enrolled, p."firstName" "professorFirstName", p."lastName" "professorLastName"
             from "course" c
             join "professor" p on p."id" = c."professorId"
             join "schedule" s on s."courseId" = c."id"
             where s."studentId" = ? and c."semester" = ?;
-        """, Course.class, studentId, course.semester);
-                                              
+        """, Activity.class, studentId, course.semester);
+
         boolean conflictFree = Schedule.conflictFree(courses, course);
                                               
         if (conflictFree) {
