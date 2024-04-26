@@ -32,7 +32,6 @@ public class ActivityController{
     }
 
     public static void getActivity(Context context) {
-        Events.getEvents();
         Response.send(200, context, Events.getEvents());
     }
 }
