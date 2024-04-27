@@ -21,7 +21,7 @@ public class ProfessorsController {
         Integer studentId = JWT.decodeStudentId(context);
         // if  student exists in the database, proceed
         List<ProfessorDto> professorDtos = Database.query("""
-            select p."firstName", p."lastName", p."department"
+            select p."id", p."firstName", p."lastName", p."department", r."numRatings", r."rating", r."difficulty"
             from student s
             join schedule sc on s."id" = sc."studentId"
             join course c on sc."courseId" = c."id"

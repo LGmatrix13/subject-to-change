@@ -11,4 +11,6 @@ public class ProfessorDto extends PersonDto {
     public Double rating;
     @JsonProperty("numRatings")
     public Integer numRatings;
+    @JsonProperty("difficulty")
+    public Double difficulty;
 }
