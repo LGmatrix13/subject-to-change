@@ -5,20 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Schedule  {
-    public static boolean conflictFree(List<Activity> activities, Activity a) {
+    public static boolean conflictFree(List<Course> courses, Course course) {
         // Overloaded method to check for conflicts with Activities
-        for (Activity existingActivity : activities) {
-            if (a.conflictsWith(existingActivity)) {
+        for (Course existingCourse : courses) {
+            if (existingCourse.conflictsWith(course)) {
                 return false; // Conflict found, cannot add the activity
             }
         }
 
         // if the activity is a course and it's not full, add
-        if(a instanceof Course)
-        {
-            Course c = (Course) a;
-            return !c.isFull();
-        }
-        return true;
+        return !course.isFull();
     }
 }

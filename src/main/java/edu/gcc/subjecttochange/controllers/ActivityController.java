@@ -11,13 +11,10 @@ import java.util.ArrayList;
 
 public class ActivityController{
 
-    public static void addActivity(Context context){
+    public static void postActivity(Context context){
         Activity activity = context.bodyAsClass(Activity.class);
 
-        boolean conflictFree = Schedule.conflictFree(Events.getEvents(), activity);
-
-        if (conflictFree) {
-            Events.addEvent(activity);
+        if (Events.addEvent(activity)) {
             Response.send(200, context, String.format("Added %s to student schedule", activity.name));
             return;
         }
@@ -25,7 +22,7 @@ public class ActivityController{
         Response.send(400, context, "Course conflicts with current schedule");
     }
 
-    public static void removeActivity(Context context){
+    public static void deleteActivity(Context context){
         Activity activity = context.bodyAsClass(Activity.class);
         Events.removeEvent(activity);
         Response.send(200, context, activity);
