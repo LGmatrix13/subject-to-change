@@ -7,7 +7,7 @@ interface ToggleProps {
 export default function Toggle(props: ToggleProps) {
   return (
     <div
-      className="inline-flex items-center cursor-pointer"
+      className="inline-flex items-center cursor-pointer z-1"
       onClick={props.onClick}
     >
       <input
