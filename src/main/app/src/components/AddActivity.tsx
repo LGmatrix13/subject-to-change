@@ -3,6 +3,7 @@ import Input from "./Input";
 import WideButton from "./WideButton";
 import { ModalContext } from "./Modal";
 import Select from "./Select";
+import { Option } from "./Option";
 import { TIMES } from "../utils/constants";
 import { standardTimeConverter } from "../utils/standardTimeConverter";
 
@@ -49,27 +50,45 @@ return <div className="space-y-5">
         Add Activity
     </h1>
     <form className="space-y-5"  onSubmit={handleSubmit}>
-        <Input
-            label= "Start Time"
-            name = "startTime"
-            options = {{
-                type: "text",
-                placeholder: "Start Time",
-                required: true,
-            }}
-            onChange = {handleChange}
-        />
-        <Input
-            label= "End Time"
-            name = "endTime"
-            options = {{
-                type: "text",
-                placeholder: "End Time",
-                required: true,
-            }}
-            onChange = {handleChange}
-        />
-
+        
+        <Select
+              label="Start Time"
+              name="startTime"
+              onChange={handleChange}
+              className="p-3 rounded-lg w-full h-[52px]"
+            >
+              <>
+                {TIMES.map((time) => (
+                  <Option
+                    value={time}
+                    label={standardTimeConverter(time) as string}
+                  />
+                ))}
+                <Option
+                  value=""
+                  label="None"
+                />
+              </>
+            </Select>
+            <Select
+              label="End Time"
+              name="endTime"
+              onChange={handleChange}
+              className="p-3 rounded-lg w-full h-[52px]"
+            >
+              <>
+                {TIMES.map((time) => (
+                  <Option
+                    value={time}
+                    label={standardTimeConverter(time) as string}
+                  />
+                ))}
+                <Option
+                  value=""
+                  label="None"
+                />
+              </>
+            </Select>
 
 
 
@@ -84,41 +103,46 @@ return <div className="space-y-5">
             onChange = {handleChange}
         />
         
+        <Select
+              label="Weekday"
+              name="weekday"
+              onChange={handleChange}
+              className="p-3 rounded-lg w-full h-[52px]"
+            >
+              <Option
+                value="MWF"
+                label="MWF"
+              />
+              <Option
+                value="TR"
+                label="TR"
+              />
+              <Option 
+              value="M" 
+              label="M" 
+              />
+              <Option 
+              value="T" 
+              label="T" 
+              />
+              <Option 
+              value="W" 
+              label="W" 
+              />
+              <Option 
+              value="R" 
+              label="R" 
+              />
+              <Option 
+              value="F" 
+              label="F" 
+              />
+              <Option 
+              value="" 
+              label="None" 
+              />
+            </Select>
 
-        <Select 
-            label="Weekday"
-            name="weekday"
-            options={{
-                type: "text",
-                placeholder: "Weekday",
-                required: true,
-            }}
-            onChange={handleChange}
-        >
-            <option value="MWF">
-                MWF
-            </option>
-            <option value="TR">
-                TR
-            </option>
-            <option value="TR">
-                M
-            </option>
-            <option value="TR">
-                T
-            </option>
-            <option value="TR">
-                W
-            </option>
-            <option value="TR">
-                R
-            </option>
-            <option value="TR">
-                F
-            </option>
-            
-        </Select>
-        
 
         
         <WideButton
