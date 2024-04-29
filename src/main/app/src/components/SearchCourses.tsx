@@ -5,7 +5,7 @@ import WideButton from "./WideButton";
 import Select from "./Select";
 import { Option } from "./Option";
 import useLocalStorage from "../hooks/useLocalStorage";
-import { DEPARTMENTS, FALL, TIMES } from "../utils/constants";
+import { DEPARTMENTS, FALL } from "../utils/constants";
 
 interface SearchCoursesProps {
   children?: React.ReactElement;

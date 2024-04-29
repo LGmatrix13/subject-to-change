@@ -45,34 +45,28 @@ export default function AddActivity() {
     <div className="space-y-5">
       <h1 className="font-bold uppercase text-xl">Add Activity</h1>
       <form className="space-y-5" onSubmit={handleSubmit}>
-        <Select
+        <Input
           label="Start Time"
           name="startTime"
           onChange={handleChange}
-          className="p-3 rounded-lg w-full h-[52px] bg-slate-200"
-        >
-          {TIMES.map((time) => (
-            <Option
-              value={time}
-              label={time}
-              selected={formData.startTime === time}
-            />
-          ))}
-        </Select>
-        <Select
+          options={{
+            type: "time",
+            placeholder: "Start Time",
+            value: formData.startTime,
+            step: "2",
+          }}
+        />
+        <Input
           label="End Time"
           name="endTime"
           onChange={handleChange}
-          className="p-3 rounded-lg w-full h-[52px] bg-slate-200"
-        >
-          {TIMES.map((time) => (
-            <Option
-              value={time}
-              label={time}
-              selected={formData.startTime === time}
-            />
-          ))}
-        </Select>
+          options={{
+            type: "time",
+            placeholder: "End Time",
+            value: formData.endTime,
+            step: "2",
+          }}
+        />
         <Input
           label="Name"
           name="name"

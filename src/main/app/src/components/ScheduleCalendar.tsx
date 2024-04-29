@@ -3,7 +3,7 @@ import { Course } from "../utils/types";
 import AddActivity from "./AddActivity";
 import { Modal, ModalButton, ModalContent } from "./Modal";
 import dateFormatter from "../utils/dateFormatter";
-import { ArrowsAcrossIcon, ArrowsVerticalIcon } from "./Icons";
+import { AddIcon, ArrowsAcrossIcon, ArrowsVerticalIcon } from "./Icons";
 
 interface ScheduleCalendarProps {
   courses: Course[];
@@ -189,7 +189,12 @@ export default function ScheduleCalendar(props: ScheduleCalendarProps) {
         <div className="ml-auto order-2 flex space-x-5">
           <Modal>
             <ModalButton>
-              <button>Add Event</button>
+              <button>
+                <div className="space-x-3 flex items-center">
+                  <AddIcon />
+                  <p>Add Activity</p>
+                </div>
+              </button>
             </ModalButton>
             <ModalContent>
               <AddActivity />
