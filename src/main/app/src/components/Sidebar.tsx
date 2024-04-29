@@ -31,6 +31,9 @@ export default function Sidebar(props: SidebarProps) {
           <Link to="/professors">
             <p className="uppercase font-bold">Professors</p>
           </Link>
+          <Link to="/progress">
+              <p className="uppercase font-bold">Progress</p>
+         </Link>
         </div>
       </div>
       <div className="flex flex-col space-y-10">
