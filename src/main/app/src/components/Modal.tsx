@@ -38,7 +38,7 @@ function ModalContent(props: ModalContentProps) {
     <>
       {open && (
         <div
-          className="fixed pointer-events-auto bg-black/[.8] top-0 right-0 bottom-0 left-0 z-2 !m-0"
+          className="animate-fade fixed pointer-events-auto bg-black/[.8] top-0 right-0 bottom-0 left-0 z-2 !m-0"
           onClick={() => {
             setOpen(false);
             props.onClose && props.onClose();

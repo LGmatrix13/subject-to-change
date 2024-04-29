@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Course } from "../utils/types";
 import Toggle from "./Toggle";
-import { standardTimeConverter } from "../utils/standardTimeConverter";
 import { Modal, ModalButton, ModalContent } from "./Modal";
 import AddActivity from "./AddActivity";
 
@@ -95,8 +94,7 @@ function DailyView(props: { courses: Course[] }) {
             {course.department} {course.number}
           </p>
           <p className="text-sm">
-            {standardTimeConverter(course.startTime)} -{" "}
-            {standardTimeConverter(course.endTime)}
+            {course.startTime} - {course.endTime}
           </p>
         </div>
       ))}
@@ -188,21 +186,19 @@ export default function ScheduleCalendar(props: ScheduleCalendarProps) {
       <div className="flex items-center">
         <h2 className="font-bold uppercase text-2xl">Weekly Schedule</h2>
         <div className="ml-auto order-2 flex space-x-5">
-        <Modal>
-          <ModalButton>
-              <button>
-                Add Event
-              </button>
-          </ModalButton>
-          <ModalContent>
-            < AddActivity/>
-          </ModalContent>
-        </Modal>
-        <Toggle
-          onClick={toggleView}
-          checked={view === "Week View"}
-          label={view}
-        />
+          <Modal>
+            <ModalButton>
+              <button>Add Event</button>
+            </ModalButton>
+            <ModalContent>
+              <AddActivity />
+            </ModalContent>
+          </Modal>
+          <Toggle
+            onClick={toggleView}
+            checked={view === "Week View"}
+            label={view}
+          />
         </div>
       </div>
       <div key={view}>

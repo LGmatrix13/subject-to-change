@@ -6,7 +6,6 @@ import Select from "./Select";
 import { Option } from "./Option";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { DEPARTMENTS, FALL, TIMES } from "../utils/constants";
-import { standardTimeConverter } from "../utils/standardTimeConverter";
 
 interface SearchCoursesProps {
   children?: React.ReactElement;
@@ -116,7 +115,7 @@ export default function SearchCourses(props: SearchCoursesProps) {
                 {TIMES.map((time) => (
                   <Option
                     value={time}
-                    label={standardTimeConverter(time) as string}
+                    label={time}
                     selected={search.startTime === time}
                   />
                 ))}
@@ -137,7 +136,7 @@ export default function SearchCourses(props: SearchCoursesProps) {
                 {TIMES.map((time) => (
                   <Option
                     value={time}
-                    label={standardTimeConverter(time) as string}
+                    label={time}
                     selected={search.endTime === time}
                   />
                 ))}

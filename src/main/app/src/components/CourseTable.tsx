@@ -3,7 +3,6 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import { mutate } from "swr";
 import { AddIcon, SignInIcon } from "./Icons";
 import composeEmail from "../utils/composeEmail";
-import { standardTimeConverter } from "../utils/standardTimeConverter";
 
 interface CourseTableProps {
   courses: Course[];
@@ -52,11 +51,7 @@ export default function CourseTable(props: CourseTableProps) {
               {course.professorFirstName} {course.professorLastName}
             </td>
             <td className="py-3 truncate">
-              {course.weekday}{" "}
-              {course.startTime && course.endTime
-                ? `${standardTimeConverter(course.startTime)} - 
-              ${standardTimeConverter(course.endTime)}`
-                : "Online"}
+              {course.weekday} {course.startTime} -{course.endTime}
             </td>
             <td className="py-3 ">
               {course.enrolled}/{course.seats}

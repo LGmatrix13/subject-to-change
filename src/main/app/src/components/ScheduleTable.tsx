@@ -2,7 +2,6 @@ import { useSWRConfig } from "swr";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { Course } from "../utils/types";
 import { RemoveIcon } from "./Icons";
-import { standardTimeConverter } from "../utils/standardTimeConverter";
 
 interface ScheduleTableProps {
   semester: "fall" | "spring";
@@ -57,11 +56,7 @@ export default function ScheduleTable(props: ScheduleTableProps) {
                 {course.professorFirstName} {course.professorLastName}
               </td>
               <td className="py-3 truncate">
-                {course.weekday}{" "}
-                {course.startTime && course.endTime
-                  ? `${standardTimeConverter(course.startTime)} - 
-              ${standardTimeConverter(course.endTime)}`
-                  : "Online"}
+                {course.weekday} {course.startTime} -{course.endTime}
               </td>
               <td className="py-3">
                 <button onClick={() => removeCourse(course)}>
