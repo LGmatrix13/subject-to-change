@@ -4,8 +4,8 @@ export interface Course {
   number: number;
   year: number;
   name: string;
-  startTime?: string;
-  endTime?: string;
+  startTime: string;
+  endTime: string;
   hours: number;
   weekday: string;
   seats: number;

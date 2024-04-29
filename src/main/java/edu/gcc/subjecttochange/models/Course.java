@@ -3,6 +3,11 @@ package edu.gcc.subjecttochange.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.gcc.subjecttochange.dtos.CourseDto;
 
+import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Objects;
 
 public class Course extends CourseDto {
@@ -12,34 +17,23 @@ public class Course extends CourseDto {
     }
     @JsonIgnore
     public boolean conflictsWith(Course otherCourse) {
-
-        // check if course is the same
-        if (otherCourse.equals(this)){
+        if (otherCourse.equals(this)) {
             return true;
-        }
-
-        // return false if it is online
-        if (this.startTime == null || this.endTime == null) {
+        } else if (otherCourse.endTime == null || otherCourse.startTime == null) {
             return false;
         }
 
-        // Convert start and end times to minutes for easier comparison
-        int thisStartMinutes = timeToMinutes(this.startTime);
-        int thisEndMinutes = timeToMinutes(this.endTime);
-        int otherStartMinutes = timeToMinutes(otherCourse.startTime);
-        int otherEndMinutes = timeToMinutes(otherCourse.endTime);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime otherStartTime = LocalDateTime.parse(otherCourse.startTime, formatter);
+        LocalDateTime otherEndTime = LocalDateTime.parse(otherCourse.startTime, formatter);
+        LocalDateTime startTime = LocalDateTime.parse(this.startTime, formatter);
+        LocalDateTime endTime = LocalDateTime.parse(this.endTime, formatter);
 
-        // Check for overlap
-        return otherCourse.weekday.equals(this.weekday) && !(thisEndMinutes <= otherStartMinutes || thisStartMinutes >= otherEndMinutes);
-    }
+        if (this.weekday.equals(otherCourse.weekday) && startTime.isEqual(otherStartTime) && endTime.isEqual(otherEndTime)) {
+            return true;
+        }
 
-    @JsonIgnore
-    private int timeToMinutes(String timeString) {
-        // Convert time string to minutes
-        String[] parts = timeString.split(":");
-        int hours = Integer.parseInt(parts[0]);
-        int minutes = Integer.parseInt(parts[1]);
-        return hours * 60 + minutes;
+        return this.weekday.equals(otherCourse.weekday) && (startTime.isBefore(otherEndTime) && otherStartTime.isBefore(endTime));
     }
 
     @JsonIgnore
