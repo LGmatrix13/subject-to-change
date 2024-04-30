@@ -18,7 +18,7 @@ export default function useSearch() {
   );
 
   return {
-    search: data as Course[],
+    search: data,
     isLoading,
     error,
   };

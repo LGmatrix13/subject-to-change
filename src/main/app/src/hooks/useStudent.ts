@@ -19,7 +19,7 @@ export default function useStudent() {
     student: {
       ...data,
       courses: data?.courses.filter((course) => course.semester === semester),
-    } as Student,
+    } as Student | undefined,
     semester: semester,
     isLoading,
     error,

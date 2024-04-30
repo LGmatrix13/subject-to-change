@@ -20,7 +20,7 @@ export default function SchedulePage() {
     );
   }
 
-  if (!student.courses.length) {
+  if (!student?.courses.length) {
     return (
       <Alert
         title={`You are not enrolled in a ${semester} semester course`}

@@ -7,7 +7,7 @@ export default function SearchPage() {
 
   if (error) return <div>Error loading data</div>;
 
-  if (isLoading) {
+  if (isLoading || !search?.length) {
     return <SearchCourses />;
   }
 

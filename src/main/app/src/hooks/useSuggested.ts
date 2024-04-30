@@ -16,7 +16,7 @@ export default function useStudent() {
   );
 
   return {
-    suggested: data as Course[],
+    suggested: data,
     semester: semester,
     isLoading,
     error,
