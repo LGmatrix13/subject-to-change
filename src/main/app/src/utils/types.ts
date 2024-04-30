@@ -19,3 +19,11 @@ export interface Professor {
   firstName: string;
   lastName: string;
 }
+
+export interface Event{
+  name: string;
+  startTime: string;
+  endTime: string;
+  weekday: string;
+  number: string;
+}

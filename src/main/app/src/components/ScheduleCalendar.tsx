@@ -1,13 +1,20 @@
 import { useState } from "react";
 import { Course } from "../utils/types";
+import { Event } from "../utils/types";
 import AddActivity from "./AddActivity";
 import { Modal, ModalButton, ModalContent } from "./Modal";
 import dateFormatter from "../utils/dateFormatter";
 import { AddIcon, ArrowsAcrossIcon, ArrowsVerticalIcon } from "./Icons";
 
+
 interface ScheduleCalendarProps {
   courses: Course[];
+  events: Event[];
 }
+
+
+
+
 
 const daysOfWeek = [
   {
@@ -68,7 +75,7 @@ function sortedCoures(courses: Course[], abbrevDay: string): Course[] {
     });
 }
 
-function DailyView(props: { courses: Course[] }) {
+function DailyView(props: { courses: Course[], events: Event[] }) {
   const today = new Date();
   const dayOfWeekIndex = today.getDay();
 
@@ -91,6 +98,23 @@ function DailyView(props: { courses: Course[] }) {
             {course.weekday} {dateFormatter(course.startTime, course.endTime)}
           </p>
         </div>
+      ))}
+      {props.events.map((event) => (
+          <div
+              className={`truncate ${"bg-red-600"} 
+              text-white p-3 rounded-lg`}
+        >
+          <p>
+            {event.name}
+          </p>
+          <p className="text-sm">
+            {event.weekday} {dateFormatter(event.startTime, event.endTime)}
+          </p>
+
+
+          </div>
+
+
       ))}
     </div>
   );
@@ -219,7 +243,7 @@ export default function ScheduleCalendar(props: ScheduleCalendarProps) {
         {view === "Week View" ? (
           <WeekView courses={props.courses} />
         ) : (
-          <DailyView courses={props.courses} />
+          <DailyView courses={props.courses} events={props.events} />
         )}
       </div>
     </section>
