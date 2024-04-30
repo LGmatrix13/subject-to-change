@@ -4,8 +4,8 @@ export interface Course {
   number: number;
   year: number;
   name: string;
-  startTime: string;
-  endTime: string;
+  startTime?: string;
+  endTime?: string;
   hours: number;
   weekday: string;
   seats: number;
@@ -14,16 +14,20 @@ export interface Course {
   professorLastName: string;
 }
 
+export interface Event {
+  name: string;
+  startTime: string;
+  endTime: string;
+  weekday: string;
+}
+
 export interface Professor {
   department: string;
   firstName: string;
   lastName: string;
 }
 
-export interface Event{
-  name: string;
-  startTime: string;
-  endTime: string;
-  weekday: string;
-  number: string;
+export interface Student {
+  courses: Course[];
+  events: Event[];
 }
