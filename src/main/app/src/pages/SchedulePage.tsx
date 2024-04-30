@@ -20,7 +20,7 @@ export default function SchedulePage() {
     );
   }
 
-  if (!student?.length) {
+  if (!student.courses.length) {
     return (
       <Alert
         title={`You are not enrolled in a ${semester} semester course`}
@@ -35,8 +35,8 @@ export default function SchedulePage() {
 
   return (
     <>
-      <ScheduleTable semester={semester} courses={student} />
-      <WeeklySchedule courses={student} />
+      <ScheduleTable semester={semester} courses={student.courses} />
+      <WeeklySchedule courses={student.courses} />
     </>
   );
 }

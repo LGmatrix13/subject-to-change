@@ -1,13 +1,19 @@
 package edu.gcc.subjecttochange.models;
 
 
-import java.util.ArrayList;
+import edu.gcc.subjecttochange.dtos.CourseDto;
+import edu.gcc.subjecttochange.dtos.ScheduleDto;
+
 import java.util.List;
 
-public class Schedule  {
-    public static boolean conflictFree(List<Course> courses, Course course) {
+public class Schedule extends ScheduleDto {
+    public Schedule(List<CourseDto> courseDtos) {
+        this.courseDtos = courseDtos;
+        this.events = Events.getEvents();
+    }
+    public boolean conflictFree(Course course) {
         // Overloaded method to check for conflicts with Activities
-        for (Course existingCourse : courses) {
+        for (CourseDto existingCourse : this.courseDtos) {
             if (existingCourse.conflictsWith(course)) {
                 return false; // Conflict found, cannot add the activity
             }

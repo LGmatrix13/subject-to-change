@@ -1,6 +1,10 @@
 package edu.gcc.subjecttochange.controllers;
 
+import edu.gcc.subjecttochange.dtos.ActivityDto;
 import edu.gcc.subjecttochange.dtos.CourseDto;
+import edu.gcc.subjecttochange.dtos.ScheduleDto;
+import edu.gcc.subjecttochange.models.Events;
+import edu.gcc.subjecttochange.models.Schedule;
 import edu.gcc.subjecttochange.utilties.Database;
 import edu.gcc.subjecttochange.utilties.JWT;
 import edu.gcc.subjecttochange.utilties.Response;
@@ -18,7 +22,6 @@ public class StudentController {
      */
     public static void getStudent(Context context) throws SQLException {
         Integer studentId = JWT.decodeStudentId(context);
-
         List<CourseDto> courseDtos = Database.query( """
             select c."id", c."department", c."number", c."semester", c."hours", 
             c."name", c."startTime", c."endTime", c."weekday", c."section", c."seats", 
@@ -28,6 +31,7 @@ public class StudentController {
             join professor p on p."id" = c."professorId"
             where s."studentId" = ?;
         """, CourseDto.class, studentId);
-        Response.send(200, context, courseDtos);
+        ScheduleDto scheduleDto = new Schedule(courseDtos);
+        Response.send(200, context, scheduleDto);
     }
 }

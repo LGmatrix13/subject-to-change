@@ -50,6 +50,6 @@ public class Activity extends ActivityDto {
 
     @JsonIgnore
     public int hashCode() {
-        return (name.hashCode() * description.hashCode());
+        return (name.hashCode() * startTime.hashCode() * endTime.hashCode() * weekday.hashCode());
     }
 }

@@ -192,7 +192,7 @@ export default function ScheduleCalendar(props: ScheduleCalendarProps) {
               <button>
                 <div className="space-x-3 flex items-center">
                   <AddIcon />
-                  <p>Add Activity</p>
+                  <p className="font-bold">Add Activity</p>
                 </div>
               </button>
             </ModalButton>
@@ -204,12 +204,12 @@ export default function ScheduleCalendar(props: ScheduleCalendarProps) {
             {view === "Week View" ? (
               <div className="space-x-3 flex items-center">
                 <ArrowsVerticalIcon />
-                <p>View Daily</p>
+                <p className="font-bold">View Daily</p>
               </div>
             ) : (
               <div className="space-x-3 flex items-center">
                 <ArrowsAcrossIcon />
-                <p>View Weekly</p>
+                <p className="font-bold">View Weekly</p>
               </div>
             )}
           </button>

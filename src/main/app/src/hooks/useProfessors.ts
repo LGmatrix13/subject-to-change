@@ -14,7 +14,7 @@ export default function useProfessors() {
   );
 
   return {
-    professors: data,
+    professors: data as Professor[],
     isLoading: isLoading,
     error,
   };

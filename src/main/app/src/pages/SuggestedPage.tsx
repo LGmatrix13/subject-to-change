@@ -9,7 +9,7 @@ export default function SuggestedPage() {
   const { suggested, isLoading, error } = useSuggested();
   if (error) return <div>Error loading data</div>;
   if (isLoading || delay) return <Loading height={500} />;
-  if (!suggested) return <div>No suggested courses</div>;
+  if (!suggested.length) return <div>No suggested courses</div>;
 
   return (
     <SuggestedCoures>

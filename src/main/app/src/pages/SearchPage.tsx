@@ -3,10 +3,11 @@ import SearchCourses from "../components/SearchCourses";
 import useSearch from "../hooks/useSearch";
 
 export default function SearchPage() {
-  const { search, error } = useSearch();
+  const { search, isLoading, error } = useSearch();
 
   if (error) return <div>Error loading data</div>;
-  if (!search?.length) {
+
+  if (isLoading) {
     return <SearchCourses />;
   }
 
