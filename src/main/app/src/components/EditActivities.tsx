@@ -56,7 +56,7 @@ export default function ScheduleTable(props: ActivitiesTableProps) {
             <tr key={index}>
               <td className="py-3">{event.name}</td>
               <td className="py-3 truncate">
-                {event.weekday}{" "}
+                {event.weekday}{"   "}
                 {dateFormatter(event.startTime, event.endTime)}
               </td>
               <td className="py-3">
