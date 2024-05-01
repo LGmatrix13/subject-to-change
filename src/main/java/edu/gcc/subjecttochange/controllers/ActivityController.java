@@ -14,6 +14,9 @@ public class ActivityController{
     public static void postActivity(Context context){
         Activity activity = context.bodyAsClass(Activity.class);
 
+        activity.startTime = String.format("2024-04-29 %s", activity.startTime);
+        activity.endTime = String.format("2024-04-29 %s", activity.endTime);
+
         if (Events.addEvent(activity)) {
             Response.send(200, context, String.format("Added %s to student schedule", activity.name));
             return;
@@ -26,9 +29,5 @@ public class ActivityController{
         Activity activity = context.bodyAsClass(Activity.class);
         Events.removeEvent(activity);
         Response.send(200, context, activity);
-    }
-
-    public static void getActivity(Context context) {
-        Response.send(200, context, Events.getEvents());
     }
 }

@@ -15,9 +15,9 @@ export interface Course {
 }
 
 export interface Event {
-  events : Event[];
   name: string;
   startTime?: string;
+  number?: number;
   endTime?: string;
   weekday: string;
 }

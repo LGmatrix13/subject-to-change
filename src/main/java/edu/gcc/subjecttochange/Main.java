@@ -31,7 +31,6 @@ public class Main {
         app.get("/api/search", SearchController::getSearch);
         app.get("/api/student", StudentController::getStudent);
         app.get("/api/professors", ProfessorsController::getProfessors);
-        app.get("/api/activity", ActivityController::getActivity);
         app.post("/api/activity", ActivityController::postActivity);
         app.delete("/api/activity", ActivityController::deleteActivity);
 

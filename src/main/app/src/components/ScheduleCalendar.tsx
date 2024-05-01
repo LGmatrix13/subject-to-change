@@ -6,15 +6,10 @@ import { Modal, ModalButton, ModalContent } from "./Modal";
 import dateFormatter from "../utils/dateFormatter";
 import { AddIcon, ArrowsAcrossIcon, ArrowsVerticalIcon } from "./Icons";
 
-
 interface ScheduleCalendarProps {
   courses: Course[];
   events: Event[];
 }
-
-
-
-
 
 const daysOfWeek = [
   {
@@ -63,58 +58,39 @@ function generateColor(courseNumber: number) {
   return colorClass;
 }
 
-function sortedCoures(courses: Course[], abbrevDay: string): Course[] {
-  return courses
-    .filter((course) => course.weekday.includes(abbrevDay))
-    .sort((a, b) => {
-      // Convert startTimes to Date objects for comparison
-      const startTimeA = new Date(a.startTime as string);
-      const startTimeB = new Date(b.startTime as string);
-      // Compare startTimes
-      return startTimeA.getTime() - startTimeB.getTime();
-    });
+function sortEvents<T>(items: T[], predicate: (events: T) => boolean): T[] {
+  return items.filter(predicate).sort((a, b) => {
+    // Convert startTimes to Date objects for comparison
+    const startTimeA = new Date((a as Event).startTime as string);
+    const startTimeB = new Date((a as Event).startTime as string);
+    // Compare startTimes
+    return startTimeA.getTime() - startTimeB.getTime();
+  });
 }
 
-function DailyView(props: { courses: Course[], events: Event[] }) {
+function DailyView(props: { courses: Course[]; events: Event[] }) {
   const today = new Date();
-  const dayOfWeekIndex = today.getDay();
+  const dayOfWeekIndex = today.getDay() + 1;
+
+  const items = sortEvents<Event | Course>(
+    [...props.courses, ...props.events],
+    (item) => item.weekday.includes(daysOfWeek[dayOfWeekIndex].abbrev)
+  );
 
   return (
     <div className="space-y-3">
       <h3 className="font-bold">{daysOfWeek[dayOfWeekIndex].title}</h3>
-      {sortedCoures(
-        props.courses.filter((course) => course.startTime),
-        daysOfWeek[dayOfWeekIndex].abbrev
-      ).map((course) => (
+      {items.map((item) => (
         <div
           className={`truncate ${generateColor(
-            course.number
+            item.number || 0
           )} text-white p-3 rounded-lg`}
         >
-          <p>
-            {course.department} {course.number}
-          </p>
+          <p>{item.name}</p>
           <p className="text-sm">
-            {course.weekday} {dateFormatter(course.startTime, course.endTime)}
+            {dateFormatter(item.startTime, item.endTime)}
           </p>
         </div>
-      ))}
-      {props.events.map((event) => (
-          <div
-              className={`truncate ${"bg-red-600"} 
-              text-white p-3 rounded-lg`}
-        >
-          <p>
-            {event.name}
-          </p>
-          <p className="text-sm">
-            {event.weekday} {dateFormatter(event.startTime, event.endTime)}
-          </p>
-
-
-          </div>
-
-
       ))}
     </div>
   );
@@ -134,9 +110,9 @@ function WeekView(props: { courses: Course[] }) {
       {days.map((day) => (
         <div key={day.abbrev}>
           <h3 className="font-bold mb-3">{day.title}</h3>
-          {sortedCoures(
+          {sortEvents<Course>(
             props.courses.filter((course) => course.startTime),
-            day.abbrev
+            (course) => course.weekday.includes(day.abbrev)
           ).map((course, index, array) => (
             <div key={index}>
               {index == 0 ? (
