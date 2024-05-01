@@ -7,10 +7,4 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ProfessorDto extends PersonDto {
     @JsonProperty("department")
     public String department;
-    @JsonProperty("rating")
-    public Double rating;
-    @JsonProperty("numRatings")
-    public Integer numRatings;
-    @JsonProperty("difficulty")
-    public Double difficulty;
 }
