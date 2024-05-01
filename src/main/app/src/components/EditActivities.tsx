@@ -9,7 +9,7 @@ interface ActivitiesTableProps {
   events: Event[];
 }
 
-export default function ScheduleTable(props: ActivitiesTableProps) {
+export default function EditActivities(props: ActivitiesTableProps) {
   const { mutate } = useSWRConfig();
   const [user] = useLocalStorage("user", {
     jwt: "",
@@ -45,9 +45,7 @@ export default function ScheduleTable(props: ActivitiesTableProps) {
     });
   }
 
-  const items = sortEvents<Event>([...props.events], (events:Event) => true);
-
-  
+  const items = sortEvents<Event>([...props.events], (events: Event) => true);
 
   return (
     <section className="space-y-5 bg-slate-100 rounded-lg custom-shadow">
@@ -67,9 +65,7 @@ export default function ScheduleTable(props: ActivitiesTableProps) {
           {items.map((event, index: number) => (
             <tr key={index}>
               <td className="py-3">{event.name}</td>
-              <td className="py-3 truncate">
-                {event.weekday}
-              </td>
+              <td className="py-3 truncate">{event.weekday}</td>
               <td>{dateFormatter(event.startTime, event.endTime)}</td>
               <td className="py-3">
                 <button onClick={() => removeEvent(event)}>

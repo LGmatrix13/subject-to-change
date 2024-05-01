@@ -4,7 +4,12 @@ import { Event } from "../utils/types";
 import AddActivity from "./AddActivity";
 import { Modal, ModalButton, ModalContent } from "./Modal";
 import dateFormatter from "../utils/dateFormatter";
-import { AddIcon, ArrowsAcrossIcon, ArrowsVerticalIcon } from "./Icons";
+import {
+  AddIcon,
+  ArrowsAcrossIcon,
+  ArrowsVerticalIcon,
+  PencilIcon,
+} from "./Icons";
 import EditActivities from "./EditActivities";
 
 interface ScheduleCalendarProps {
@@ -186,7 +191,7 @@ export default function ScheduleCalendar(props: ScheduleCalendarProps) {
   return (
     <section className="space-y-5 p-7 bg-slate-100 custom-shadow rounded-lg">
       <div className="flex items-center">
-        <h2 className="font-bold uppercase text-2xl">Weekly Schedule</h2>
+        <h2 className="font-bold uppercase text-2xl">Calendar</h2>
         <div className="ml-auto order-2 flex space-x-5">
           <Modal>
             <ModalButton>
@@ -205,7 +210,7 @@ export default function ScheduleCalendar(props: ScheduleCalendarProps) {
             <ModalButton>
               <button>
                 <div className="space-x-3 flex items-center">
-                  <AddIcon />
+                  <PencilIcon />
                   <p className="font-bold">Edit Activities</p>
                 </div>
               </button>
