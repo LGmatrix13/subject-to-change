@@ -5,6 +5,7 @@ import AddActivity from "./AddActivity";
 import { Modal, ModalButton, ModalContent } from "./Modal";
 import dateFormatter from "../utils/dateFormatter";
 import { AddIcon, ArrowsAcrossIcon, ArrowsVerticalIcon } from "./Icons";
+import EditActivities from "./EditActivities";
 
 interface ScheduleCalendarProps {
   courses: Course[];
@@ -198,6 +199,19 @@ export default function ScheduleCalendar(props: ScheduleCalendarProps) {
             </ModalButton>
             <ModalContent>
               <AddActivity />
+            </ModalContent>
+          </Modal>
+          <Modal>
+            <ModalButton>
+              <button>
+                <div className="space-x-3 flex items-center">
+                  <AddIcon />
+                  <p className="font-bold">Edit Activities</p>
+                </div>
+              </button>
+            </ModalButton>
+            <ModalContent>
+              <EditActivities semester={"fall"} events={props.events} />
             </ModalContent>
           </Modal>
           <button onClick={toggleView}>
