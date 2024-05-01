@@ -47,7 +47,7 @@ public class Main {
         });
         app.exception(Exception.class, (e, context) -> {
             logger.warn(e.getMessage(), e);
-            context.result("Something wrong happened");
+            context.result("Something went wrong");
             context.status(400);
         });
     }
