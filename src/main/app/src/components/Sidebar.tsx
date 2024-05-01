@@ -40,6 +40,10 @@ export default function Sidebar(props: SidebarProps) {
             <p className="uppercase font-bold">Professors</p>
             {location.pathname === "/professors" && <span className="ml-2 rounded-full bg-gray-600 w-2 h-2"></span>}
           </NavLink>
+          <NavLink to="/progress" activeClassName="active" className="flex items-center justify-between">
+              <p className="uppercase font-bold">Progress</p>
+            {location.pathname === "/progress" && <span className="ml-2 rounded-full bg-gray-600 w-2 h-2"></span>}
+         </Navlink>
         </div>
       </div>
       <div className="flex flex-col space-y-5 items-start border-t border-gray-800 pt-5">

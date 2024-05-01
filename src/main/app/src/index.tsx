@@ -15,6 +15,9 @@ import SuggestedLayout from "./layouts/SuggestedLayout.tsx";
 import SuggestedPage from "./pages/SuggestedPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import AuthLayout from "./layouts/AuthLayout.tsx";
+import ProgressPage from "./pages/ProgressPage.tsx";
+import ProgressLayout from "./layouts/ProgressLayout.tsx";
+
 
 const router = createBrowserRouter([
   {
@@ -73,6 +76,18 @@ const router = createBrowserRouter([
       </RootLayout>
     ),
   },
+
+  {
+    path: "/progress",
+    element: (
+      <RootLayout>
+        <ProgressLayout>
+          <ProgressPage />
+        </ProgressLayout>
+      </RootLayout>
+    ),
+  },
+  
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
