@@ -15,9 +15,10 @@ export interface Course {
 }
 
 export interface Event {
+  events : Event[];
   name: string;
-  startTime: string;
-  endTime: string;
+  startTime?: string;
+  endTime?: string;
   weekday: string;
 }
 
@@ -28,6 +29,7 @@ export interface Professor {
 }
 
 export interface Student {
+  student: Event;
   courses: Course[];
   events: Event[];
 }

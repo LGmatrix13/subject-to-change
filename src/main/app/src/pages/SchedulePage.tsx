@@ -36,7 +36,7 @@ export default function SchedulePage() {
   return (
     <>
       <ScheduleTable semester={semester} courses={student.courses} />
-      <WeeklySchedule courses={student.courses} />
+      <WeeklySchedule courses={student.courses} events={student.events} />
     </>
   );
 }
