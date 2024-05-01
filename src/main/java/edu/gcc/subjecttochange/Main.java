@@ -16,9 +16,11 @@ public class Main {
 
     public static void main(String[] args) {
         Javalin app = Javalin.create(config -> {
+            // remove cors
             config.bundledPlugins.enableCors(cors -> {
                 cors.addRule(CorsPluginConfig.CorsRule::anyHost);
             });
+            // load production build of React frontend
             config.staticFiles.add("src/main/app/dist", Location.EXTERNAL);
             config.spaRoot.addFile("/", "src/main/app/dist/index.html", Location.EXTERNAL);
         }).start(7070);
