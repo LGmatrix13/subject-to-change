@@ -27,7 +27,7 @@ public class CoursesController {
         // serialize the course to remove
         Course course = context.bodyAsClass(Course.class);
 
-        List<Course> courses = Database.query("""
+        List<Activity> courses = Database.query("""
             select c."id", c."department", c."number", c."semester", c."hours", 
             c."name", c."startTime", c."endTime", c."weekday", c."section", c."seats", 
             (select count(*) from schedule where "courseId" = c."id") enrolled, p."firstName" "professorFirstName", p."lastName" "professorLastName"
@@ -35,7 +35,7 @@ public class CoursesController {
             join "professor" p on p."id" = c."professorId"
             join "schedule" s on s."courseId" = c."id"
             where s."studentId" = ? and c."semester" = ?;
-        """, Course.class, studentId, course.semester);
+        """, Activity.class, studentId, course.semester);
 
         boolean conflictFree = Schedule.conflictFree(courses, course);
                                               

@@ -4,23 +4,25 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.gcc.subjecttochange.utilties.Response;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Events {
         @JsonIgnore
-        private static final ArrayList<Activity> events = new ArrayList<Activity>();
+        private static ArrayList<Activity> events = new ArrayList<Activity>();
 
         // add
         @JsonIgnore
-        public static boolean addEvent(Activity a) {
+        public static void addEvent(Activity a) {
                 // look for conflicts
-                for (Activity existingActivity : events) {
-                        if (existingActivity.conflictsWith(a)) {
-                                return false; // Conflict found, cannot add the activity
-                        }
+
+                boolean conflictFree = Schedule.conflictFree(events, a);
+
+                if (conflictFree) {
+                        events.add(a);
+                        //Response.send(200, context, String.format("Added %s to student schedule", a.name));
+                        return;
                 }
 
-                return events.add(a);
+                //Response.send(400, context, "Course conflicts with current schedule");
         }
 
         @JsonIgnore
@@ -30,11 +32,17 @@ public class Events {
 
         @JsonIgnore
         public static boolean equals(Events otherEvents){
-                return events.equals(getEvents());
+                return events.equals(otherEvents.getEvents());
         }
 
         @JsonIgnore
         public static ArrayList<Activity> getEvents(){
                 return events;
         }
+
+        // remove
+        // equals
+        // update
+
+
 }
