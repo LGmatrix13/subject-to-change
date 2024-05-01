@@ -1,6 +1,5 @@
 package edu.gcc.subjecttochange.controllers;
 
-import edu.gcc.subjecttochange.dtos.CourseDto;
 import edu.gcc.subjecttochange.models.Course;
 import edu.gcc.subjecttochange.models.Schedule;
 import edu.gcc.subjecttochange.utilties.Database;
@@ -9,7 +8,6 @@ import edu.gcc.subjecttochange.utilties.JWT;
 import io.javalin.http.Context;
 
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  * HTTP logic for adding and removing courses to schedule
@@ -24,30 +22,18 @@ public class CoursesController {
         Integer studentId = JWT.decodeStudentId(context);
         // serialize the course to remove
         Course course = context.bodyAsClass(Course.class);
-
-        List<CourseDto> courses = Database.query("""
-            select c."id", c."department", c."number", c."semester", c."hours", 
-            c."name", c."startTime", c."endTime", c."weekday", c."section", c."seats", 
-            (select count(*) from schedule where "courseId" = c."id") enrolled, p."firstName" "professorFirstName", p."lastName" "professorLastName"
-            from "course" c
-            join "professor" p on p."id" = c."professorId"
-            join "schedule" s on s."courseId" = c."id"
-            where s."studentId" = ? and c."semester" = ?;
-        """, CourseDto.class, studentId, course.semester);
-
-        boolean conflictFree = new Schedule(courses).conflictFree(course);
-
+        boolean conflictFree = new Schedule(studentId, course.semester).conflictFree(course);
         if (conflictFree) {
             Database.update("""
                 insert into "schedule"
                 ("courseId", "studentId")
                 values (?, ?);
             """, course.id, studentId);
-            Response.send(200, context, String.format("Added %s to student schedule", course.name));
+            Response.send(Response.OK, context, String.format("Added %s to student schedule", course.name));
             return;
         }
                             
-        Response.send(400, context, "Course conflicts with current schedule");
+        Response.send(Response.BAD_REQUEST, context, "Course conflicts with current schedule");
     }
 
     /**
@@ -62,6 +48,6 @@ public class CoursesController {
             delete from "schedule"
             where "courseId" = ? and "studentId" = ?;
         """, course.id, studentId);
-        Response.send(200, context, String.format("Removed %s from student schedule", course.name));
+        Response.send(Response.OK, context, String.format("Removed %s from student schedule", course.name));
     }
 }

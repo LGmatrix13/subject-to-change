@@ -25,23 +25,32 @@ public class Course extends CourseDto {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime otherStartTime = LocalDateTime.parse(otherCourse.startTime, formatter);
-        LocalDateTime otherEndTime = LocalDateTime.parse(otherCourse.startTime, formatter);
+        LocalDateTime otherEndTime = LocalDateTime.parse(otherCourse.endTime, formatter);
         LocalDateTime startTime = LocalDateTime.parse(this.startTime, formatter);
         LocalDateTime endTime = LocalDateTime.parse(this.endTime, formatter);
 
-        if (this.weekday.equals(otherCourse.weekday) && startTime.isEqual(otherStartTime) && endTime.isEqual(otherEndTime)) {
-            return true;
-        }
+        return (this.weekday.equals(otherCourse.weekday) &&
+                ((startTime.isEqual(otherStartTime) || startTime.isBefore(otherEndTime)) &&
+                        (endTime.isEqual(otherEndTime) || endTime.isAfter(otherStartTime))));
+    }
 
-        return this.weekday.equals(otherCourse.weekday) && (startTime.isBefore(otherEndTime) && otherStartTime.isBefore(endTime));
+    @JsonIgnore
+    public boolean conflictsWith(Activity otherActivity) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime otherStartTime = LocalDateTime.parse(otherActivity.startTime, formatter);
+        LocalDateTime otherEndTime = LocalDateTime.parse(otherActivity.endTime, formatter);
+        LocalDateTime startTime = LocalDateTime.parse(this.startTime, formatter);
+        LocalDateTime endTime = LocalDateTime.parse(this.endTime, formatter);
+
+        return (this.weekday.equals(otherActivity.weekday) &&
+                ((startTime.isEqual(otherStartTime) || startTime.isBefore(otherEndTime)) &&
+                        (endTime.isEqual(otherEndTime) || endTime.isAfter(otherStartTime))));
     }
 
     @JsonIgnore
     @Override
     public boolean equals(Object o) {
-        if(o instanceof Course)
-        {
-            Course course = (Course) o;
+        if (o instanceof Course course) {
             return course.number == this.number && course.department.equals(this.department);
         }
         return false;

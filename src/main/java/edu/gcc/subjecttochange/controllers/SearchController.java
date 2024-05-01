@@ -9,6 +9,6 @@ import java.sql.SQLException;
 public class SearchController {
     public static void getSearch(Context context) throws SQLException {
         Search search = new Search(context.req());
-        Response.send(200, context, search.run());
+        Response.send(Response.OK, context, search.run());
     }
 }

@@ -1,14 +1,13 @@
 package edu.gcc.subjecttochange.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import edu.gcc.subjecttochange.utilties.Response;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class Events {
         @JsonIgnore
-        private static final ArrayList<Activity> events = new ArrayList<Activity>();
+        private static final ArrayList<Activity> events = new ArrayList<>();
 
         // add
         @JsonIgnore
@@ -26,11 +25,6 @@ public class Events {
         @JsonIgnore
         public static void removeEvent(Activity a){
                 events.remove(a);
-        }
-
-        @JsonIgnore
-        public static boolean equals(Events otherEvents){
-                return events.equals(getEvents());
         }
 
         @JsonIgnore

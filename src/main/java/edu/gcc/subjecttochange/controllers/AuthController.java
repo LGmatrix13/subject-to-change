@@ -23,7 +23,7 @@ public class AuthController {
             limit 1
         """, StudentDto.class, studentDto.email, studentDto.password).getFirst();
         loggedInStudentDto.jwt = JWT.generate(loggedInStudentDto.id);
-        Response.send(200, context, loggedInStudentDto);
+        Response.send(Response.OK, context, loggedInStudentDto);
     }
 
     public static void postLogin(Context context) throws SQLException {
@@ -37,9 +37,9 @@ public class AuthController {
         if (!studentDtos.isEmpty()) {
             StudentDto loggedInStudentDto = studentDtos.getFirst();
             loggedInStudentDto.jwt = JWT.generate(loggedInStudentDto.id);
-            Response.send(200, context, loggedInStudentDto);
+            Response.send(Response.OK, context, loggedInStudentDto);
         } else {
-            Response.send(401, context, "Invalid credentials");
+            Response.send(Response.UNAUTHORIZED, context, "Invalid credentials");
         }
     }
 }
