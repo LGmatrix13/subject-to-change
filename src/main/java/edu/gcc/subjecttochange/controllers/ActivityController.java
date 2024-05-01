@@ -9,9 +9,8 @@ import io.javalin.http.Context;
 
 import java.util.ArrayList;
 
-public class ActivityController{
-
-    public static void addActivity(Context context){
+public class ActivityController {
+    public static void postAtivity(Context context){
         Activity activity = context.bodyAsClass(Activity.class);
 
         boolean conflictFree = Schedule.conflictFree(Events.getEvents(), activity);
@@ -25,7 +24,7 @@ public class ActivityController{
         Response.send(400, context, "Course conflicts with current schedule");
     }
 
-    public static void removeActivity(Context context){
+    public static void deleteActivity(Context context){
         Activity activity = context.bodyAsClass(Activity.class);
         Events.removeEvent(activity);
         Response.send(200, context, activity);
