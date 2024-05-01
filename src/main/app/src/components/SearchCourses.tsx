@@ -116,7 +116,7 @@ export default function SearchCourses(props: SearchCoursesProps) {
                 {TIMES.map((time) => (
                   <Option
                     value={time}
-                    label={standardTimeConverter(time)}
+                    label={standardTimeConverter(time) as string}
                     selected={search.startTime === time}
                   />
                 ))}
