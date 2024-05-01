@@ -70,7 +70,7 @@ function sortEvents<T>(items: T[], predicate: (events: T) => boolean): T[] {
 
 function DailyView(props: { courses: Course[]; events: Event[] }) {
   const today = new Date();
-  const dayOfWeekIndex = today.getDay() + 1;
+  const dayOfWeekIndex = today.getDay();
 
   const items = sortEvents<Event | Course>(
     [...props.courses, ...props.events],
