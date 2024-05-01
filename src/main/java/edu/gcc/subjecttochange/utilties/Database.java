@@ -3,7 +3,6 @@ package edu.gcc.subjecttochange.utilties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.gcc.subjecttochange.controllers.CoursesController;
 
-import edu.gcc.subjecttochange.dtos.CourseDto;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.slf4j.Logger;
@@ -34,7 +33,7 @@ public class Database {
                 .toList();
     }
 
-    public static int update(String sql, Object... args) throws SQLException {
-        return new QueryRunner().update(Database.connect(), sql, args);
+    public static void update(String sql, Object... args) throws SQLException {
+        new QueryRunner().update(Database.connect(), sql, args);
     }
 }
