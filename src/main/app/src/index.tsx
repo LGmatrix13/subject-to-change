@@ -73,6 +73,16 @@ const router = createBrowserRouter([
       </RootLayout>
     ),
   },
+  {
+    path: "/progress",
+    element: (
+      <RootLayout>
+        <ProgressLayout>
+          <ProgressPage />
+        </ProgressLayout>
+      </RootLayout>
+    ),
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
