@@ -29,7 +29,7 @@ public class Course extends CourseDto {
         LocalDateTime startTime = LocalDateTime.parse(this.startTime, formatter);
         LocalDateTime endTime = LocalDateTime.parse(this.endTime, formatter);
 
-        return (this.weekday.equals(otherCourse.weekday) &&
+        return (this.weekday.contains(otherCourse.weekday) &&
                 ((startTime.isEqual(otherStartTime) || startTime.isBefore(otherEndTime)) &&
                         (endTime.isEqual(otherEndTime) || endTime.isAfter(otherStartTime))));
     }

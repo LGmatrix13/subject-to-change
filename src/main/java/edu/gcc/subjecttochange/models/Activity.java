@@ -18,7 +18,7 @@ public class Activity extends ActivityDto {
         LocalDateTime startTime = LocalDateTime.parse(this.startTime, formatter);
         LocalDateTime endTime = LocalDateTime.parse(this.endTime, formatter);
 
-        return (this.weekday.equals(otherActivity.weekday) &&
+        return (this.weekday.contains(otherActivity.weekday) &&
                 ((startTime.isEqual(otherStartTime) || startTime.isBefore(otherEndTime)) &&
                         (endTime.isEqual(otherEndTime) || endTime.isAfter(otherStartTime))));
     }

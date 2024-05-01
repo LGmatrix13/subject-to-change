@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 
 
-public class Events {
+public class Activities {
         @JsonIgnore
-        private static final ArrayList<Activity> events = new ArrayList<>();
+        private static final ArrayList<Activity> activties = new ArrayList<>();
 
         // add
         @JsonIgnore
@@ -16,22 +16,22 @@ public class Events {
                 a.endTime = String.format("2024-04-29 %s", a.endTime);
 
                 // look for conflicts
-                for (Activity existingActivity : events) {
+                for (Activity existingActivity : activties) {
                         if (existingActivity.conflictsWith(a)) {
                                 return false; // Conflict found, cannot add the activity
                         }
                 }
 
-                return events.add(a);
+                return activties.add(a);
         }
 
         @JsonIgnore
         public static void removeEvent(Activity a){
-                events.remove(a);
+                activties.remove(a);
         }
 
         @JsonIgnore
-        public static ArrayList<Activity> getEvents(){
-                return events;
+        public static ArrayList<Activity> getActivties(){
+                return activties;
         }
 }
