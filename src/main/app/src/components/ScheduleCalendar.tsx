@@ -63,7 +63,7 @@ function sortEvents<T>(items: T[], predicate: (events: T) => boolean): T[] {
   return items.filter(predicate).sort((a, b) => {
     // Convert startTimes to Date objects for comparison
     const startTimeA = new Date((a as Event).startTime as string);
-    const startTimeB = new Date((a as Event).startTime as string);
+    const startTimeB = new Date((b as Event).startTime as string);
     // Compare startTimes
     return startTimeA.getTime() - startTimeB.getTime();
   });
@@ -210,7 +210,7 @@ export default function ScheduleCalendar(props: ScheduleCalendarProps) {
                 </div>
               </button>
             </ModalButton>
-            <ModalContent>
+            <ModalContent width={750}>
               <EditActivities semester={"fall"} events={props.events} />
             </ModalContent>
           </Modal>

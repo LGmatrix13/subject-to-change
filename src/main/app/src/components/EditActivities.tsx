@@ -35,6 +35,18 @@ export default function ScheduleTable(props: ActivitiesTableProps) {
     }
   }
 
+  function sortEvents<T>(items: T[], predicate: (events: T) => boolean): T[] {
+    return items.filter(predicate).sort((a, b) => {
+      // Convert startTimes to Date objects for comparison
+      const startTimeA = new Date((a as Event).startTime as string);
+      const startTimeB = new Date((b as Event).startTime as string);
+      // Compare startTimes
+      return startTimeA.getTime() - startTimeB.getTime();
+    });
+  }
+
+  const items = sortEvents<Event>([...props.events], (events:Event) => true);
+
   
 
   return (
@@ -52,13 +64,13 @@ export default function ScheduleTable(props: ActivitiesTableProps) {
           </tr>
         </thead>
         <tbody>
-          {props.events.map((event, index: number) => (
+          {items.map((event, index: number) => (
             <tr key={index}>
               <td className="py-3">{event.name}</td>
               <td className="py-3 truncate">
-                {event.weekday}{"   "}
-                {dateFormatter(event.startTime, event.endTime)}
+                {event.weekday}
               </td>
+              <td>{dateFormatter(event.startTime, event.endTime)}</td>
               <td className="py-3">
                 <button onClick={() => removeEvent(event)}>
                   <RemoveIcon />

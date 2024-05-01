@@ -15,6 +15,7 @@ export interface Course {
 }
 
 export interface Event {
+  semester: "fall" | "spring";
   name: string;
   startTime?: string;
   number?: number;
