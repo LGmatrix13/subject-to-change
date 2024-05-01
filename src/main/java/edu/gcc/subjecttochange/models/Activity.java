@@ -13,10 +13,10 @@ public class Activity extends ActivityDto {
     @JsonIgnore
     public boolean conflictsWith(Activity otherActivity) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime otherStartTime = LocalDateTime.parse(String.format("%s %s", "2024-04-29", otherActivity.startTime), formatter);
-        LocalDateTime otherEndTime = LocalDateTime.parse(String.format("%s %s", "2024-04-29", otherActivity.endTime), formatter);
-        LocalDateTime startTime = LocalDateTime.parse(String.format("%s", this.startTime), formatter);
-        LocalDateTime endTime = LocalDateTime.parse(String.format("%s", this.endTime), formatter);
+        LocalDateTime otherStartTime = LocalDateTime.parse(otherActivity.startTime, formatter);
+        LocalDateTime otherEndTime = LocalDateTime.parse(otherActivity.endTime, formatter);
+        LocalDateTime startTime = LocalDateTime.parse(this.startTime, formatter);
+        LocalDateTime endTime = LocalDateTime.parse(this.endTime, formatter);
 
         return (this.weekday.equals(otherActivity.weekday) &&
                 ((startTime.isEqual(otherStartTime) || startTime.isBefore(otherEndTime)) &&
