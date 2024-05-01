@@ -15,7 +15,22 @@ import java.util.List;
 public class Database {
     private static final Logger logger = LoggerFactory.getLogger(CoursesController.class);
     public static Connection connect() {
-        String url = "jdbc:sqlite:C://sqlite/database.db";
+        String os = System.getProperty("os.name").toLowerCase();
+        String url;
+
+        if (os.contains("win")) {
+            // Windows path
+            url = "jdbc:sqlite:C://sqlite/database.db";
+        } else if (os.contains("mac")) {
+            // macOS path
+            url = "jdbc:sqlite:/Users/elliot/sqlite/database.db";
+        } else {
+            // Assume Linux/Unix path
+            url = "jdbc:sqlite:/home/username/sqlite/database.db";  // Modify as needed
+        }
+
+// Now you can use the 'url' in your database connection code
+
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);

@@ -18,4 +18,10 @@ export interface Professor {
   department: string;
   firstName: string;
   lastName: string;
+  roomNumber: int;
+  officeHours: string;
+  bio: string;
+  rating: double;
+  difficulty: double;
+  numRatings: int;
 }
