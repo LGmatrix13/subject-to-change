@@ -24,11 +24,11 @@ public class Main {
         }).start(7070);
 
         app.post("/api/courses", CoursesController::postCourses);
+        app.get("/api/courses", CoursesController::getCourses);
         app.delete("/api/courses", CoursesController::deleteCourses);
         app.get("/api/suggested", SuggestedController::getSuggested);
         app.post("/api/auth/login", AuthController::postLogin);
         app.post("/api/auth/register", AuthController::postRegister);
-        app.get("/api/search", SearchController::getSearch);
         app.get("/api/student", StudentController::getStudent);
         app.get("/api/professors", ProfessorsController::getProfessors);
         app.get("/api/activity", ActivityController::getActivity);

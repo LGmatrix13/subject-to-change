@@ -11,9 +11,7 @@ export default function useSearch() {
   });
 
   const { data, isLoading, error } = useSWR<Course[]>(
-    searchParams.toString().length
-      ? `http://localhost:7070/api/search?${searchParams.toString()}`
-      : null,
+    searchParams.toString().length ? `http://localhost:7070/api/courses` : null,
     (url: string) => fetcher(url, user.jwt)
   );
 
