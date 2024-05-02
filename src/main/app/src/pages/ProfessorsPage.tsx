@@ -11,6 +11,7 @@ export default function ProfessorsPage() {
   const { professors, isLoading, error } = useProfessors();
   if (error) return <div>Error loading data</div>;
   if (isLoading || delay) return <Loading height={500} />;
+
   if (!professors?.length) {
     return (
       <Alert

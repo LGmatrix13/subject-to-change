@@ -26,9 +26,10 @@ public class ProfessorsController {
             join schedule sc on s."id" = sc."studentId"
             join course c on sc."courseId" = c."id"
             join professor p on c."professorId" = p."id"
-            right join rating r on r."professorId" = p."id"
-            where s.id = ?;
+            left join rating r on r."professorId" = p."id"
+            where s.id = ?
+            group by p."id";
         """, ProfessorDto.class, studentId);
-        Response.send(200, context, professorDtos);
+        Response.send(Response.OK, context, professorDtos);
     }
 }

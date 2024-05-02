@@ -6,7 +6,6 @@ import useStudent from "../hooks/useStudent";
 import Alert from "../components/Alert";
 import Loading from "../components/Loading";
 import { useDelay } from "../hooks/useDelay";
-import { standardTimeConverter } from "../utils/standardTimeConverter";
 
 export default function SchedulePage() {
   const delay = useDelay();
@@ -21,7 +20,7 @@ export default function SchedulePage() {
     );
   }
 
-  if (!student?.length) {
+  if (!student?.courses.length) {
     return (
       <Alert
         title={`You are not enrolled in a ${semester} semester course`}
@@ -36,8 +35,8 @@ export default function SchedulePage() {
 
   return (
     <>
-      <ScheduleTable semester={semester} courses={student} />
-      <WeeklySchedule courses={student} />
+      <ScheduleTable semester={semester} courses={student.courses} />
+      <WeeklySchedule courses={student.courses} events={student.events} />
     </>
   );
 }
