@@ -11,57 +11,12 @@ import {
   PencilIcon,
 } from "./Icons";
 import EditActivities from "./EditActivities";
+import { generateColor } from "../utils/generateColor";
+import { DAY_OF_WEEK } from "../utils/constants";
 
 interface ScheduleCalendarProps {
   courses: Course[];
   events: Event[];
-}
-
-const daysOfWeek = [
-  {
-    title: "Monday",
-    abbrev: "M",
-  },
-  {
-    title: "Monday",
-    abbrev: "M",
-  },
-  {
-    title: "Tuesday",
-    abbrev: "T",
-  },
-  {
-    title: "Wednesday",
-    abbrev: "W",
-  },
-  {
-    title: "Thursday",
-    abbrev: "R",
-  },
-  {
-    title: "Friday",
-    abbrev: "F",
-  },
-  {
-    title: "Monday",
-    abbrev: "M",
-  },
-];
-
-function generateColor(courseNumber: number) {
-  // Convert hue to a corresponding Tailwind CSS color class
-  let colorClass;
-  if (courseNumber <= 200) {
-    colorClass = "bg-blue-600";
-  } else if (courseNumber <= 300) {
-    colorClass = "bg-green-600";
-  } else if (courseNumber <= 400) {
-    colorClass = "bg-yellow-600";
-  } else {
-    colorClass = "bg-red-600";
-  }
-
-  return colorClass;
 }
 
 function sortEvents<T>(items: T[], predicate: (events: T) => boolean): T[] {
@@ -80,12 +35,12 @@ function DailyView(props: { courses: Course[]; events: Event[] }) {
 
   const items = sortEvents<Event | Course>(
     [...props.courses, ...props.events],
-    (item) => item.weekday.includes(daysOfWeek[dayOfWeekIndex].abbrev)
+    (item) => item.weekday.includes(DAY_OF_WEEK[dayOfWeekIndex].abbrev)
   );
 
   return (
     <div className="space-y-3">
-      <h3 className="font-bold">{daysOfWeek[dayOfWeekIndex].title}</h3>
+      <h3 className="font-bold">{DAY_OF_WEEK[dayOfWeekIndex].title}</h3>
       {items.map((item) => (
         <div
           className={`truncate ${generateColor(
@@ -103,7 +58,7 @@ function DailyView(props: { courses: Course[]; events: Event[] }) {
 }
 
 function WeekView(props: { courses: Course[] }) {
-  const days = daysOfWeek.slice(1, daysOfWeek.length - 1);
+  const days = DAY_OF_WEEK.slice(1, DAY_OF_WEEK.length - 1);
   function calculateGap(endTimeA: Date, startTimeB: Date): number {
     const gap = Math.abs(startTimeB.getTime() - endTimeA.getTime());
     return gap / (1000 * 60);
@@ -216,7 +171,7 @@ export default function ScheduleCalendar(props: ScheduleCalendarProps) {
               </button>
             </ModalButton>
             <ModalContent width={750}>
-              <EditActivities semester={"fall"} events={props.events} />
+              <EditActivities semester={"fall"} activties={props.events} />
             </ModalContent>
           </Modal>
           <button onClick={toggleView}>

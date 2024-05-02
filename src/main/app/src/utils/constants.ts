@@ -65,3 +65,34 @@ export const TIMES = [
   "06:00 PM",
   "07:00 PM",
 ];
+
+export const DAY_OF_WEEK = [
+  {
+    title: "Monday",
+    abbrev: "M",
+  },
+  {
+    title: "Monday",
+    abbrev: "M",
+  },
+  {
+    title: "Tuesday",
+    abbrev: "T",
+  },
+  {
+    title: "Wednesday",
+    abbrev: "W",
+  },
+  {
+    title: "Thursday",
+    abbrev: "R",
+  },
+  {
+    title: "Friday",
+    abbrev: "F",
+  },
+  {
+    title: "Monday",
+    abbrev: "M",
+  },
+];
