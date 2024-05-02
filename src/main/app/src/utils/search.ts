@@ -9,7 +9,7 @@ export class Search {
     if (name) {
       const filteredCourses = [];
       for (const course of courses) {
-        if (course.name.toLowerCase() === name.toLowerCase()) {
+        if (course.name.toLowerCase().includes(name.toLowerCase())) {
           filteredCourses.push(course);
         }
       }
