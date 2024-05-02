@@ -39,6 +39,6 @@ public class ActivityController{
     public static void deleteActivity(Context context){
         Activity activity = context.bodyAsClass(Activity.class);
         Activities.removeEvent(activity);
-        Response.send(Response.OK, context, "%s removed from schedule", activity.name);
+        Response.send(Response.OK, context, String.format("%s removed from schedule", activity.name));
     }
 }
