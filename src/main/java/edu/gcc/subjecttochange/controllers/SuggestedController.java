@@ -36,8 +36,7 @@ public class SuggestedController {
                 join "schedule" s on s."courseId" = c."id" 
                 where s."studentId" = ?
             ) and c."semester" = ?;  
-            
         """, CourseDto.class, studentId, studentId, semester);
-        Response.send(200, context, courseDtos);
+        Response.send(Response.OK, context, courseDtos);
     }
 }
