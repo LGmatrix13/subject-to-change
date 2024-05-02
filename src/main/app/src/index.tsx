@@ -15,6 +15,8 @@ import SuggestedLayout from "./layouts/SuggestedLayout.tsx";
 import SuggestedPage from "./pages/SuggestedPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import AuthLayout from "./layouts/AuthLayout.tsx";
+import ProgressLayout from "./layouts/ProgressLayout.tsx";
+import ProgressPage from "./pages/ProgressPage.tsx";
 
 const router = createBrowserRouter([
   {

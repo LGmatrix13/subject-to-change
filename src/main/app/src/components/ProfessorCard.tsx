@@ -1,8 +1,9 @@
 import React from "react";
-import defaultProfileImage from "/EmptyProfile.svg";
+
+
 
 // Function to generate randomized email addresses
-const generateEmail = (firstName, lastName) => {
+const generateEmail = (firstName: string, lastName: string) => {
   const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`;
   const domain = "@gcc.edu";
   return `${initials.toLowerCase()}${Math.floor(Math.random() * 100)}${domain}`;
@@ -29,7 +30,7 @@ const generateOfficeNumbers = () => {
   return `${building} ${roomNumber}`;
 };
 
-export default function ProfessorCard(props) {
+export default function ProfessorCard(props: { profileImageUrl?: any; department?: any; firstName?: any; lastName?: any; roomNumber?: any; officeHours?: any; bio?: any; rating?: any; difficulty?: any; numRatings?: any; }) {
   const { department, firstName, lastName, roomNumber, officeHours, bio, rating, difficulty, numRatings } = props;
   const tempBio = `Dr. ${lastName} is a professor of ${department} at Grove City College. They are excited to meet you and help you learn more about their subject!`;
 
@@ -46,7 +47,6 @@ export default function ProfessorCard(props) {
           <p className="text-gray-500">{department}</p>
           <p className="text-gray-500 text-sm">{email}</p>
         </div>
-        <img src={props.profileImageUrl || defaultProfileImage} alt="Profile" className="w-20 h-20 rounded" />
       </div>
 
       <div className="pt-5 space-y-2 pb-5 border-b">
