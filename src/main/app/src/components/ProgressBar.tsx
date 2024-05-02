@@ -8,9 +8,7 @@ export function ProgressBar(props: ProgressBarProps) {
     <div
       className="bg-blue-600 h-7 rounded-full flex items-center animate-bar"
       style={{
-        width: `${
-          props.taken > 0 ? Math.max(props.taken / props.total) * 100 : 5
-        } %`,
+        width: `${Math.max(props.taken / props.total, 0.01) * 100}%`,
       }}
     />
   );

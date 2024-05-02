@@ -7,6 +7,7 @@ import WideButton from "../components/WideButton";
 import { Link } from "react-router-dom";
 import Loading from "../components/Loading";
 import Alert from "../components/Alert";
+import { ProgressBar } from "../components/ProgressBar";
 
 function checkHumas(courses: Course[]): number {
   function filterCondition(course: Course): boolean {
@@ -78,30 +79,31 @@ export default function ProgressPage() {
 
   return (
     <CareerProgress>
-      <div className="space-y-3">
-        <div>
-          <h2 className="text-2xl font-bold">REQUIREMENTS</h2>
-        </div>
-        <div>
+      <div className="space-y-5">
+        <h2 className="text-2xl font-bold uppercase">Requirements</h2>
+        <div className="space-y-3">
           <h3 className="text-xl font-bold">Humanities Core</h3>
           <p>Completed {checkHumas(courses)}/5</p>
+          <ProgressBar total={5} taken={checkHumas(courses)} />
         </div>
-        <div>
+        <div className="space-y-3">
           <h4 className="text-xl font-bold">
             Studies in Science, Faith, and Technology
           </h4>
           <p>Completed {checkSSFT(courses)}/1</p>
+          <ProgressBar total={1} taken={checkSSFT(courses)} />
         </div>
-        <div>
+        <div className="space-y-3">
           <h5 className="text-xl font-bold">Writing Requirement</h5>
           <p>Completed {checkWriting(courses)}/1</p>
+          <ProgressBar total={1} taken={checkWriting(courses)} />
         </div>
-        <div>
-          {" "}
+        <div className="space-y-3">
           <h6 className="text-xl font-bold">
             Foundations of the Social Sciences
           </h6>
           <p>Completed {checkFoudation(courses)}/1</p>
+          <ProgressBar total={1} taken={checkFoudation(courses)} />
         </div>
       </div>
     </CareerProgress>
