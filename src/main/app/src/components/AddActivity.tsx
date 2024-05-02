@@ -5,6 +5,7 @@ import { ModalContext } from "./Modal";
 import Select from "./Select";
 import { Option } from "./Option";
 import { TIMES } from "../utils/constants";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function AddActivity() {
   const [, setOpen] = useContext(ModalContext);
@@ -16,19 +17,28 @@ export default function AddActivity() {
     weekday: "",
   });
 
+  const [user] = useLocalStorage("user", {
+    jwt: "",
+  });
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
     const response = await fetch("http://localhost:7070/api/activity", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        jwt: user.jwt,
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify({
+        ...formData,
+        startTime: "2024-04-29 " + formData.startTime,
+        endTime: "2024-04-29 " + formData.endTime,
+      }),
     });
     const message = await response.text();
     setOpen(false);
     alert(message);
-    console.log(formData);
   }
 
   function handleChange(

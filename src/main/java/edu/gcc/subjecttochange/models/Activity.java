@@ -6,9 +6,29 @@ import edu.gcc.subjecttochange.dtos.ActivityDto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Objects;
 
 public class Activity extends ActivityDto {
+
+    @JsonIgnore
+    public boolean conflictsWith(Course otherCourse) {
+        if (otherCourse.endTime == null || otherCourse.startTime == null) {
+            return false;
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime otherStartTime = LocalDateTime.parse(otherCourse.startTime, formatter);
+        LocalDateTime otherEndTime = LocalDateTime.parse(otherCourse.endTime, formatter);
+        LocalDateTime startTime = LocalDateTime.parse(this.startTime, formatter);
+        LocalDateTime endTime = LocalDateTime.parse(this.endTime, formatter);
+
+        if (startTime.isEqual(otherStartTime) && endTime.isEqual(otherEndTime)) {
+            return true;
+        }
+
+        return (this.weekday.contains(otherCourse.weekday) && startTime.isBefore(otherEndTime) && otherStartTime.isBefore(endTime));
+    }
 
     @JsonIgnore
     public boolean conflictsWith(Activity otherActivity) {
@@ -18,16 +38,38 @@ public class Activity extends ActivityDto {
         LocalDateTime startTime = LocalDateTime.parse(this.startTime, formatter);
         LocalDateTime endTime = LocalDateTime.parse(this.endTime, formatter);
 
-        return (this.weekday.contains(otherActivity.weekday) &&
-                ((startTime.isEqual(otherStartTime) || startTime.isBefore(otherEndTime)) &&
-                        (endTime.isEqual(otherEndTime) || endTime.isAfter(otherStartTime))));
+
+        if (startTime.isEqual(otherStartTime) && endTime.isEqual(otherEndTime)) {
+            return true;
+        }
+
+        return (this.weekday.contains(otherActivity.weekday) && startTime.isBefore(otherEndTime) && otherStartTime.isBefore(endTime));
     }
 
     @JsonIgnore
-    public boolean equals(Object o){
-        if(o instanceof Activity a) {
+    public boolean conflictFree(List<Course> courses) {
+        // Overloaded method to check for conflicts with Activities
+        for (Course existingCourse : courses) {
+            if (existingCourse.conflictsWith(this)) {
+                return false; // Conflict found, cannot add the activity
+            }
+        }
+
+        for (Activity existingActivity : Activities.getActivties()) {
+            if (existingActivity.conflictsWith(this)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @JsonIgnore
+    public boolean equals(Object o) {
+        if (o instanceof Activity a) {
             return (this.weekday.equals(a.weekday) && this.startTime.equals(a.startTime) && this.endTime.equals(a.endTime));
         }
+
         return false;
     }
 

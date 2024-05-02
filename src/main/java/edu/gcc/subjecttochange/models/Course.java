@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class Course extends CourseDto {
@@ -29,9 +30,11 @@ public class Course extends CourseDto {
         LocalDateTime startTime = LocalDateTime.parse(this.startTime, formatter);
         LocalDateTime endTime = LocalDateTime.parse(this.endTime, formatter);
 
-        return (this.weekday.contains(otherCourse.weekday) &&
-                ((startTime.isEqual(otherStartTime) || startTime.isBefore(otherEndTime)) &&
-                        (endTime.isEqual(otherEndTime) || endTime.isAfter(otherStartTime))));
+        if (startTime.isEqual(otherStartTime) && endTime.isEqual(otherEndTime)) {
+            return true;
+        }
+
+        return (this.weekday.contains(otherCourse.weekday) && startTime.isBefore(otherEndTime) && otherStartTime.isBefore(endTime));
     }
 
     @JsonIgnore
@@ -42,9 +45,29 @@ public class Course extends CourseDto {
         LocalDateTime startTime = LocalDateTime.parse(this.startTime, formatter);
         LocalDateTime endTime = LocalDateTime.parse(this.endTime, formatter);
 
-        return (this.weekday.equals(otherActivity.weekday) &&
-                ((startTime.isEqual(otherStartTime) || startTime.isBefore(otherEndTime)) &&
-                        (endTime.isEqual(otherEndTime) || endTime.isAfter(otherStartTime))));
+        if (startTime.isEqual(otherStartTime) && endTime.isEqual(otherEndTime)) {
+            return true;
+        }
+
+        return (this.weekday.contains(otherActivity.weekday) && startTime.isBefore(otherEndTime) && otherStartTime.isBefore(endTime));
+    }
+
+    @JsonIgnore
+    public boolean conflictFree(List<Course> courses) {
+        // Overloaded method to check for conflicts with Activities
+        for (Course existingCourse : courses) {
+            if (existingCourse.conflictsWith(this)) {
+                return false; // Conflict found, cannot add the activity
+            }
+        }
+
+        for (Activity existingActivity : Activities.getActivties()) {
+            if (existingActivity.conflictsWith(this)) {
+                return false;
+            }
+        }
+
+        return !this.isFull();
     }
 
     @JsonIgnore

@@ -12,9 +12,6 @@ public class Activities {
         // add
         @JsonIgnore
         public static boolean addEvent(Activity a) {
-                a.startTime = String.format("2024-04-29 %s", a.startTime);
-                a.endTime = String.format("2024-04-29 %s", a.endTime);
-
                 // look for conflicts
                 for (Activity existingActivity : activties) {
                         if (existingActivity.conflictsWith(a)) {
@@ -34,4 +31,6 @@ public class Activities {
         public static ArrayList<Activity> getActivties(){
                 return activties;
         }
+
+
 }
