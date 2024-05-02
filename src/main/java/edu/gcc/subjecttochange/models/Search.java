@@ -68,11 +68,11 @@ public class Search {
         }
         // filter by start time
         if (this.startTime != null && !this.startTime.isEmpty()) {
-            stringBuilder.append(String.format("%s strftime(\"%%H:%%M\", \"%s\") <= \"startTime\" and", stringBuilder.isEmpty() ? "where" : "", this.startTime));
+            stringBuilder.append(String.format("%s strftime(\"%%s\", c.\"startTime\") >= strftime(\"%%s\", \"2024-04-29 \" || \"%s\") and", stringBuilder.isEmpty() ? "where" : "", this.startTime));
         }
         // filter by end time
         if (this.endTime != null && !this.endTime.isEmpty()) {
-            stringBuilder.append(String.format("%s strftime(\"%%H:%%M\", \"%s\") >= \"endTime\" and", stringBuilder.isEmpty() ? "where" : "", this.endTime));
+            stringBuilder.append(String.format("%s strftime(\"%%s\", c.\"endTime\") <= strftime(\"%%s\", \"2024-04-29 \" || \"%s\") and", stringBuilder.isEmpty() ? "where" : "", this.endTime));
         }
         // filter by weekday
         if (this.weekday != null && !this.weekday.isEmpty()) {
@@ -88,6 +88,7 @@ public class Search {
         if (this.orderBy != null && !this.orderBy.isEmpty()){
             sort = String.format("order by c.enrolled %s", this.orderBy);
         }
+
 
         String sql = String.format("""
                 select c."id", c."department", c."number", c."semester", c."hours", 

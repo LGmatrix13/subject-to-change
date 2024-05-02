@@ -7,8 +7,6 @@ import edu.gcc.subjecttochange.models.Activity;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ActivityDto {
-    @JsonInclude
-    public String description;
     @JsonProperty("name")
     public String name;
     @JsonProperty("startTime")

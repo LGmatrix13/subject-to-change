@@ -10,6 +10,8 @@ export default function LoginPage() {
     email: "",
     password: "",
   });
+
+  
   const [, setUser] = useLocalStorage("user", {
     firstName: "",
     lastName: "",

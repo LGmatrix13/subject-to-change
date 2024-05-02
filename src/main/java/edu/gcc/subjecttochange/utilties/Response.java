@@ -6,6 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Response {
+    public static final int OK = 200;
+    public static final int BAD_REQUEST = 400;
+    public static final int UNAUTHORIZED = 401;
     private static final Logger logger = LoggerFactory.getLogger(Response.class);
 
     public static void send(int status, Context context) {

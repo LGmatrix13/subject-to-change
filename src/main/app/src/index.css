@@ -14,6 +14,10 @@ body {
   .custom-shadow {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   }
+  .animate-bar {
+    animation: expand 0.5s ease-in;
+    animation-fill-mode: forwards;
+  }
 }
 
 @keyframes fade {
@@ -21,6 +25,17 @@ body {
     opacity: 0;
   }
   100% {
+    opacity: 1;
+  }
+}
+
+@keyframes expand {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: "100%";
     opacity: 1;
   }
 }
