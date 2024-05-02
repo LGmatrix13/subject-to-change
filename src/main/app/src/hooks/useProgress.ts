@@ -1,21 +1,20 @@
 import useSWR from "swr";
 import useLocalStorage from "./useLocalStorage";
 import { fetcher } from "../utils/fetcher";
-import type { Course } from "../utils/types";
+import type { Course, Student } from "../utils/types";
 
 export default function useProgress() {
   const [user] = useLocalStorage("user", {
     jwt: "",
   });
-  const { data, isLoading, error } = useSWR<Course[]>(
+  const { data, isLoading, error } = useSWR<Student>(
     "http://localhost:7070/api/student",
     (url: string) => fetcher(url, user.jwt)
   );
 
   return {
-    student: data,
+    courses: data?.courses,
     isLoading,
     error,
   };
 }
-
