@@ -10,14 +10,15 @@ export class Search {
     const f6 = this.byStartTime(f5, searchParams.get("startTime") || "");
     const f7 = this.byEndTime(f6, searchParams.get("endTime") || "");
     const f8 = this.byOrderBy(f7, searchParams.get("orderBy") || "");
-    return f8;
+    const f9 = this.bySemester(f8, searchParams.get("semester") || "");
+    return f9;
   }
   static byName(courses: Course[], name: string) {
     if (name != "") {
       console.log("ran");
       const filteredCourses = [];
       for (const course of courses) {
-        if (course.name.toLowerCase() === name.toLowerCase()) {
+        if (course.name.toLowerCase().includes(name.toLowerCase())) {
           filteredCourses.push(course);
         }
       }
@@ -26,7 +27,7 @@ export class Search {
 
     return courses;
   }
-  static byDepartment(courses: Course[], department?: string) {
+  static byDepartment(courses: Course[], department: string) {
     if (department != "") {
       const filteredCourses = [];
       for (const course of courses) {
@@ -70,11 +71,11 @@ export class Search {
 
     return courses;
   }
-  static byWeekday(courses: Course[], weekday?: string) {
+  static byWeekday(courses: Course[], weekday: string) {
     if (weekday != "") {
       const filteredCourses = [];
       for (const course of courses) {
-        if (course.weekday === weekday) {
+        if (course.weekday.includes(weekday)) {
           filteredCourses.push(course);
         }
       }
@@ -113,7 +114,7 @@ export class Search {
     return courses;
   }
 
-  static byOrderBy(courses: Course[], orderBy?: string) {
+  static byOrderBy(courses: Course[], orderBy: string) {
     if (orderBy != "") {
       if (orderBy === "desc") {
         courses = courses.sort((a, b) => (a.enrolled > b.enrolled ? 1 : -1));
@@ -123,6 +124,12 @@ export class Search {
       }
     }
 
+    return courses;
+  }
+  static bySemester(courses: Course[], semester: string) {
+    if (semester != "") {
+      return courses.filter((course) => course.semester === semester);
+    }
     return courses;
   }
 }
