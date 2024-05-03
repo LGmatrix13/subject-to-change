@@ -3,15 +3,15 @@ import CourseTable from "../components/CourseTable";
 import SearchCourses from "../components/SearchCourses";
 import useSearch from "../hooks/useSearch";
 import { Search } from "../utils/search";
+import Loading from "../components/Loading";
 
 export default function SearchPage() {
   const { search, isLoading, error } = useSearch();
   const [searchParams] = useSearchParams();
 
   if (error) return <div>Error loading data</div>;
-
   if (isLoading || !search?.length) {
-    return <SearchCourses />;
+    return <Loading height={500} />;
   }
 
   return (
