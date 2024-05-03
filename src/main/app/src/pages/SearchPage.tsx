@@ -15,7 +15,7 @@ export default function SearchPage() {
   }
 
   return (
-    <SearchCourses>
+    <SearchCourses key={searchParams.toString()}>
       <div className="space-y-3">
         <h3 className="text-xl font-bold">Results</h3>
         <CourseTable courses={Search.run(search, searchParams)} />

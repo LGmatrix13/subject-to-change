@@ -1,7 +1,6 @@
 import useSWR from "swr";
 import useLocalStorage from "./useLocalStorage";
 import { fetcher } from "../utils/fetcher";
-import { useSearchParams } from "react-router-dom";
 import { Course } from "../utils/types";
 
 export default function useSearch() {
