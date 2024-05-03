@@ -2,23 +2,8 @@ import { Course } from "./types";
 
 export class Search {
   static run(courses: Course[], searchParams: URLSearchParams): Course[] {
-<<<<<<< HEAD
-    const f1 = this.byName(courses, searchParams.get("name") || undefined);
-=======
-    const filters = {
-      name: searchParams.get("name") || undefined,
-      department: searchParams.get("department") || undefined,
-      number: searchParams.get("number")
-        ? parseInt(searchParams.get("number") as string)
-        : undefined,
-    };
-
-    const f1 = this.byName(courses, filters.name);
-    const f2 = this.byDepartment(f1, filters.department);
-    const f3 = this.byNumber(f2, filters.number);
-
->>>>>>> master
-    return f1;
+    let results = this.byName(courses, searchParams.get("name") || undefined);
+    return results;
   }
   static byName(courses: Course[], name?: string) {
     if (name) {
