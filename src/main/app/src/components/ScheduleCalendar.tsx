@@ -65,8 +65,8 @@ function WeekView(props: { courses: Course[] }) {
     const gap = Math.abs(startTimeB.getTime() - endTimeA.getTime());
     return gap / (1000 * 60);
   }
-  const startBoundary = new Date("2024-04-29 08:00");
-  const endBoundary = new Date("2024-04-29 17:00");
+  const startBoundary = new Date("2024-05-03 08:00");
+  const endBoundary = new Date("2024-05-03 17:00");
 
   return (
     <div className="grid grid-cols-5 gap-3">
