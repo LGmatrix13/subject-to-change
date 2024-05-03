@@ -5,8 +5,7 @@ import WideButton from "./WideButton";
 import Select from "./Select";
 import { Option } from "./Option";
 import useLocalStorage from "../hooks/useLocalStorage";
-import { DEPARTMENTS, FALL, TIMES } from "../utils/constants";
-import { standardTimeConverter } from "../utils/standardTimeConverter";
+import { DEPARTMENTS, FALL } from "../utils/constants";
 
 interface SearchCoursesProps {
   children?: React.ReactElement;
@@ -35,6 +34,7 @@ export default function SearchCourses(props: SearchCoursesProps) {
       ...prevState,
       [name]: value,
     }));
+    console.log(search);
   }
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -106,48 +106,30 @@ export default function SearchCourses(props: SearchCoursesProps) {
                 value: search.professor,
               }}
             />
-            <Select
+            <Input
               label="Start Time"
               name="startTime"
               onChange={handleChange}
-              className="p-3 rounded-lg w-full h-[52px]"
-            >
-              <>
-                {TIMES.map((time) => (
-                  <Option
-                    value={time}
-                    label={standardTimeConverter(time)}
-                    selected={search.startTime === time}
-                  />
-                ))}
-                <Option
-                  value=""
-                  label="None"
-                  selected={search.startTime === ""}
-                />
-              </>
-            </Select>
-            <Select
+              className="p-3 rounded-lg w-full"
+              options={{
+                type: "time",
+                placeholder: "Start Time",
+                value: search.startTime,
+                step: "2",
+              }}
+            />
+            <Input
               label="End Time"
               name="endTime"
               onChange={handleChange}
-              className="p-3 rounded-lg w-full h-[52px]"
-            >
-              <>
-                {TIMES.map((time) => (
-                  <Option
-                    value={time}
-                    label={standardTimeConverter(time) as string}
-                    selected={search.endTime === time}
-                  />
-                ))}
-                <Option
-                  value=""
-                  label="None"
-                  selected={search.endTime === ""}
-                />
-              </>
-            </Select>
+              className="p-3 rounded-lg w-full"
+              options={{
+                type: "time",
+                placeholder: "End Time",
+                value: search.endTime,
+                step: "2",
+              }}
+            />
             <Select
               label="Weekday"
               name="weekday"

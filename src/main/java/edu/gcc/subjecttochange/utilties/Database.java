@@ -3,7 +3,6 @@ package edu.gcc.subjecttochange.utilties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.gcc.subjecttochange.controllers.CoursesController;
 
-import edu.gcc.subjecttochange.dtos.CourseDto;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.slf4j.Logger;
@@ -15,7 +14,22 @@ import java.util.List;
 public class Database {
     private static final Logger logger = LoggerFactory.getLogger(CoursesController.class);
     public static Connection connect() {
-        String url = "jdbc:sqlite:C://sqlite/database.db";
+        String os = System.getProperty("os.name").toLowerCase();
+        String url;
+
+        if (os.contains("win")) {
+            // Windows path
+            url = "jdbc:sqlite:C://sqlite/database.db";
+        } else if (os.contains("mac")) {
+            // macOS path
+            url = "jdbc:sqlite:/Users/elliot/sqlite/database.db";
+        } else {
+            // Assume Linux/Unix path
+            url = "jdbc:sqlite:/home/username/sqlite/database.db";  // Modify as needed
+        }
+
+// Now you can use the 'url' in your database connection code
+
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
@@ -34,7 +48,7 @@ public class Database {
                 .toList();
     }
 
-    public static int update(String sql, Object... args) throws SQLException {
-        return new QueryRunner().update(Database.connect(), sql, args);
+    public static void update(String sql, Object... args) throws SQLException {
+        new QueryRunner().update(Database.connect(), sql, args);
     }
 }

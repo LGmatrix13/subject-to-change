@@ -1,26 +1,19 @@
 package edu.gcc.subjecttochange.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import edu.gcc.subjecttochange.dtos.CourseDto;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import edu.gcc.subjecttochange.dtos.ActivityDto;
 
-import java.text.DateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-public class Course extends CourseDto {
-    @JsonIgnore
-    public boolean isFull() {
-        return enrolled >= seats;
-    }
+public class Activity extends ActivityDto {
+
     @JsonIgnore
     public boolean conflictsWith(Course otherCourse) {
-        if (otherCourse.equals(this)) {
-            return true;
-        } else if (otherCourse.endTime == null || otherCourse.startTime == null) {
+        if (otherCourse.endTime == null || otherCourse.startTime == null) {
             return false;
         }
 
@@ -45,6 +38,7 @@ public class Course extends CourseDto {
         LocalDateTime startTime = LocalDateTime.parse(this.startTime, formatter);
         LocalDateTime endTime = LocalDateTime.parse(this.endTime, formatter);
 
+
         if (startTime.isEqual(otherStartTime) && endTime.isEqual(otherEndTime)) {
             return true;
         }
@@ -67,20 +61,20 @@ public class Course extends CourseDto {
             }
         }
 
-        return !this.isFull();
+        return true;
     }
 
     @JsonIgnore
-    @Override
     public boolean equals(Object o) {
-        if (o instanceof Course course) {
-            return course.number == this.number && course.department.equals(this.department);
+        if (o instanceof Activity a) {
+            return (this.weekday.equals(a.weekday) && this.startTime.equals(a.startTime) && this.endTime.equals(a.endTime));
         }
+
         return false;
     }
 
     @JsonIgnore
     public int hashCode() {
-        return Objects.hash(this.number, this.department);
+        return (name.hashCode() * startTime.hashCode() * endTime.hashCode() * weekday.hashCode());
     }
 }
