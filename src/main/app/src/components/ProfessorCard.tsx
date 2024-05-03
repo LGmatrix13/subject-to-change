@@ -1,4 +1,12 @@
 import React from "react";
+import { Professor } from "../utils/types";
+import useLocalStorage from "../hooks/useLocalStorage";
+import { useSWRConfig } from "swr";
+
+interface ProfessorCardProps{
+professor: Professor;
+}
+
 
 
 
@@ -6,7 +14,7 @@ import React from "react";
 const generateEmail = (firstName: string, lastName: string) => {
   const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`;
   const domain = "@gcc.edu";
-  return `${initials.toLowerCase()}${Math.floor(Math.random() * 100)}${domain}`;
+  return `${lastName}${initials.toUpperCase()}${domain}`;
 };
 
 // Function to generate randomized office hours
@@ -30,21 +38,22 @@ const generateOfficeNumbers = () => {
   return `${building} ${roomNumber}`;
 };
 
-export default function ProfessorCard(props: { profileImageUrl?: any; department?: any; firstName?: any; lastName?: any; roomNumber?: any; officeHours?: any; bio?: any; rating?: any; difficulty?: any; numRatings?: any; }) {
-  const { department, firstName, lastName, roomNumber, officeHours, bio, rating, difficulty, numRatings } = props;
-  const tempBio = `Dr. ${lastName} is a professor of ${department} at Grove City College. They are excited to meet you and help you learn more about their subject!`;
+export default function ProfessorCard(props: ProfessorCardProps) {
+  
+  
+  const tempBio = `Dr. ${props.professor.lastName} is a professor of ${props.professor.department} at Grove City College. They are excited to meet you and help you learn more about their subject!`;
 
   // Generate randomized data
-  const email = generateEmail(firstName, lastName);
-  const randomizedOfficeHours = generateOfficeHours();
-  const randomizedOfficeNumbers = generateOfficeNumbers();
+  const email = generateEmail(props.professor.firstName, props.professor.lastName);
+  //const randomizedOfficeHours = generateOfficeHours();
+  //const randomizedOfficeNumbers = generateOfficeNumbers();
 
   return (
     <div className="bg-white rounded-lg p-5 shadow-lg">
       <div className="flex items-center space-x-4 pb-5 border-b">
         <div>
-          <h2 className="text-xl font-bold">{firstName} {lastName}</h2>
-          <p className="text-gray-500">{department}</p>
+          <h2 className="text-xl font-bold">{props.professor.firstName} {props.professor.lastName}</h2>
+          <p className="text-gray-500">{props.professor.department}</p>
           <p className="text-gray-500 text-sm">{email}</p>
         </div>
       </div>
@@ -52,19 +61,17 @@ export default function ProfessorCard(props: { profileImageUrl?: any; department
       <div className="pt-5 space-y-2 pb-5 border-b">
         <div className="flex justify-between items-center pb-2">
           <p className="font-bold inline">Room Number:</p>
-          <p className="inline text-gray-600 font-bold text-sm">{randomizedOfficeNumbers}</p>
+          <p className="inline text-gray-600 text-sm">{"-"}</p>
         </div>
         <div className="flex justify-between items-top pb-2">
           <p className="inline font-bold ">Office Hours:</p>
           <div className="inline text-gray-600 text-sm">
-            {randomizedOfficeHours.map((slot, index) => (
-              <p key={index}>{slot}</p>
-            ))}
+            <p>-</p>
           </div>
         </div>
         <div className="flex justify-between items-top">
           <p className="font-bold inline pr-2">Bio:</p>
-          <p className="inline text-gray-600 text-sm">{bio || tempBio}</p>
+          <p className="inline text-gray-600 text-sm">{tempBio}</p>
         </div>
       </div>
 
@@ -73,12 +80,12 @@ export default function ProfessorCard(props: { profileImageUrl?: any; department
             <h3 className="font-bold pb-5">Rate My Professor Score</h3>
         </div>
         <div className="flex justify-between items-top pb-2">
-          <p className="font-bold inline pr-2">{rating}/5</p>
-          <p className="inline text-sm">from <strong>{numRatings}</strong> reviews</p>
+          <p className="font-bold inline pr-2">{props.professor.rating}/5</p>
+          <p className="inline text-sm">from <strong>{props.professor.numRatings}</strong> reviews</p>
         </div>
         <div className="flex justify-between items-top">
           <p className="font-bold inline pr-2">Difficulty:</p>
-          <p className="inline">{difficulty}</p>
+          <p className="inline">{props.professor.difficulty}</p>
         </div>
       </div>
     </div>

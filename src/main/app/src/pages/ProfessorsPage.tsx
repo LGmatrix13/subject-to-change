@@ -28,7 +28,7 @@ export default function ProfessorsPage() {
   return (
     <div className="grid grid-cols-3 gap-7">
       {professors.map((professor) => (
-        <ProfessorCard {...professor} />
+        <ProfessorCard professor={professor} />
       ))}
     </div>
   );
