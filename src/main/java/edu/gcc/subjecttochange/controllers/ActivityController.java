@@ -22,7 +22,7 @@ public class ActivityController{
             (select count(*) from schedule where "courseId" = c."id") enrolled 
             from "course" c
             join "schedule" s on s."courseId" = c."id"
-            where s."studentId" = ?;
+            where s."studentId" = ? and c."endTime" != null and c."startTime" != null;
         """, Course.class, studentId);
         boolean conflictFree = activity.conflictFree(courses);
 

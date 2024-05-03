@@ -30,7 +30,7 @@ public class CoursesController {
             from "course" c
             join "professor" p on p."id" = c."professorId"
             join "schedule" s on s."courseId" = c."id"
-            where s."studentId" = ? and c."semester" = ?;
+            where s."studentId" = ? and c."semester" = ? and c."startTime" != null and c."endTime" != null;
         """, Course.class, studentId, course.semester);
         boolean conflictFree = course.conflictFree(courses);
 
