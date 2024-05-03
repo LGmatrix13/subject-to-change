@@ -27,12 +27,9 @@ export interface Professor {
   department: string;
   firstName: string;
   lastName: string;
-  roomNumber: number;
-  officeHours: string;
-  bio: string;
-  rating: number;
-  difficulty: number;
-  numRatings: number;
+  rating?: number;
+  difficulty?: number;
+  numRatings?: number;
 }
 
 export interface Student {
