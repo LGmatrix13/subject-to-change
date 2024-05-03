@@ -3,6 +3,12 @@ package edu.gcc.subjecttochange.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.gcc.subjecttochange.dtos.CourseDto;
 
+import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class Course extends CourseDto {
@@ -12,42 +18,62 @@ public class Course extends CourseDto {
     }
     @JsonIgnore
     public boolean conflictsWith(Course otherCourse) {
-
-        // check if course is the same
-        if (otherCourse.equals(this)){
+        if (otherCourse.equals(this)) {
             return true;
-        }
-
-        // return false if it is online
-        if (this.startTime == null || this.endTime == null) {
+        } else if (otherCourse.endTime == null || otherCourse.startTime == null) {
             return false;
         }
 
-        // Convert start and end times to minutes for easier comparison
-        int thisStartMinutes = timeToMinutes(this.startTime);
-        int thisEndMinutes = timeToMinutes(this.endTime);
-        int otherStartMinutes = timeToMinutes(otherCourse.startTime);
-        int otherEndMinutes = timeToMinutes(otherCourse.endTime);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime otherStartTime = LocalDateTime.parse(otherCourse.startTime, formatter);
+        LocalDateTime otherEndTime = LocalDateTime.parse(otherCourse.endTime, formatter);
+        LocalDateTime startTime = LocalDateTime.parse(this.startTime, formatter);
+        LocalDateTime endTime = LocalDateTime.parse(this.endTime, formatter);
 
-        // Check for overlap
-        return otherCourse.weekday.equals(this.weekday) && !(thisEndMinutes <= otherStartMinutes || thisStartMinutes >= otherEndMinutes);
+        if (startTime.isEqual(otherStartTime) && endTime.isEqual(otherEndTime)) {
+            return true;
+        }
+
+        return (this.weekday.contains(otherCourse.weekday) && startTime.isBefore(otherEndTime) && otherStartTime.isBefore(endTime));
     }
 
     @JsonIgnore
-    private int timeToMinutes(String timeString) {
-        // Convert time string to minutes
-        String[] parts = timeString.split(":");
-        int hours = Integer.parseInt(parts[0]);
-        int minutes = Integer.parseInt(parts[1]);
-        return hours * 60 + minutes;
+    public boolean conflictsWith(Activity otherActivity) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime otherStartTime = LocalDateTime.parse(otherActivity.startTime, formatter);
+        LocalDateTime otherEndTime = LocalDateTime.parse(otherActivity.endTime, formatter);
+        LocalDateTime startTime = LocalDateTime.parse(this.startTime, formatter);
+        LocalDateTime endTime = LocalDateTime.parse(this.endTime, formatter);
+
+        if (startTime.isEqual(otherStartTime) && endTime.isEqual(otherEndTime)) {
+            return true;
+        }
+
+        return (this.weekday.contains(otherActivity.weekday) && startTime.isBefore(otherEndTime) && otherStartTime.isBefore(endTime));
+    }
+
+    @JsonIgnore
+    public boolean conflictFree(List<Course> courses) {
+        // Overloaded method to check for conflicts with Activities
+        for (Course existingCourse : courses) {
+            if (existingCourse.conflictsWith(this)) {
+                return false; // Conflict found, cannot add the activity
+            }
+        }
+
+        for (Activity existingActivity : Activities.getActivties()) {
+            if (existingActivity.conflictsWith(this)) {
+                return false;
+            }
+        }
+
+        return !this.isFull();
     }
 
     @JsonIgnore
     @Override
     public boolean equals(Object o) {
-        if(o instanceof Course)
-        {
-            Course course = (Course) o;
+        if (o instanceof Course course) {
             return course.number == this.number && course.department.equals(this.department);
         }
         return false;

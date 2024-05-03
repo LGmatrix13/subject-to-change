@@ -18,8 +18,9 @@ export default function Select(props: SelectProps) {
       <select
         name={props.name}
         className={
-          (props.className || "p-3 bg-slate-200 rounded-lg w-full box-border") +
-          "appearance-none"
+          (props.className ||
+            "p-3 bg-slate-200 rounded-lg w-full box-border h-[52px]") +
+          " appearance-none"
         }
         {...props.options}
         style={{

@@ -50,22 +50,49 @@ export const DEPARTMENTS = [
 export const SPRING = "spring";
 export const FALL = "fall";
 export const TIMES = [
-  "06:00",
-  "07:00",
-  "08:00",
-  "09:00",
-  "10:00",
-  "11:00",
-  "12:00",
-  "13:00",
-  "14:00",
-  "15:00",
-  "16:00",
-  "17:00",
-  "18:00",
-  "19:00",
-  "20:00",
-  "21:00",
-  "22:00",
-  "23:00",
+  "06:00 AM",
+  "07:00 AM",
+  "08:00 AM",
+  "09:00 AM",
+  "10:00 AM",
+  "11:00 AM",
+  "12:00 PM",
+  "01:00 PM",
+  "02:00 PM",
+  "03:00 PM",
+  "04:00 PM",
+  "05:00 PM",
+  "06:00 PM",
+  "07:00 PM",
+];
+
+export const DAY_OF_WEEK = [
+  {
+    title: "Monday",
+    abbrev: "M",
+  },
+  {
+    title: "Monday",
+    abbrev: "M",
+  },
+  {
+    title: "Tuesday",
+    abbrev: "T",
+  },
+  {
+    title: "Wednesday",
+    abbrev: "W",
+  },
+  {
+    title: "Thursday",
+    abbrev: "R",
+  },
+  {
+    title: "Friday",
+    abbrev: "F",
+  },
+  {
+    title: "Monday",
+    abbrev: "M",
+  },
 ];

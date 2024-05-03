@@ -1,8 +1,5 @@
 package edu.gcc.subjecttochange.controllers;
 
-import edu.gcc.subjecttochange.dtos.CourseDto;
-import edu.gcc.subjecttochange.dtos.ScheduleDto;
-import edu.gcc.subjecttochange.models.Activity;
 import edu.gcc.subjecttochange.models.Course;
 import edu.gcc.subjecttochange.models.Schedule;
 import edu.gcc.subjecttochange.utilties.Database;
@@ -26,7 +23,6 @@ public class CoursesController {
         Integer studentId = JWT.decodeStudentId(context);
         // serialize the course to remove
         Course course = context.bodyAsClass(Course.class);
-
         List<Course> courses = Database.query("""
             select c."id", c."department", c."number", c."semester", c."hours", 
             c."name", c."startTime", c."endTime", c."weekday", c."section", c."seats", 
@@ -36,20 +32,19 @@ public class CoursesController {
             join "schedule" s on s."courseId" = c."id"
             where s."studentId" = ? and c."semester" = ?;
         """, Course.class, studentId, course.semester);
+        boolean conflictFree = course.conflictFree(courses);
 
-        boolean conflictFree = Schedule.conflictFree(courses, course);
-                                              
         if (conflictFree) {
             Database.update("""
                 insert into "schedule"
                 ("courseId", "studentId")
                 values (?, ?);
             """, course.id, studentId);
-            Response.send(200, context, String.format("Added %s to student schedule", course.name));
+            Response.send(Response.OK, context, String.format("Added %s to student schedule", course.name));
             return;
         }
                             
-        Response.send(400, context, "Course conflicts with current schedule");
+        Response.send(Response.BAD_REQUEST, context, "Course conflicts with current schedule");
     }
 
     /**
@@ -64,7 +59,7 @@ public class CoursesController {
             delete from "schedule"
             where "courseId" = ? and "studentId" = ?;
         """, course.id, studentId);
-        Response.send(200, context, String.format("Removed %s from student schedule", course.name));
+        Response.send(Response.OK, context, String.format("Removed %s from student schedule", course.name));
     }
     public static void getCourses(Context context) throws SQLException {
         List<Course> courses = Database.query("""
