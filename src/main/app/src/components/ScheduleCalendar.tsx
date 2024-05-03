@@ -35,7 +35,9 @@ function DailyView(props: { courses: Course[]; events: Event[] }) {
 
   const items = sortEvents<Event | Course>(
     [...props.courses, ...props.events],
-    (item) => item.weekday.includes(DAY_OF_WEEK[dayOfWeekIndex].abbrev)
+    (item) =>
+      !!item.weekday &&
+      item.weekday.includes(DAY_OF_WEEK[dayOfWeekIndex].abbrev)
   );
 
   return (
@@ -73,7 +75,7 @@ function WeekView(props: { courses: Course[] }) {
           <h3 className="font-bold mb-3">{day.title}</h3>
           {sortEvents<Course>(
             props.courses.filter((course) => course.startTime),
-            (course) => course.weekday.includes(day.abbrev)
+            (course) => !!course.weekday && course.weekday.includes(day.abbrev)
           ).map((course, index, array) => (
             <div key={index}>
               {index == 0 ? (
