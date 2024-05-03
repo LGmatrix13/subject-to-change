@@ -4,23 +4,8 @@ interface ProfessorCardProps {
   professor: Professor;
 }
 
-// Function to generate randomized email addresses
-const generateEmail = (firstName: string, lastName: string) => {
-  const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`;
-  const domain = "@gcc.edu";
-  return `${lastName}${initials.toUpperCase()}${domain}`;
-};
-
 export default function ProfessorCard(props: ProfessorCardProps) {
   const tempBio = `Dr. ${props.professor.lastName} is a professor of ${props.professor.department} at Grove City College. They are excited to meet you and help you learn more about their subject!`;
-
-  // Generate randomized data
-  const email = generateEmail(
-    props.professor.firstName,
-    props.professor.lastName
-  );
-  //const randomizedOfficeHours = generateOfficeHours();
-  //const randomizedOfficeNumbers = generateOfficeNumbers();
 
   return (
     <div className="bg-white rounded-lg p-5 shadow-lg">
@@ -30,7 +15,6 @@ export default function ProfessorCard(props: ProfessorCardProps) {
             {props.professor.firstName} {props.professor.lastName}
           </h2>
           <p className="text-gray-500">{props.professor.department}</p>
-          <p className="text-gray-500 text-sm">{email}</p>
         </div>
       </div>
 

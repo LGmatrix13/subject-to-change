@@ -30,7 +30,7 @@ public class CoursesController {
             from "course" c
             join "professor" p on p."id" = c."professorId"
             join "schedule" s on s."courseId" = c."id"
-            where s."studentId" = ? and c."semester" = ?;
+            where s."studentId" = ? and c."semester" = ? and c."startTime" != null and c."endTime" != null;
         """, Course.class, studentId, course.semester);
         boolean conflictFree = course.conflictFree(courses);
 
@@ -60,5 +60,15 @@ public class CoursesController {
             where "courseId" = ? and "studentId" = ?;
         """, course.id, studentId);
         Response.send(Response.OK, context, String.format("Removed %s from student schedule", course.name));
+    }
+    public static void getCourses(Context context) throws SQLException {
+        List<Course> courses = Database.query("""
+            select c."id", c."department", c."number", c."semester", c."hours", 
+            c."name", c."startTime", c."endTime", c."weekday", c."section", c."seats", 
+            p."firstName" "professorFirstName", p."lastName" "professorLastName", (select count(*) from "schedule" where "courseId" = c."id") "enrolled"
+            from course c
+            join professor p on p."id" = c."professorId" 
+        """, Course.class);
+        Response.send(200, context, courses);
     }
 }
