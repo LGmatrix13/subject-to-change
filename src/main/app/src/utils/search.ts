@@ -3,19 +3,18 @@ import { Course } from "./types";
 export class Search {
   static run(courses: Course[], searchParams: URLSearchParams): Course[] {
     const f1 = this.byName(courses, searchParams.get("name") || "");
-    const f2 =  this.byDepartment(f1, searchParams.get("department") || "");
-    const f3 =  this.byNumber(f2, searchParams.get("number") || "");
-    const f4 =  this.byProffesor(f3, searchParams.get("professor") || "");
-    const f5 =  this.byWeekday(f4, searchParams.get("weekday") || "");
-    const f6 =  this.byStartTime(f5, searchParams.get("startTime") || "");
-    const f7 =  this.byEndTime(f6, searchParams.get("endTime") || "");
-    const f8 =  this.byOrderBy(f7, searchParams.get("orderBy") || "");
+    const f2 = this.byDepartment(f1, searchParams.get("department") || "");
+    const f3 = this.byNumber(f2, searchParams.get("number") || "");
+    const f4 = this.byProffesor(f3, searchParams.get("professor") || "");
+    const f5 = this.byWeekday(f4, searchParams.get("weekday") || "");
+    const f6 = this.byStartTime(f5, searchParams.get("startTime") || "");
+    const f7 = this.byEndTime(f6, searchParams.get("endTime") || "");
+    const f8 = this.byOrderBy(f7, searchParams.get("orderBy") || "");
     return f8;
-
   }
   static byName(courses: Course[], name: string) {
     if (name != "") {
-    console.log("ran");
+      console.log("ran");
       const filteredCourses = [];
       for (const course of courses) {
         if (course.name.toLowerCase() === name.toLowerCase()) {
@@ -42,7 +41,7 @@ export class Search {
   }
   static byNumber(courses: Course[], number: string) {
     if (number != "") {
-        const asNum = parseInt(number);
+      const asNum = parseInt(number);
       const filteredCourses = [];
       for (const course of courses) {
         if (course.number == asNum) {
@@ -86,7 +85,7 @@ export class Search {
   static byStartTime(courses: Course[], startTime: string) {
     if (startTime != "") {
       const filteredCourses = [];
-      const startTimeDate = new Date(startTime);
+      const startTimeDate = new Date(`2024-05-03 ${startTime}`);
       for (const course of courses) {
         const courseStartTimeDate = new Date(course.startTime || "");
         if (courseStartTimeDate >= startTimeDate) {
@@ -101,7 +100,7 @@ export class Search {
   static byEndTime(courses: Course[], endTime: string) {
     if (endTime != "") {
       const filteredCourses = [];
-      const endTimeDate = new Date(endTime);
+      const endTimeDate = new Date(`2024-05-03 ${endTime}`);
       for (const course of courses) {
         const courseEndTimeDate = new Date(course.endTime || "");
         if (courseEndTimeDate <= endTimeDate) {
@@ -114,17 +113,16 @@ export class Search {
     return courses;
   }
 
-  static byOrderBy(courses: Course[], orderBy?: string)
-  {
-    if (orderBy !="") {
-        if(orderBy === "desc"){
-            courses = courses.sort((a, b) => (a.enrolled > b.enrolled) ? 1 : -1)
-        }
-        if(orderBy === "asc"){
-            courses = courses.sort((a, b) => (a.enrolled < b.enrolled) ? 1 : -1)
-        }
+  static byOrderBy(courses: Course[], orderBy?: string) {
+    if (orderBy != "") {
+      if (orderBy === "desc") {
+        courses = courses.sort((a, b) => (a.enrolled > b.enrolled ? 1 : -1));
       }
-  
-      return courses;
+      if (orderBy === "asc") {
+        courses = courses.sort((a, b) => (a.enrolled < b.enrolled ? 1 : -1));
+      }
+    }
+
+    return courses;
   }
 }
