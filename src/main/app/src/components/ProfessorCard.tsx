@@ -1,14 +1,8 @@
-import React from "react";
 import { Professor } from "../utils/types";
-import useLocalStorage from "../hooks/useLocalStorage";
-import { useSWRConfig } from "swr";
 
-interface ProfessorCardProps{
-professor: Professor;
+interface ProfessorCardProps {
+  professor: Professor;
 }
-
-
-
 
 // Function to generate randomized email addresses
 const generateEmail = (firstName: string, lastName: string) => {
@@ -17,34 +11,14 @@ const generateEmail = (firstName: string, lastName: string) => {
   return `${lastName}${initials.toUpperCase()}${domain}`;
 };
 
-// Function to generate randomized office hours
-const generateOfficeHours = () => {
-  const hours = [];
-  const timeSlots = ["8:00 am", "9:00 am", "10:00 am", "11:00 am", "12:00 pm", "1:00 pm", "2:00 pm", "3:00 pm", "4:00 pm"];
-  for (let i = 0; i < 2; i++) {
-    const startTime = timeSlots[Math.floor(Math.random() * timeSlots.length)];
-    const endTime = timeSlots[Math.floor(Math.random() * timeSlots.length)];
-    hours.push(`${startTime} - ${endTime}`);
-  }
-  return hours;
-};
-
-// Function to generate randomized office numbers
-const generateOfficeNumbers = () => {
-  const buildings = ["STEM", "HAL", "PFAC"];
-  const roomNumbers = Array.from({ length: 300 }, (_, i) => 100 + i);
-    const building = buildings[Math.floor(Math.random() * buildings.length)];
-    const roomNumber = roomNumbers[Math.floor(Math.random() * roomNumbers.length)];
-  return `${building} ${roomNumber}`;
-};
-
 export default function ProfessorCard(props: ProfessorCardProps) {
-  
-  
   const tempBio = `Dr. ${props.professor.lastName} is a professor of ${props.professor.department} at Grove City College. They are excited to meet you and help you learn more about their subject!`;
 
   // Generate randomized data
-  const email = generateEmail(props.professor.firstName, props.professor.lastName);
+  const email = generateEmail(
+    props.professor.firstName,
+    props.professor.lastName
+  );
   //const randomizedOfficeHours = generateOfficeHours();
   //const randomizedOfficeNumbers = generateOfficeNumbers();
 
@@ -52,7 +26,9 @@ export default function ProfessorCard(props: ProfessorCardProps) {
     <div className="bg-white rounded-lg p-5 shadow-lg">
       <div className="flex items-center space-x-4 pb-5 border-b">
         <div>
-          <h2 className="text-xl font-bold">{props.professor.firstName} {props.professor.lastName}</h2>
+          <h2 className="text-xl font-bold">
+            {props.professor.firstName} {props.professor.lastName}
+          </h2>
           <p className="text-gray-500">{props.professor.department}</p>
           <p className="text-gray-500 text-sm">{email}</p>
         </div>
@@ -77,19 +53,21 @@ export default function ProfessorCard(props: ProfessorCardProps) {
 
       <div className="pt-5 p-2 rounded bg-gray-300">
         <div className="flex flex-col items-center">
-            <h3 className="font-bold pb-5">Rate My Professor Score</h3>
+          <h3 className="font-bold pb-5">Rate My Professor Score</h3>
         </div>
         <div className="flex justify-between items-top pb-2">
-          <p className="font-bold inline pr-2">{props.professor.rating}/5</p>
-          <p className="inline text-sm">from <strong>{props.professor.numRatings}</strong> reviews</p>
+          <p className="font-bold inline pr-2">
+            {props.professor.rating || "-"}/5
+          </p>
+          <p className="inline text-sm">
+            from <strong>{props.professor.numRatings || 0}</strong> reviews
+          </p>
         </div>
         <div className="flex justify-between items-top">
           <p className="font-bold inline pr-2">Difficulty:</p>
-          <p className="inline">{props.professor.difficulty}</p>
+          <p className="inline">{props.professor.difficulty || "-"}</p>
         </div>
       </div>
     </div>
   );
 }
-
-
