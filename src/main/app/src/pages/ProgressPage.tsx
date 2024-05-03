@@ -2,7 +2,6 @@ import { Course } from "../utils/types";
 import CareerProgress from "../components/CareerProgress";
 import { useDelay } from "../hooks/useDelay";
 import useProgress from "../hooks/useProgress";
-import useStudent from "../hooks/useStudent";
 import WideButton from "../components/WideButton";
 import { Link } from "react-router-dom";
 import Loading from "../components/Loading";
