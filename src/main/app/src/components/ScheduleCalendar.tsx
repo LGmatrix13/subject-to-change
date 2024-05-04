@@ -13,6 +13,7 @@ import {
 import EditActivities from "./EditActivities";
 import { generateColor } from "../utils/generateColor";
 import { DAY_OF_WEEK } from "../utils/constants";
+import CourseInformation from "./CourseInformation";
 
 interface ScheduleCalendarProps {
   courses: Course[];
@@ -101,23 +102,31 @@ function WeekView(props: { courses: Course[] }) {
                   }}
                 />
               )}
-              <div
-                className={`flex items-center justify-center truncate text-white rounded-lg ${generateColor(
-                  course.number
-                )}`}
-                style={{
-                  height: Math.ceil(
-                    calculateGap(
-                      new Date(array[index].startTime as string),
-                      new Date(array[index].endTime as string)
-                    )
-                  ),
-                }}
-              >
-                <p>
-                  {course.department} {course.number}
-                </p>
-              </div>
+              <Modal>
+                <ModalButton>
+                  <button
+                    className={`flex w-full items-center justify-center truncate text-white rounded-lg ${generateColor(
+                      course.number
+                    )}`}
+                    style={{
+                      height: Math.ceil(
+                        calculateGap(
+                          new Date(array[index].startTime as string),
+                          new Date(array[index].endTime as string)
+                        )
+                      ),
+                    }}
+                  >
+                    <p>
+                      {course.department} {course.number}
+                    </p>
+                  </button>
+                </ModalButton>
+                <ModalContent>
+                  <CourseInformation course={course} />
+                </ModalContent>
+              </Modal>
+
               {index == array.length - 1 && (
                 <div
                   style={{
