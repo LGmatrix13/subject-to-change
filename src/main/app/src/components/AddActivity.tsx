@@ -32,8 +32,8 @@ export default function AddActivity() {
       },
       body: JSON.stringify({
         ...formData,
-        startTime: "2024-04-29 " + formData.startTime,
-        endTime: "2024-04-29 " + formData.endTime,
+        startTime: "2024-05-03 " + formData.startTime,
+        endTime: "2024-05-03 " + formData.endTime,
       }),
     });
     const message = await response.text();
