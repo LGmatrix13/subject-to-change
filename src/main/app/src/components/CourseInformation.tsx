@@ -10,7 +10,7 @@ export default function CourseInformation(props: CourseInformationProps) {
     <div className="space-y-5">
       <h1 className="text-xl font-bold">{props.course.name}</h1>
       <div className="space-y-3">
-        <h2 className="font-bolds">Time</h2>
+        <h2 className="font-bold">Time</h2>
         <p>{dateFormatter(props.course.startTime, props.course.endTime)}</p>
       </div>
       <div className="space-y-3">
