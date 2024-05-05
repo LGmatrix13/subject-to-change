@@ -14,6 +14,7 @@ export default function AddActivity() {
     endTime: "",
     name: "",
     weekday: "",
+    semester: "",
   });
 
   const [user] = useLocalStorage("user", {
@@ -73,6 +74,7 @@ export default function AddActivity() {
             type: "time",
             placeholder: "End Time",
             value: formData.endTime,
+            min: formData.startTime,
             step: "2",
           }}
         />
@@ -97,6 +99,15 @@ export default function AddActivity() {
           <Option value="W" label="W" />
           <Option value="R" label="R" />
           <Option value="F" label="F" />
+        </Select>
+        <Select
+          label="Semester"
+          name="semester"
+          onChange={handleChange}
+          className="p-3 rounded-lg w-full h-[52px] bg-slate-200"
+        >
+          <Option value="fall" label="Fall" />
+          <Option value="spring" label="Spring" />
         </Select>
         <WideButton
           options={{

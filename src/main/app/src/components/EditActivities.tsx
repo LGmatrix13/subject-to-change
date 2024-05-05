@@ -1,13 +1,13 @@
 import { useSWRConfig } from "swr";
 import useLocalStorage from "../hooks/useLocalStorage";
-import { Event } from "../utils/types";
+import { Activity } from "../utils/types";
 import { RemoveIcon } from "./Icons";
 import dateFormatter from "../utils/dateFormatter";
 import { generateColor } from "../utils/generateColor";
 
 interface ActivitiesTableProps {
   semester: "fall" | "spring";
-  activties: Event[];
+  activties: Activity[];
 }
 
 export default function EditActivities(props: ActivitiesTableProps) {
@@ -16,7 +16,7 @@ export default function EditActivities(props: ActivitiesTableProps) {
     jwt: "",
   });
 
-  async function removeEvent(event: Event) {
+  async function removeEvent(event: Activity) {
     const response = await fetch("http://localhost:7070/api/activity", {
       method: "DELETE",
       headers: {

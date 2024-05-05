@@ -14,7 +14,7 @@ export interface Course {
   professorLastName: string;
 }
 
-export interface Event {
+export interface Activity {
   semester: "fall" | "spring";
   name: string;
   startTime?: string;
@@ -33,7 +33,7 @@ export interface Professor {
 }
 
 export interface Student {
-  student: Event;
+  student: Activity;
   courses: Course[];
-  events: Event[];
+  events: Activity[];
 }

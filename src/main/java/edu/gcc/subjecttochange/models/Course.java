@@ -16,12 +16,15 @@ public class Course extends CourseDto {
     public boolean isFull() {
         return enrolled >= seats;
     }
+
+    @JsonIgnore
+    public boolean isOnline() {
+        return this.endTime  == null || this.startTime == null || this.weekday == null;
+    }
     @JsonIgnore
     public boolean conflictsWith(Course otherCourse) {
         if (otherCourse.equals(this)) {
             return true;
-        } else if (otherCourse.endTime == null || otherCourse.startTime == null) {
-            return false;
         }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -52,23 +55,6 @@ public class Course extends CourseDto {
         return (this.weekday.contains(otherActivity.weekday) && startTime.isBefore(otherEndTime) && otherStartTime.isBefore(endTime));
     }
 
-    @JsonIgnore
-    public boolean conflictFree(List<Course> courses) {
-        // Overloaded method to check for conflicts with Activities
-        for (Course existingCourse : courses) {
-            if (existingCourse.conflictsWith(this)) {
-                return false; // Conflict found, cannot add the activity
-            }
-        }
-
-        for (Activity existingActivity : Activities.getActivties()) {
-            if (existingActivity.conflictsWith(this)) {
-                return false;
-            }
-        }
-
-        return !this.isFull();
-    }
 
     @JsonIgnore
     @Override
