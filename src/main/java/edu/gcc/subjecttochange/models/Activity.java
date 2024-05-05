@@ -13,10 +13,6 @@ public class Activity extends ActivityDto {
 
     @JsonIgnore
     public boolean conflictsWith(Course otherCourse) {
-        if (otherCourse.endTime == null || otherCourse.startTime == null) {
-            return false;
-        }
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime otherStartTime = LocalDateTime.parse(otherCourse.startTime, formatter);
         LocalDateTime otherEndTime = LocalDateTime.parse(otherCourse.endTime, formatter);
@@ -44,24 +40,6 @@ public class Activity extends ActivityDto {
         }
 
         return (this.weekday.contains(otherActivity.weekday) && startTime.isBefore(otherEndTime) && otherStartTime.isBefore(endTime));
-    }
-
-    @JsonIgnore
-    public boolean conflictFree(List<Course> courses) {
-        // Overloaded method to check for conflicts with Activities
-        for (Course existingCourse : courses) {
-            if (existingCourse.conflictsWith(this)) {
-                return false; // Conflict found, cannot add the activity
-            }
-        }
-
-        for (Activity existingActivity : Activities.getActivties()) {
-            if (existingActivity.conflictsWith(this)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     @JsonIgnore
