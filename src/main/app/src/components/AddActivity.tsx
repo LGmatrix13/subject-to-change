@@ -4,7 +4,6 @@ import WideButton from "./WideButton";
 import { ModalContext } from "./Modal";
 import Select from "./Select";
 import { Option } from "./Option";
-import { TIMES } from "../utils/constants";
 import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function AddActivity() {
