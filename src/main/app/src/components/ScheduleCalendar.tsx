@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Course } from "../utils/types";
-import { Event } from "../utils/types";
+import { Activity } from "../utils/types";
 import AddActivity from "./AddActivity";
 import { Modal, ModalButton, ModalContent } from "./Modal";
 import dateFormatter from "../utils/dateFormatter";
@@ -13,27 +13,28 @@ import {
 import EditActivities from "./EditActivities";
 import { generateColor } from "../utils/generateColor";
 import { DAY_OF_WEEK } from "../utils/constants";
+import CourseInformation from "./CourseInformation";
 
 interface ScheduleCalendarProps {
   courses: Course[];
-  events: Event[];
+  events: Activity[];
 }
 
 function sortEvents<T>(items: T[], predicate: (events: T) => boolean): T[] {
   return items.filter(predicate).sort((a, b) => {
     // Convert startTimes to Date objects for comparison
-    const startTimeA = new Date((a as Event).startTime as string);
-    const startTimeB = new Date((b as Event).startTime as string);
+    const startTimeA = new Date((a as Activity).startTime as string);
+    const startTimeB = new Date((b as Activity).startTime as string);
     // Compare startTimes
     return startTimeA.getTime() - startTimeB.getTime();
   });
 }
 
-function DailyView(props: { courses: Course[]; events: Event[] }) {
+function DailyView(props: { courses: Course[]; events: Activity[] }) {
   const today = new Date();
   const dayOfWeekIndex = today.getDay();
 
-  const items = sortEvents<Event | Course>(
+  const items = sortEvents<Activity | Course>(
     [...props.courses, ...props.events],
     (item) =>
       !!item.weekday &&
@@ -65,8 +66,8 @@ function WeekView(props: { courses: Course[] }) {
     const gap = Math.abs(startTimeB.getTime() - endTimeA.getTime());
     return gap / (1000 * 60);
   }
-  const startBoundary = new Date("2024-04-29 08:00");
-  const endBoundary = new Date("2024-04-29 17:00");
+  const startBoundary = new Date("2024-05-03 08:00");
+  const endBoundary = new Date("2024-05-03 17:00");
 
   return (
     <div className="grid grid-cols-5 gap-3">
@@ -74,7 +75,7 @@ function WeekView(props: { courses: Course[] }) {
         <div key={day.abbrev}>
           <h3 className="font-bold mb-3">{day.title}</h3>
           {sortEvents<Course>(
-            props.courses.filter((course) => course.startTime),
+            props.courses.filter((course) => course.weekday),
             (course) => !!course.weekday && course.weekday.includes(day.abbrev)
           ).map((course, index, array) => (
             <div key={index}>
@@ -101,23 +102,31 @@ function WeekView(props: { courses: Course[] }) {
                   }}
                 />
               )}
-              <div
-                className={`flex items-center justify-center truncate text-white rounded-lg ${generateColor(
-                  course.number
-                )}`}
-                style={{
-                  height: Math.ceil(
-                    calculateGap(
-                      new Date(array[index].startTime as string),
-                      new Date(array[index].endTime as string)
-                    )
-                  ),
-                }}
-              >
-                <p>
-                  {course.department} {course.number}
-                </p>
-              </div>
+              <Modal>
+                <ModalButton>
+                  <button
+                    className={`flex w-full items-center justify-center truncate text-white rounded-lg ${generateColor(
+                      course.number
+                    )}`}
+                    style={{
+                      height: Math.ceil(
+                        calculateGap(
+                          new Date(array[index].startTime as string),
+                          new Date(array[index].endTime as string)
+                        )
+                      ),
+                    }}
+                  >
+                    <p>
+                      {course.department} {course.number}
+                    </p>
+                  </button>
+                </ModalButton>
+                <ModalContent>
+                  <CourseInformation course={course} />
+                </ModalContent>
+              </Modal>
+
               {index == array.length - 1 && (
                 <div
                   style={{

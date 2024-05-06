@@ -17,7 +17,7 @@ export default function useStudent() {
 
   return {
     student: {
-      ...data,
+      events: data?.events.filter((course) => course.semester === semester),
       courses: data?.courses.filter((course) => course.semester === semester),
     } as Student | undefined,
     semester: semester,

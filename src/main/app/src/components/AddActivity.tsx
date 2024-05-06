@@ -4,7 +4,6 @@ import WideButton from "./WideButton";
 import { ModalContext } from "./Modal";
 import Select from "./Select";
 import { Option } from "./Option";
-import { TIMES } from "../utils/constants";
 import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function AddActivity() {
@@ -15,6 +14,7 @@ export default function AddActivity() {
     endTime: "",
     name: "",
     weekday: "",
+    semester: "",
   });
 
   const [user] = useLocalStorage("user", {
@@ -32,8 +32,8 @@ export default function AddActivity() {
       },
       body: JSON.stringify({
         ...formData,
-        startTime: "2024-04-29 " + formData.startTime,
-        endTime: "2024-04-29 " + formData.endTime,
+        startTime: "2024-05-03 " + formData.startTime,
+        endTime: "2024-05-03 " + formData.endTime,
       }),
     });
     const message = await response.text();
@@ -74,6 +74,7 @@ export default function AddActivity() {
             type: "time",
             placeholder: "End Time",
             value: formData.endTime,
+            min: formData.startTime,
             step: "2",
           }}
         />
@@ -98,6 +99,15 @@ export default function AddActivity() {
           <Option value="W" label="W" />
           <Option value="R" label="R" />
           <Option value="F" label="F" />
+        </Select>
+        <Select
+          label="Semester"
+          name="semester"
+          onChange={handleChange}
+          className="p-3 rounded-lg w-full h-[52px] bg-slate-200"
+        >
+          <Option value="fall" label="Fall" />
+          <Option value="spring" label="Spring" />
         </Select>
         <WideButton
           options={{

@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import useLocalStorage from "./useLocalStorage";
 import { fetcher } from "../utils/fetcher";
-import type { Course, Student } from "../utils/types";
+import type { Student } from "../utils/types";
 
 export default function useProgress() {
   const [user] = useLocalStorage("user", {
