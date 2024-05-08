@@ -39,7 +39,7 @@ public class Schedule extends ScheduleDto {
     @JsonIgnore
     public boolean conflictFree(Course course) {
         for (Course existingCourse : this.courses) {
-            if (!existingCourse.isOnline() && existingCourse.conflictsWith(course)) {
+            if (!existingCourse.isOnline() && !course.isOnline() && existingCourse.conflictsWith(course)) {
                 return false;
             }
         }
