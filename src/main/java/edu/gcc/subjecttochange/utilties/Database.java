@@ -14,7 +14,6 @@ import java.util.List;
 public class Database {
     private static final Logger logger = LoggerFactory.getLogger(CoursesController.class);
     public static Connection connect() {
-        String os = System.getProperty("os.name").toLowerCase();
         String url = "jdbc:sqlite:database.db";
 
         // Now you can use the 'url' in your database connection code

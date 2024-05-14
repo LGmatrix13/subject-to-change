@@ -27,9 +27,10 @@ public class ProfessorsController {
             join course c on sc."courseId" = c."id"
             join professor p on c."professorId" = p."id"
             left join rating r on r."professorId" = p."id"
-            where s.id = ?
+            where s."id" = ?
             group by p."id";
         """, ProfessorDto.class, studentId);
+
         Response.send(Response.OK, context, professorDtos);
     }
 }

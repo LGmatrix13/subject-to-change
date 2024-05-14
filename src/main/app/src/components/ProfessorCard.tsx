@@ -41,7 +41,7 @@ export default function ProfessorCard(props: ProfessorCardProps) {
         <div className="flex items-center space-y-3">
           <div className="flex space-x-3 font-bold">
             <p className="font-bold">Rating:</p>
-            <p>{props.professor.difficulty || "-"} / 5</p>
+            <p>{props.professor.rating || "-"} / 5</p>
           </div>
           <p className="text-sm order-2 ml-auto">
             from{" "}
